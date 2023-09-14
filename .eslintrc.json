@@ -23,6 +23,7 @@
     "react/react-in-jsx-scope": "off",
     "no-console": "off",
     "arrow-body-style": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }
