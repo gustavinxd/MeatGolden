@@ -40,7 +40,9 @@ const Stack = createStackNavigator();
 
 export default function Home() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{
+      headerShown : false
+    }}>
       <Stack.Screen name="Menu" component={HomeScreen} />
       <Stack.Screen name="Convidados" component={HomeScreen} />
       <Stack.Screen name="Assados" component={HomeScreen} />

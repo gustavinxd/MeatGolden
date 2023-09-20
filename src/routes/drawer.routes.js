@@ -1,7 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Text, View } from 'react-native';
 import Home from './home.routes';
-import MeusChurrascos from './historico.routes';
 
 function Feed() {
     return (
@@ -24,10 +23,11 @@ const Drawer = createDrawerNavigator();
 export default function DrawerRoute() {
   return (
     <Drawer.Navigator screenOptions={{
-        drawerPosition: 'right'
+      drawerPosition: 'right',
+      initialRouteName: 'Home',
     }}>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Meus churrascos" component={MeusChurrascos} />
+      <Drawer.Screen name="Meus churrascos" component={Article} />
       <Drawer.Screen name="Mapa" component={Feed} />
       <Drawer.Screen name="Receitas" component={Article} />
       <Drawer.Screen name="Criar convite" component={Article} />
