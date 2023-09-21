@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import CustomStackNavigator from '../../components/CustomStackBar/index';
+import CustomStackNavigator from '../../components/CustomHeader/index';
 
 export default function Menu({navigation}) {
   return (
