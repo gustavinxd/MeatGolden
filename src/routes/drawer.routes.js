@@ -1,22 +1,9 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Text, View } from 'react-native';
 import Home from './home.routes';
-
-function Feed() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Feed Screen</Text>
-      </View>
-    );
-  }
-  
-  function Article() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Article Screen</Text>
-      </View>
-    );
-  }
+import Churrascos from '../screens/Meus Churrascos/index';
+import Receitas from '../screens/Receitas/index';
+import Convite from '../screens/Convite/index';
+import Precos from '../screens/Preços/index';
 
 const Drawer = createDrawerNavigator();
 
@@ -27,11 +14,10 @@ export default function DrawerRoute() {
       initialRouteName: 'Home',
     }}>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Meus churrascos" component={Article} />
-      <Drawer.Screen name="Mapa" component={Feed} />
-      <Drawer.Screen name="Receitas" component={Article} />
-      <Drawer.Screen name="Criar convite" component={Article} />
-      <Drawer.Screen name="Configurar preços" component={Article} />
+      <Drawer.Screen name="Meus churrascos" component={Churrascos} />
+      <Drawer.Screen name="Receitas" component={Receitas} />
+      <Drawer.Screen name="Criar convite" component={Convite} />
+      <Drawer.Screen name="Configurar preços" component={Precos} />
     </Drawer.Navigator>
   );
 }

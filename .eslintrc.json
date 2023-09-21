@@ -18,7 +18,7 @@
       ],
     "react/react/jsx-runtime": "off",
     "camelcase": "off",
-    // "react/prop-types": "off",
+    "react/prop-types": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/react-in-jsx-scope": "off",
     "no-console": "off",

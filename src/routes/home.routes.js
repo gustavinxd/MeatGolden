@@ -1,40 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { Button, View } from 'react-native';
-
-function HomeScreen({ navigation }) {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Menu"
-          onPress={() => navigation.navigate('Menu')}
-        />
-        <Button
-          title="Convidados"
-          onPress={() => navigation.navigate('Convidados')}
-        />
-        <Button
-          title="Assados"
-          onPress={() => navigation.navigate('Assados')}
-        />
-        <Button
-          title="Bebidas"
-          onPress={() => navigation.navigate('Bebidas')}
-        />
-        <Button
-          title="Adicionais"
-          onPress={() => navigation.navigate('Adicionais')}
-        />
-        <Button
-          title="Resultados"
-          onPress={() => navigation.navigate('Resultados')}
-        />
-        <Button
-          title="Home voltar"
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-    );
-  }
+import Menu from '../screens/Menu/index';
+import Convidados from '../screens/Convidados/index';
+import Assados from '../screens/Assados/index';
+import Bebidas from '../screens/Bebidas/index';
+import Adicionais from '../screens/Adicionais/index';
+import Resultados from '../screens/Resultados/index';
 
 const Stack = createStackNavigator();
 
@@ -43,12 +13,12 @@ export default function Home() {
     <Stack.Navigator screenOptions={{
       headerShown : false
     }}>
-      <Stack.Screen name="Menu" component={HomeScreen} />
-      <Stack.Screen name="Convidados" component={HomeScreen} />
-      <Stack.Screen name="Assados" component={HomeScreen} />
-      <Stack.Screen name="Bebidas" component={HomeScreen} />
-      <Stack.Screen name="Adicionais" component={HomeScreen} />
-      <Stack.Screen name="Resultados" component={HomeScreen} />
+      <Stack.Screen name="Menu" component={Menu} />
+      <Stack.Screen name="Convidados" component={Convidados} />
+      <Stack.Screen name="Assados" component={Assados} />
+      <Stack.Screen name="Bebidas" component={Bebidas} />
+      <Stack.Screen name="Adicionais" component={Adicionais} />
+      <Stack.Screen name="Resultados" component={Resultados} />
     </Stack.Navigator>
   );
 }
