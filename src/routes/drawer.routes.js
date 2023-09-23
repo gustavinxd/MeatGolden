@@ -10,25 +10,26 @@ import colors from '../colors';
 
 const Drawer = createDrawerNavigator();
 
-function CustomDrawerContent(props) {
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="aaaa" icon={({focused, color, size})=> <Feather name='moon' size={30} color='#000'/>} />
-    </DrawerContentScrollView>
-  );
-}
+// function CustomDrawerContent(props) {
+//   return (
+//     <DrawerContentScrollView {...props}>
+//       <DrawerItemList {...props} />
+//       <DrawerItem label="aaaa" icon={({focused, color, size})=> <Feather name='moon' size={30} color='#000'/>} />
+//     </DrawerContentScrollView>
+//   );
+// }
 
 export default function DrawerRoute() {
   return (
     <Drawer.Navigator
-    drawerContent={(props) => <CustomDrawerContent {...props} />} 
+    // drawerContent={(props) => <CustomDrawerContent {...props} />} 
     screenOptions={{
       drawerPosition: 'right',
       initialRouteName: 'Home',
       drawerLabelStyle: {fontFamily: 'Lalezar_400Regular', fontSize: 16},
       drawerActiveBackgroundColor: colors.focusPrimary,
-      drawerActiveTintColor: colors.primary
+      drawerActiveTintColor: colors.primary,
+      headerShown: false
     }}>
       <Drawer.Screen name="Home" component={Home} options={{
         drawerIcon: () => <MaterialIcons name='outdoor-grill' size={22} color='#000' />
