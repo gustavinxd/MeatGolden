@@ -8,40 +8,64 @@ import Adicionais from '../screens/Adicionais/index';
 import Resultados from '../screens/Resultados/index';
 import CustomStackNavigator from '../components/CustomHeader/index';
 import colors from '../colors';
+import BackButton from '../components/Buttons/BackButton';
 
 const Stack = createStackNavigator();
 
 export default function Home() {
   return (
     <Stack.Navigator
-      screenOptions={({ navigation }) => {
+      screenOptions={({ navigation, route }) => {
         return {
           headerTitle: () => {
-            return <CustomStackNavigator navigation={navigation} />;
+            return (
+              <CustomStackNavigator navigation={navigation} route={route} />
+            );
           },
-          headerBackTitleVisible: false, 
-          headerStyle:{
+          headerLeft: () => {
+            return <BackButton navigation={navigation} route={route} />;
+          },
+          headerStyle: {
             backgroundColor: colors.primary
           },
-          headerLeftLabelVisible: false
+          headerShadowVisible: false
         };
       }}
     >
-
       <Stack.Screen
         name="Menu"
         component={Menu}
         options={{
+          headerLeft: null,
           headerStyle: {
             backgroundColor: colors.dark
           }
         }}
       />
 
-      <Stack.Screen name="Convidados" component={Convidados} />
-      <Stack.Screen name="Assados" component={Assados} />
+      <Stack.Screen name="Convidados" component={Convidados} options={{}} />
+
+      <Stack.Screen
+        name="Assados"
+        component={Assados}
+        options={{
+          headerStyle: {
+            backgroundColor: colors.light
+          }
+        }}
+      />
+
       <Stack.Screen name="Bebidas" component={Bebidas} />
-      <Stack.Screen name="Adicionais" component={Adicionais} />
+
+      <Stack.Screen
+        name="Adicionais"
+        component={Adicionais}
+        options={{
+          headerStyle: {
+            backgroundColor: colors.light
+          }
+        }}
+      />
       <Stack.Screen name="Resultados" component={Resultados} />
     </Stack.Navigator>
   );
