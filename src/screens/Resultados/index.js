@@ -1,60 +1,74 @@
+import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import ProgressBar from '../../components/ProgressBar/index';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
 import CustomSlider from '../../components/CustomSlider/index';
 import OutputValue from '../../components/OutputValue/index';
+import { useProgressContext } from '../../contexts/progress';
 
 export default function Resultados({ navigation }) {
+    const { updateProgress } = useProgressContext();
+
+    useEffect(() => {
+      // Aumente o progresso quando a tela for montada
+      updateProgress(1);
+
+      return () => {
+        // Diminua o progresso quando a tela for desmontada (caso deseje)
+        updateProgress(0.75);
+      };
+    }, []);
+  
   return (
     <View style={styles.container}>
-      <ProgressBar />
-      <DescriptionScreen
-        title="É hora do churras!"
-        subTitle="Eis aqui o resultado de sua lista de compras:"
-      />
-      <View style={styles.slidersSection}>
-        <CustomSlider
-          sliderTitle="Homens"
-          icon={
-            <MaterialCommunityIcons
-              name="face-man-outline"
-              size={30}
-              color={colors.light}
-            />
-          }
+      <View style={styles.content}>
+        <DescriptionScreen
+          title="É hora do churras!"
+          subTitle="Eis aqui o resultado de sua lista de compras:"
         />
-        <CustomSlider
-          sliderTitle="Mulheres"
-          icon={
-            <MaterialCommunityIcons
-              name="face-woman-outline"
-              size={30}
-              color={colors.light}
-            />
-          }
-        />
-        <CustomSlider
-          sliderTitle="Crianças"
-          icon={
-            <MaterialIcons name="child-care" size={30} color={colors.light} />
-          }
-        />
-      </View>
-      <View style={styles.bottomSection}>
-        <OutputValue
-          icon={
-            <MaterialIcons name="people-alt" size={30} color={colors.light} />
-          }
-          value="10"
-          outputTitle="Convidados"
-        />
-        <SubmitButton
-          btnTitle="Home"
-          onPress={() => navigation.navigate('Menu')}
-        />
+        <View style={styles.slidersSection}>
+          <CustomSlider
+            sliderTitle="Homens"
+            icon={
+              <MaterialCommunityIcons
+                name="face-man-outline"
+                size={30}
+                color={colors.light}
+              />
+            }
+          />
+          <CustomSlider
+            sliderTitle="Mulheres"
+            icon={
+              <MaterialCommunityIcons
+                name="face-woman-outline"
+                size={30}
+                color={colors.light}
+              />
+            }
+          />
+          <CustomSlider
+            sliderTitle="Crianças"
+            icon={
+              <MaterialIcons name="child-care" size={30} color={colors.light} />
+            }
+          />
+        </View>
+        <View style={styles.bottomSection}>
+          <OutputValue
+            icon={
+              <MaterialIcons name="people-alt" size={30} color={colors.light} />
+            }
+            value="10"
+            outputTitle="Convidados"
+          />
+          <SubmitButton
+            btnTitle="Home"
+            onPress={() => navigation.navigate('Menu')}
+          />
+        </View>
       </View>
     </View>
   );
@@ -64,7 +78,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    paddingHorizontal: 20
+    alignItems: 'center'
+  },
+  content: {
+    width: '85%',
+    paddingTop: 50
   },
   slidersSection: {
     flexDirection: 'column',

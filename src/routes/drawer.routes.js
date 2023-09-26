@@ -11,6 +11,7 @@ import colors from '../colors';
 import CustomStackNavigator from '../components/CustomHeader';
 import BackButton from '../components/Buttons/BackButton';
 import CustomDrawerContent from '../components/CustomDrawer';
+import Menu from '../screens/Menu';
 
 const Drawer = createDrawerNavigator();
 
@@ -45,7 +46,24 @@ export default function DrawerRoute() {
       }}
     >
       <Drawer.Screen
-        name="Home"
+        name="Menu"
+        component={Menu}
+        options={{
+          drawerIcon: () => (
+            <MaterialCommunityIcons
+              name="grill-outline"
+              size={30}
+              color={colors.primary}
+            />
+          ),
+          headerStyle: {
+            backgroundColor: colors.dark
+          },
+          headerLeft: null
+        }}
+      />
+      <Drawer.Screen
+        name="Calculadora"
         component={Home}
         options={{
           drawerIcon: () => (
@@ -55,7 +73,11 @@ export default function DrawerRoute() {
               color={colors.primary}
             />
           ),
-          headerShown: false
+          headerShown: false,
+          drawerItemStyle:{
+            display: 'none'
+          }
+          
         }}
       />
       <Drawer.Screen
