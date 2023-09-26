@@ -4,8 +4,7 @@ import ProgressBar from '../../components/ProgressBar/index';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import CustomSlider from '../../components/CustomSlider/index';
-import OutputValue from '../../components/OutputValue/index';
+import SelectOption from '../../components/SelectOption';
 
 export default function Adicionais({ navigation }) {
   return (
@@ -17,46 +16,37 @@ export default function Adicionais({ navigation }) {
         desc="Selecione suas considerações finais."
         colorText='red'
       />
-      <View style={styles.slidersSection}>
-        <CustomSlider
-          sliderTitle="Homens"
+      <View style={styles.optionsSection}>
+
+        <SelectOption
+          selectTitle="Bovina"
           icon={
-            <MaterialCommunityIcons
-              name="face-man-outline"
-              size={30}
-              color={colors.light}
-            />
+            <MaterialCommunityIcons name="cow" size={30} color={colors.primary} />
           }
         />
-        <CustomSlider
-          sliderTitle="Mulheres"
+
+        <SelectOption
+          selectTitle="Bovina"
           icon={
-            <MaterialCommunityIcons
-              name="face-woman-outline"
-              size={30}
-              color={colors.light}
-            />
+            <MaterialCommunityIcons name="cow" size={30} color={colors.primary} />
           }
+      
         />
-        <CustomSlider
-          sliderTitle="Crianças"
+
+        <SelectOption
+          selectTitle="Bovina"
           icon={
-            <MaterialIcons name="child-care" size={30} color={colors.light} />
+            <MaterialCommunityIcons name="cow" size={30} color={colors.primary} />
           }
+          
         />
+
       </View>
       <View style={styles.bottomSection}>
-        <OutputValue
-          icon={
-            <MaterialIcons name="people-alt" size={30} color={colors.light} />
-          }
-          value="10"
-          outputTitle="Convidados"
-        />
         <SubmitButton
-        btnColor='red'
           btnTitle="Calcular!"
           onPress={() => navigation.navigate('Resultados')}
+          btnColor='red'
         />
       </View>
     </View>
@@ -69,10 +59,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     paddingHorizontal: 20
   },
-  slidersSection: {
+  optionsSection: {
     flexDirection: 'column',
-    gap: 10,
-    marginBottom: 20
+    gap: 15,
+    marginBottom: 20,
+    marginTop: 10
   },
   bottomSection: {
     justifyContent: 'center',
@@ -80,4 +71,3 @@ const styles = StyleSheet.create({
     gap: 40
   }
 });
-

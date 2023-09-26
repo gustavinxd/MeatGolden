@@ -1,11 +1,10 @@
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import ProgressBar from '../../components/ProgressBar/index';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import CustomSlider from '../../components/CustomSlider/index';
-import OutputValue from '../../components/OutputValue/index';
+import SelectOption from '../../components/SelectOption/index';
 
 export default function Assados({ navigation }) {
   return (
@@ -15,46 +14,37 @@ export default function Assados({ navigation }) {
         title="Agora é os assados!"
         subTitle="Quais carnes serão servidas?"
         desc="Selecione os assados que desejar."
-        colorText='red'
+        colorText="red"
       />
-      <View style={styles.slidersSection}>
-        <CustomSlider
-          sliderTitle="Homens"
+      <View style={styles.optionsSection}>
+        <SelectOption
+          selectTitle="Bovina"
           icon={
             <MaterialCommunityIcons
-              name="face-man-outline"
+              name="cow"
               size={30}
-              color={colors.light}
+              color={colors.primary}
             />
           }
         />
-        <CustomSlider
-          sliderTitle="Mulheres"
+        <SelectOption
+          selectTitle="Suína"
           icon={
             <MaterialCommunityIcons
-              name="face-woman-outline"
+              name="pig"
               size={30}
-              color={colors.light}
+              color={colors.primary}
             />
           }
         />
-        <CustomSlider
-          sliderTitle="Crianças"
-          icon={
-            <MaterialIcons name="child-care" size={30} color={colors.light} />
-          }
+        <SelectOption
+          selectTitle="Frango"
+          icon={<FontAwesome5 name="kiwi-bird" size={30} color={colors.primary} />}
         />
       </View>
       <View style={styles.bottomSection}>
-        <OutputValue
-          icon={
-            <MaterialIcons name="people-alt" size={30} color={colors.light} />
-          }
-          value="10"
-          outputTitle="Convidados"
-        />
         <SubmitButton
-        btnColor='red'
+          btnColor="red"
           btnTitle="Continuar"
           onPress={() => navigation.navigate('Bebidas')}
         />
@@ -69,9 +59,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.light,
     paddingHorizontal: 20
   },
-  slidersSection: {
+  optionsSection: {
     flexDirection: 'column',
-    gap: 10,
+    gap: 15,
+    marginTop: 10,
     marginBottom: 20
   },
   bottomSection: {
