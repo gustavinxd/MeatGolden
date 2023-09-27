@@ -1,9 +1,13 @@
 import { Text, View, StyleSheet } from "react-native";
+import CardComponent from '../../components/Cards/Opções/index';
 
-export default function Receitas({navigation}) {
+export default function Receitas() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Receitas</Text>
+      <CardComponent/>
+      <CardComponent/>
+      <CardComponent/>
     </View>
   );
 }
@@ -11,11 +15,11 @@ export default function Receitas({navigation}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      justifyContent: 'center', 
       backgroundColor: 'black',
     },
     title: {
       color: 'white',
       fontSize: 40,
+      paddingTop: '20%',
     },
 })
