@@ -1,8 +1,16 @@
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, TextInput, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 import colors from '../../colors';
 
-export default function CustomSlider({ icon, sliderTitle, value, onValueChange, onChangeText }) {
+export default function CustomSlider({ icon, sliderTitle, value, onValueChange, setValue }) {
+
+  const [number, setNumber] = useState(`${value}`)
+
+  useEffect(() =>{
+    setNumber(`${value}`)
+  },[value])
+ 
   return (
     <View style={styles.sliderContainer}>
       <View
@@ -23,8 +31,16 @@ export default function CustomSlider({ icon, sliderTitle, value, onValueChange, 
           minimumTrackTintColor={colors.light}
         />
         <TextInput
-          value={`${value}`}
-          onChangeText={onChangeText}
+          value={number}
+          onChangeText={(e) => {
+            if (e === ''){
+              setValue((prevState) => ({...prevState, homens: 0 }))
+            } else{
+              setValue((prevState) => ({...prevState, homens: parseInt(e, 10) }))
+            }
+            }
+            
+          }
           style={styles.inputSlider}
           keyboardType="numeric"
           maxLength={2}
