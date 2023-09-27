@@ -1,8 +1,9 @@
 import { useFonts } from 'expo-font';
 import {Lalezar_400Regular } from '@expo-google-fonts/lalezar';
 import { InriaSans_300Light, InriaSans_400Regular, InriaSans_700Bold } from '@expo-google-fonts/inria-sans';
-import RoutesApp from './src/routes/index';
+// import RoutesApp from './src/routes/index';
 import Home from './src/screens/Home/index';
+import Receitas from './src/screens/Receitas/index';
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -16,8 +17,9 @@ export default function App() {
       return null;
     }
   return (
-    <RoutesApp/>
-    <Home/>
+      // <RoutesApp/>
+      // <Home/>
+      <Receitas/>
   );
 }
 
