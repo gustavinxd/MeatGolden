@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
-import DescriptionScreen from '../../components/DescriptionScreen/index';
-import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import SelectOption from '../../components/SelectOption/index';
+import DescriptionScreen from '../../components/DescriptionScreen';
+import SubmitButton from '../../components/Buttons/SubmitButton';
+import SelectOption from '../../components/SelectOption';
 import { useProgressContext } from '../../contexts/progress';
+import CheckOption from '../../components/CheckOption';
+import Separator from './../../components/Separator/index';
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
@@ -30,6 +33,7 @@ export default function Assados({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
+
           <SelectOption
             selectTitle="Bovina"
             icon={
@@ -39,7 +43,15 @@ export default function Assados({ navigation }) {
                 color={colors.primary}
               />
             }
-          />
+          >
+            <Separator/>
+            <View style={{gap: 10, padding: 10}}>
+              <CheckOption checked={check} onPress={() => setCheck(!check)} />
+              <CheckOption checked={check} onPress={() => setCheck(!check)} />
+              <CheckOption checked={check} onPress={() => setCheck(!check)} />
+            </View>
+          </SelectOption>
+
           <SelectOption
             selectTitle="Suína"
             icon={
@@ -50,12 +62,14 @@ export default function Assados({ navigation }) {
               />
             }
           />
+          
           <SelectOption
             selectTitle="Frango"
             icon={
               <FontAwesome5 name="kiwi-bird" size={30} color={colors.primary} />
             }
           />
+
         </View>
         <View style={styles.bottomSection}>
           <SubmitButton
