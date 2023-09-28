@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput, Text } from 'react-native';
 import Slider from '@react-native-community/slider';
 import colors from '../../colors';
 
-export default function CustomSlider({ icon, sliderTitle, value, onValueChange, setValue }) {
+export default function CustomSlider({ icon, sliderTitle, value, onValueChange, onChangeText }) {
 
   const [number, setNumber] = useState(`${value}`)
 
@@ -32,15 +32,7 @@ export default function CustomSlider({ icon, sliderTitle, value, onValueChange, 
         />
         <TextInput
           value={number}
-          onChangeText={(e) => {
-            if (e === ''){
-              setValue((prevState) => ({...prevState, homens: 0 }))
-            } else{
-              setValue((prevState) => ({...prevState, homens: parseInt(e, 10) }))
-            }
-            }
-            
-          }
+          onChangeText={onChangeText}
           style={styles.inputSlider}
           keyboardType="numeric"
           maxLength={2}
