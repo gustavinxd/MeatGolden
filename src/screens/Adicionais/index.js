@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
@@ -30,37 +29,27 @@ export default function Adicionais({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
-          <SelectOption
-            selectTitle="Bovina"
-            icon={
-              <MaterialCommunityIcons
-                name="cow"
-                size={30}
-                color={colors.primary}
-              />
-            }
+        <SelectOption
+            selectTitle="Cerveja"
+            icon='beer'
+            colorSelection='light'
           />
 
           <SelectOption
-            selectTitle="Bovina"
-            icon={
-              <MaterialCommunityIcons
-                name="cow"
-                size={30}
-                color={colors.primary}
-              />
-            }
+            selectTitle="Refrigerante"
+            icon='bottle-soda'
+            colorSelection='light'
           />
 
           <SelectOption
-            selectTitle="Bovina"
-            icon={
-              <MaterialCommunityIcons
-                name="cow"
-                size={30}
-                color={colors.primary}
-              />
-            }
+            selectTitle="Suco"
+            icon='cup'
+            colorSelection='light'
+          />
+          <SelectOption
+            selectTitle="Água"
+            icon='cup-water'
+            colorSelection='light'
           />
         </View>
         <View style={styles.bottomSection}>

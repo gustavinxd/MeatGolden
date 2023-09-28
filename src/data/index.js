@@ -1,4 +1,21 @@
 // Testes
+const opcoes = {
+  bovina:{
+    picanha: 'Picanha',
+    contrafile: 'Contra Filé',
+    cupim: 'Cupim',
+  },
+  suina:{
+    linguiça: 'Linguiça',
+    paleta: 'Paleta',
+    costela: 'Costela'
+  },
+  frango:{
+    coxa: 'Coxa',
+    asa: 'Asa',
+    coracao: 'Coração'
+  }
+}
 
 const valoresPegos = [
   {
@@ -30,3 +47,5 @@ const precos = {
     precoFrango: 30,
     precoSuino: 30,
 }
+
+export {opcoes};

@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen';
 import SubmitButton from '../../components/Buttons/SubmitButton';
-import SelectOption from '../../components/SelectOption';
+import SelectOptionDropdown from '../../components/SelectOptionDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import CheckOption from '../../components/CheckOption';
-import Separator from './../../components/Separator/index';
+import Separator from '../../components/Separator/index';
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
-  const [check, setCheck] = useState(false);
+
+  const [opcoesSelecionadas, setOpcoesSelecionadas] = useState({
+    bovina: [],
+    suina: [],
+    frango: []
+  });
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
@@ -33,8 +38,7 @@ export default function Assados({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
-
-          <SelectOption
+          <SelectOptionDropdown
             selectTitle="Bovina"
             icon={
               <MaterialCommunityIcons
@@ -44,15 +48,15 @@ export default function Assados({ navigation }) {
               />
             }
           >
-            <Separator/>
-            <View style={{gap: 10, padding: 10}}>
-              <CheckOption checked={check} onPress={() => setCheck(!check)} />
-              <CheckOption checked={check} onPress={() => setCheck(!check)} />
-              <CheckOption checked={check} onPress={() => setCheck(!check)} />
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Picanha" />
+              <CheckOption checkLabel="Contra-filé" />
+              <CheckOption checkLabel="Cupim" />
             </View>
-          </SelectOption>
+          </SelectOptionDropdown>
 
-          <SelectOption
+          <SelectOptionDropdown
             selectTitle="Suína"
             icon={
               <MaterialCommunityIcons
@@ -61,15 +65,32 @@ export default function Assados({ navigation }) {
                 color={colors.primary}
               />
             }
-          />
-          
-          <SelectOption
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Linguiça" />
+              <CheckOption checkLabel="Paleta" />
+              <CheckOption checkLabel="Costela" />
+            </View>
+          </SelectOptionDropdown>
+
+          <SelectOptionDropdown
             selectTitle="Frango"
             icon={
-              <FontAwesome5 name="kiwi-bird" size={30} color={colors.primary} />
+              <MaterialCommunityIcons
+                name="bird"
+                size={30}
+                color={colors.primary}
+              />
             }
-          />
-
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Coxa" />
+              <CheckOption checkLabel="Asa" />
+              <CheckOption checkLabel="Coração" />
+            </View>
+          </SelectOptionDropdown>
         </View>
         <View style={styles.bottomSection}>
           <SubmitButton
