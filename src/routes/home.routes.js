@@ -9,7 +9,7 @@ import CustomStackNavigator from '../components/CustomHeader/index';
 import colors from '../colors';
 import BackButton from '../components/Buttons/BackButton';
 import ProgressProvider from '../contexts/progress';
-import ProgressBar from '../components/ProgressBar/index';
+import MenuButton from '../components/Buttons/MenuButton';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +26,9 @@ export default function Home() {
             },
             headerLeft: () => {
               return <BackButton navigation={navigation} route={route} />;
+            },
+            headerRight: () => {
+              return <MenuButton navigation={navigation} route={route} />;
             },
             headerStyle: {
               backgroundColor: colors.primary
@@ -61,7 +64,6 @@ export default function Home() {
         />
         <Stack.Screen name="Resultados" component={Resultados} />
       </Stack.Navigator>
-      <ProgressBar/>
     </ProgressProvider>
   );
 }

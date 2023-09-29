@@ -8,6 +8,7 @@ import { useProgressContext } from '../../contexts/progress';
 import CustomDropdown from '../../components/CustomDropdown/index';
 import Separator from '../../components/Separator/index';
 import ListResults from '../../components/ListResults/index';
+import PreviewResults from '../../components/PrevviewResults';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -24,37 +25,44 @@ export default function Resultados({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <DescriptionScreen
-          title="É hora do churras!"
-          subTitle="Eis aqui o resultado de sua lista de compras:"
-        />
-        <View style={styles.optionsSection}>
-          <CustomDropdown
-          hasAction
-          colorSelection='light'
-            selectTitle="Bovina"
-            icon={
-              <MaterialCommunityIcons
-                name="face-man-outline"
-                size={30}
-                color={colors.light}
+      <ScrollView style={{ width: '100%', height: '100%' }}>
+        <View style={styles.content}>
+          <View style={{ width: '85%', flexDirection: 'column' }}>
+            <DescriptionScreen
+              title="É hora do churras!"
+              subTitle="Eis aqui o resultado de sua lista de compras:"
+            />
+            <View style={styles.optionsSection}>
+              <CustomDropdown
+              haveIcon={false}
+                colorSelection="light"
+                selectTitle="Bovina"
+                topSection={
+                  <PreviewResults/>
+                }
+                icon={
+                  <MaterialCommunityIcons
+                    name="face-man-outline"
+                    size={30}
+                    color={colors.light}
+                  />
+                }
+              >
+                <Separator color="light" />
+                <ListResults />
+                <ListResults />
+                <ListResults />
+              </CustomDropdown>
+            </View>
+            <View style={styles.bottomSection}>
+              <SubmitButton
+                btnTitle="Home"
+                onPress={() => navigation.navigate('Menu')}
               />
-            }
-          >
-            <Separator color='light'/>
-              <ListResults/>
-              <ListResults/>
-              <ListResults/>
-          </CustomDropdown>
+            </View>
+          </View>
         </View>
-        <View style={styles.bottomSection}>
-          <SubmitButton
-            btnTitle="Home"
-            onPress={() => navigation.navigate('Menu')}
-          />
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -66,14 +74,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   content: {
-    width: '85%',
+    flexDirection: 'column',
+    alignItems: 'center',
     paddingTop: 50
   },
   optionsSection: {
     flexDirection: 'column',
     gap: 15,
     marginBottom: 20,
-    marginTop: -15
+    marginTop: -10
   },
   bottomSection: {
     justifyContent: 'center',

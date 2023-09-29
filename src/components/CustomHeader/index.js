@@ -1,22 +1,10 @@
 import { StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons';
-import colors from '../../colors';
+import ProgressBar from '../ProgressBar/index';
 
-export default function CustomStackNavigator({ navigation, route }) {
+export default function CustomStackNavigator() {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <MaterialIcons
-          name="menu"
-          size={30}
-          color={
-            route.name === 'Assados' || route.name === 'Adicionais'
-              ? colors.primary
-              : colors.light
-          }
-        />
-      </TouchableOpacity>
+      <ProgressBar/>
     </View>
   );
 }
@@ -24,10 +12,10 @@ export default function CustomStackNavigator({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '100%',
+    height: 100,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginLeft: 5
+    alignItems: 'flex-end',
+    marginLeft: 5,
+    borderWidth: 1
   }
 });

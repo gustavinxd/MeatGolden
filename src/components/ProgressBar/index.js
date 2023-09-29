@@ -23,9 +23,8 @@ export default function ProgressBar() {
 
 const styles = StyleSheet.create({
   progressContainer: {
-    width: '85%',
-    position: 'absolute',
-    top: 100,
-    left: 30
+    flexDirection: 'column',
+    width: '100%',
+    justifyContent:'center',
   }
 });

@@ -12,6 +12,7 @@ import CustomStackNavigator from '../components/CustomHeader';
 import BackButton from '../components/Buttons/BackButton';
 import CustomDrawerContent from '../components/CustomDrawer';
 import Menu from '../screens/Menu';
+import MenuButton from '../components/Buttons/MenuButton';
 
 const Drawer = createDrawerNavigator();
 
@@ -48,18 +49,22 @@ export default function DrawerRoute() {
       <Drawer.Screen
         name="Menu"
         component={Menu}
-        options={{
-          drawerIcon: () => (
-            <MaterialCommunityIcons
-              name="grill-outline"
-              size={30}
-              color={colors.primary}
-            />
-          ),
-          headerStyle: {
-            backgroundColor: colors.dark
-          },
-          headerLeft: null
+        options={({navigation, route}) => {
+          return{
+            drawerIcon: () => (
+              <MaterialCommunityIcons
+                name="grill-outline"
+                size={30}
+                color={colors.primary}
+              />
+            ),
+            headerTitle: null,
+            headerStyle: {
+              backgroundColor: colors.dark
+            },
+            headerLeft: null,
+            headerRight: () => <MenuButton navigation={navigation} route={route}/>
+          }
         }}
       />
       <Drawer.Screen
