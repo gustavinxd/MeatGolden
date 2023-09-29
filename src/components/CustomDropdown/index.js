@@ -3,13 +3,16 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 
-export default function SelectOptionDropdown({
+export default function CustomDropdown({
   icon,
   selectTitle,
   colorSelection = 'red',
+  hasAction,
   children
 }) {
   const [openOptions, setOpenOptions] = useState(false);
+
+  const haveActions = openOptions && children
 
   return (
     <View
@@ -50,22 +53,21 @@ export default function SelectOptionDropdown({
           </Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.openOptions}
-          onPress={() => setOpenOptions(!openOptions)}
-        >
-          <MaterialIcons
-            name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
-            size={30}
-            color={
-              colorSelection === 'light'
-                ? colors.light 
-                : colors.primary
-            }
-          />
-        </TouchableOpacity>
+        {hasAction && (
+          <TouchableOpacity
+            style={styles.openOptions}
+            onPress={() => setOpenOptions(!openOptions)}
+          >
+            <MaterialIcons
+              name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
+              size={30}
+              color={colorSelection === 'light' ? colors.light : colors.primary}
+            />
+          </TouchableOpacity>
+        )}
+        
       </View>
-      {openOptions && children}
+      {hasAction ? haveActions : children}
     </View>
   );
 }

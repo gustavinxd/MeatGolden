@@ -4,19 +4,19 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen';
 import SubmitButton from '../../components/Buttons/SubmitButton';
-import SelectOptionDropdown from '../../components/SelectOptionDropdown';
+import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import CheckOption from '../../components/CheckOption';
-import Separator from '../../components/Separator/index';
+import Separator from '../../components/Separator/index';;
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
 
-  const [opcoesSelecionadas, setOpcoesSelecionadas] = useState({
-    bovina: [],
-    suina: [],
-    frango: []
-  });
+  // const [opcoesSelecionadas, setOpcoesSelecionadas] = useState({
+  //   bovina: [],
+  //   suina: [],
+  //   frango: []
+  // });
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
@@ -38,7 +38,8 @@ export default function Assados({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
-          <SelectOptionDropdown
+          <CustomDropdown
+            hasAction
             selectTitle="Bovina"
             icon={
               <MaterialCommunityIcons
@@ -54,9 +55,10 @@ export default function Assados({ navigation }) {
               <CheckOption checkLabel="Contra-filé" />
               <CheckOption checkLabel="Cupim" />
             </View>
-          </SelectOptionDropdown>
+          </CustomDropdown>
 
-          <SelectOptionDropdown
+          <CustomDropdown
+            hasAction
             selectTitle="Suína"
             icon={
               <MaterialCommunityIcons
@@ -72,13 +74,14 @@ export default function Assados({ navigation }) {
               <CheckOption checkLabel="Paleta" />
               <CheckOption checkLabel="Costela" />
             </View>
-          </SelectOptionDropdown>
+          </CustomDropdown>
 
-          <SelectOptionDropdown
+          <CustomDropdown
+            hasAction
             selectTitle="Frango"
             icon={
               <MaterialCommunityIcons
-                name="bird"
+                name="food-drumstick"
                 size={30}
                 color={colors.primary}
               />
@@ -90,7 +93,7 @@ export default function Assados({ navigation }) {
               <CheckOption checkLabel="Asa" />
               <CheckOption checkLabel="Coração" />
             </View>
-          </SelectOptionDropdown>
+          </CustomDropdown>
         </View>
         <View style={styles.bottomSection}>
           <SubmitButton

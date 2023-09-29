@@ -4,7 +4,7 @@ import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
 
-export default function CheckOption({ onPress, checkLabel }) {
+export default function CheckOption({ checkLabel }) {
   const [check,setCheck] = useState(false)
   return (
     <View style={styles.container}>
@@ -12,7 +12,6 @@ export default function CheckOption({ onPress, checkLabel }) {
         style={[styles.checkboxBase, check && styles.checkboxChecked]}
         onPress={() =>{
           setCheck((prevState) => !prevState)
-          onPress
         }}
       >
         {check && (

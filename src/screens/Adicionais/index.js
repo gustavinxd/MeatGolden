@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import SelectOption from '../../components/SelectOption';
+import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
+import Separator from '../../components/Separator';
+import CheckOption from '../../components/CheckOption';
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -15,10 +18,10 @@ export default function Adicionais({ navigation }) {
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
-      updateProgress(0.50);
+      updateProgress(0.5);
     };
   }, []);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -29,28 +32,43 @@ export default function Adicionais({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
-        <SelectOption
-            selectTitle="Cerveja"
-            icon='beer'
-            colorSelection='light'
-          />
+          <CustomDropdown
+            hasAction
+            selectTitle="Extras"
+            icon={
+              <MaterialCommunityIcons
+                name="plus-box"
+                size={30}
+                color={colors.primary}
+              />
+            }
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Pão de alho" />
+              <CheckOption checkLabel="Vinagrete" />
+              <CheckOption checkLabel="Queijo coalho" />
+            </View>
+          </CustomDropdown>
 
-          <SelectOption
-            selectTitle="Refrigerante"
-            icon='bottle-soda'
-            colorSelection='light'
-          />
-
-          <SelectOption
-            selectTitle="Suco"
-            icon='cup'
-            colorSelection='light'
-          />
-          <SelectOption
-            selectTitle="Água"
-            icon='cup-water'
-            colorSelection='light'
-          />
+          <CustomDropdown
+            hasAction
+            selectTitle="Essências"
+            icon={
+              <MaterialCommunityIcons
+                name="food-variant"
+                size={30}
+                color={colors.primary}
+              />
+            }
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Gelo" />
+              <CheckOption checkLabel="Carvão" />
+              <CheckOption checkLabel="Guardanapo" />
+            </View>
+          </CustomDropdown>
         </View>
         <View style={styles.bottomSection}>
           <SubmitButton
