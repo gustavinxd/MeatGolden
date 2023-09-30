@@ -1,21 +1,27 @@
 import { StyleSheet, View } from 'react-native';
-import ProgressBar from '../ProgressBar/index';
+import MenuButton from '../Buttons/MenuButton/index';
+import BackButton from '../Buttons/BackButton/index';
 
-export default function CustomStackNavigator() {
+export default function CustomHeader({navigation, route, children, removeBackButton}) {
+  const BackButtonSet = removeBackButton ? 'flex-end' : 'space-between'
   return (
     <View style={styles.container}>
-      <ProgressBar/>
+      <View style={[styles.containerButtons,{ justifyContent: BackButtonSet }]}>
+        {removeBackButton ? null : <BackButton navigation={navigation} route={route}/>}
+        <MenuButton navigation={navigation} route={route}/>
+      </View>
+      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
+  },
+  containerButtons: {
     width: '100%',
-    height: 100,
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    marginLeft: 5,
-    borderWidth: 1
-  }
+    justifyContent: 'flex-end',
+  },
 });

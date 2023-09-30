@@ -23,7 +23,7 @@ export default function PreviewResults({dia, data}){
 const styles = StyleSheet.create({
     container:{
         flexDirection: 'column',
-        gap: 5,
+        gap: 10,
         paddingHorizontal: 10
     },
     convidadosSection:{
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     },
     data:{
         fontFamily:'InriaSans_700Bold',
-        fontSize: 18,
+        fontSize: 16,
         alignItems: 'center',
         color: colors.light
     },

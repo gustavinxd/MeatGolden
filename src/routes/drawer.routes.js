@@ -8,11 +8,9 @@ import Receitas from '../screens/Receitas/index';
 import Convite from '../screens/Convite/index';
 import Precos from '../screens/Preços/index';
 import colors from '../colors';
-import CustomStackNavigator from '../components/CustomHeader';
-import BackButton from '../components/Buttons/BackButton';
 import CustomDrawerContent from '../components/CustomDrawer';
 import Menu from '../screens/Menu';
-import MenuButton from '../components/Buttons/MenuButton';
+import CustomHeader from '../components/CustomHeader';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,16 +29,10 @@ export default function DrawerRoute() {
           },
           drawerActiveBackgroundColor: colors.focusPrimary,
           drawerActiveTintColor: colors.primary,
-          headerTitle: () => {
-            return (
-              <CustomStackNavigator navigation={navigation} route={route} />
-            );
-          },
-          headerLeft: () => {
-            return <BackButton navigation={navigation} route={route} />;
-          },
+          headerTitle: () => <CustomHeader navigation={navigation} route={route}/>,
+          headerLeft: () => {return null},
           headerStyle: {
-            backgroundColor: colors.primary
+            backgroundColor: colors.primary,
           },
           headerShadowVisible: false
         };
@@ -58,12 +50,11 @@ export default function DrawerRoute() {
                 color={colors.primary}
               />
             ),
-            headerTitle: null,
+            headerTitle: () => <CustomHeader removeBackButton navigation={navigation} route={route}/>,
             headerStyle: {
               backgroundColor: colors.dark
             },
-            headerLeft: null,
-            headerRight: () => <MenuButton navigation={navigation} route={route}/>
+            
           }
         }}
       />

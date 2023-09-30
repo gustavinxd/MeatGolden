@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
-import DescriptionScreen from '../../components/DescriptionScreen/index';
-import SubmitButton from '../../components/Buttons/SubmitButton/index';
+import DescriptionScreen from '../../components/DescriptionScreen';
+import SubmitButton from '../../components/Buttons/SubmitButton';
 import { useProgressContext } from '../../contexts/progress';
-import CustomDropdown from '../../components/CustomDropdown/index';
+import CustomDropdown from '../../components/CustomDropdown';
 import Separator from '../../components/Separator/index';
-import ListResults from '../../components/ListResults/index';
+import ListResults from '../../components/ListResults';
 import PreviewResults from '../../components/PrevviewResults';
+import ButtonIcon from '../../components/Buttons/ButtonIcon';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -33,13 +34,14 @@ export default function Resultados({ navigation }) {
               subTitle="Eis aqui o resultado de sua lista de compras:"
             />
             <View style={styles.optionsSection}>
+
+              {/* Dropdown da lista de resultados de compras */}
               <CustomDropdown
-              haveIcon={false}
+                startOpen
+                haveIcon={false}
                 colorSelection="light"
                 selectTitle="Bovina"
-                topSection={
-                  <PreviewResults/>
-                }
+                topSection={<PreviewResults />}
                 icon={
                   <MaterialCommunityIcons
                     name="face-man-outline"
@@ -49,9 +51,48 @@ export default function Resultados({ navigation }) {
                 }
               >
                 <Separator color="light" />
+                {/* Render da lista de compras */}
                 <ListResults />
                 <ListResults />
                 <ListResults />
+                <ListResults />
+
+                {/* Section de resultados */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: 25,
+                    marginTop: 10
+                  }}
+                >
+                  <View style={{ flexDirection: 'column', gap: 5 }}>
+                    <Text style={styles.titleListResult}>Total:</Text>
+                    <Text style={styles.dataListResult}>R$ 1000</Text>
+                  </View>
+                  <View style={{ flexDirection: 'column', gap: 5 }}>
+                    <Text style={styles.titleListResult}>Rateio:</Text>
+                    <Text style={styles.dataListResult}>R$ 200</Text>
+                  </View>
+                </View>
+
+                {/* Section de salvar localização, salvar e compartilhar o churrasco */}
+                <View style={{flexDirection: 'row', paddingHorizontal: 10, marginTop: 10, justifyContent: 'space-between'}}>
+                  <View style={{ flexDirection: 'column' }}>
+                    <Text style={styles.titleListResult}>Local:</Text>
+                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', width: 150 }}>
+                      <Text style={styles.dataListResult}>Rua do caralho 666</Text>
+                      <View style={{alignSelf: 'flex-end'}}>
+                        <ButtonIcon icon='map-marker-plus-outline' colorButton='light'/>
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{flexDirection: 'row', alignItems: 'flex-end', gap: 15}}>
+                    <ButtonIcon icon='content-save-outline' colorButton='light'/>
+                    <ButtonIcon icon='share-variant-outline' colorButton='light'/>
+                  </View>
+                </View>
+
               </CustomDropdown>
             </View>
             <View style={styles.bottomSection}>
@@ -88,5 +129,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 40
+  },
+  titleListResult: {
+    fontFamily: 'InriaSans_700Bold',
+    fontSize: 20,
+    color: colors.light,
+    marginBottom: 5
+  },
+  dataListResult: {
+    fontFamily: 'InriaSans_400Regular',
+    fontSize: 16,
+    color: colors.light,
+    flexWrap: 'wrap'
   }
 });

@@ -4,7 +4,7 @@ import colors from "../../../colors";
 
 export default function MenuButton({navigation,route}) {
   return (
-    <TouchableOpacity onPress={() => navigation.openDrawer()} style={{marginRight: 15}}>
+    <TouchableOpacity onPress={() => navigation.openDrawer()} style={{}}>
       <MaterialIcons
         name="menu"
         size={30}

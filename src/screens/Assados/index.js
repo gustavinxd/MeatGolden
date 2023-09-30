@@ -39,7 +39,7 @@ export default function Assados({ navigation }) {
         />
         <View style={styles.optionsSection}>
           <CustomDropdown
-            hasAction
+            
             selectTitle="Bovina"
             icon={
               <MaterialCommunityIcons
@@ -58,7 +58,7 @@ export default function Assados({ navigation }) {
           </CustomDropdown>
 
           <CustomDropdown
-            hasAction
+            
             selectTitle="Suína"
             icon={
               <MaterialCommunityIcons
@@ -77,7 +77,7 @@ export default function Assados({ navigation }) {
           </CustomDropdown>
 
           <CustomDropdown
-            hasAction
+            
             selectTitle="Frango"
             icon={
               <MaterialCommunityIcons

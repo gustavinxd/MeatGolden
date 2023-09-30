@@ -33,7 +33,6 @@ export default function Adicionais({ navigation }) {
         />
         <View style={styles.optionsSection}>
           <CustomDropdown
-            hasAction
             selectTitle="Extras"
             icon={
               <MaterialCommunityIcons
@@ -52,7 +51,6 @@ export default function Adicionais({ navigation }) {
           </CustomDropdown>
 
           <CustomDropdown
-            hasAction
             selectTitle="Essências"
             icon={
               <MaterialCommunityIcons

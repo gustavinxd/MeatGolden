@@ -5,11 +5,10 @@ import Assados from '../screens/Assados/index';
 import Bebidas from '../screens/Bebidas/index';
 import Adicionais from '../screens/Adicionais/index';
 import Resultados from '../screens/Resultados/index';
-import CustomStackNavigator from '../components/CustomHeader/index';
 import colors from '../colors';
-import BackButton from '../components/Buttons/BackButton';
 import ProgressProvider from '../contexts/progress';
-import MenuButton from '../components/Buttons/MenuButton';
+import CustomHeader from '../components/CustomHeader/index';
+import ProgressBar from '../components/ProgressBar/index';
 
 const Stack = createStackNavigator();
 
@@ -20,15 +19,10 @@ export default function Home() {
         screenOptions={({ navigation, route }) => {
           return {
             headerTitle: () => {
-              return (
-                <CustomStackNavigator navigation={navigation} route={route} />
-              );
+              return <CustomHeader navigation={navigation} route={route} />;
             },
             headerLeft: () => {
-              return <BackButton navigation={navigation} route={route} />;
-            },
-            headerRight: () => {
-              return <MenuButton navigation={navigation} route={route} />;
+              return null;
             },
             headerStyle: {
               backgroundColor: colors.primary
@@ -36,9 +30,8 @@ export default function Home() {
             headerShadowVisible: false
           };
         }}
-        initialRouteName='Convidados'
+        initialRouteName="Convidados"
       >
-
         <Stack.Screen name="Convidados" component={Convidados} options={{}} />
 
         <Stack.Screen
@@ -64,6 +57,7 @@ export default function Home() {
         />
         <Stack.Screen name="Resultados" component={Resultados} />
       </Stack.Navigator>
+      <ProgressBar />
     </ProgressProvider>
   );
 }

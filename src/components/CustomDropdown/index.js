@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
@@ -7,14 +7,20 @@ export default function CustomDropdown({
   icon,
   selectTitle,
   colorSelection = 'red',
-  hasAction,
+  startOpen,
   children,
   haveIcon = true,
   topSection
 }) {
   const [openOptions, setOpenOptions] = useState(false);
 
-  const haveActions = openOptions && children;
+  const isOpen = openOptions && children;
+
+  useEffect(() =>{
+    if(startOpen){
+      setOpenOptions(true)
+    }
+  },[])
 
   return (
     // Container do dropdown
@@ -65,7 +71,7 @@ export default function CustomDropdown({
         )}
 
         {/* Action de abrir a dropdown e renderizar outros componentes caso seja true hasActions, se for falso, apenas renderizará children sem oculta-lo */}
-        {hasAction && (
+
           <TouchableOpacity
             style={styles.openOptions}
             onPress={() => setOpenOptions(!openOptions)}
@@ -76,9 +82,8 @@ export default function CustomDropdown({
               color={colorSelection === 'light' ? colors.light : colors.primary}
             />
           </TouchableOpacity>
-        )}
       </View>
-      {hasAction ? haveActions : children}
+      {isOpen}
     </View>
   );
 }
