@@ -7,7 +7,7 @@ import SubmitButton from '../../components/Buttons/SubmitButton';
 import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import CheckOption from '../../components/CheckOption';
-import Separator from '../../components/Separator/index';;
+import Separator from '../../components/Separator/index';
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -39,7 +39,6 @@ export default function Assados({ navigation }) {
         />
         <View style={styles.optionsSection}>
           <CustomDropdown
-            
             selectTitle="Bovina"
             icon={
               <MaterialCommunityIcons
@@ -58,7 +57,6 @@ export default function Assados({ navigation }) {
           </CustomDropdown>
 
           <CustomDropdown
-            
             selectTitle="Suína"
             icon={
               <MaterialCommunityIcons
@@ -69,7 +67,7 @@ export default function Assados({ navigation }) {
             }
           >
             <Separator />
-            <View style={{ gap: 10, padding: 10 }}>
+            <View style={styles.dropdownSection}>
               <CheckOption checkLabel="Linguiça" />
               <CheckOption checkLabel="Paleta" />
               <CheckOption checkLabel="Costela" />
@@ -77,7 +75,6 @@ export default function Assados({ navigation }) {
           </CustomDropdown>
 
           <CustomDropdown
-            
             selectTitle="Frango"
             icon={
               <MaterialCommunityIcons
@@ -88,7 +85,7 @@ export default function Assados({ navigation }) {
             }
           >
             <Separator />
-            <View style={{ gap: 10, padding: 10 }}>
+            <View style={styles.dropdownSection}>
               <CheckOption checkLabel="Coxa" />
               <CheckOption checkLabel="Asa" />
               <CheckOption checkLabel="Coração" />
@@ -127,5 +124,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 40
+  },
+  dropdownSection: {
+    gap: 10,
+    padding: 10,
+    overflow: 'hidden'
   }
 });

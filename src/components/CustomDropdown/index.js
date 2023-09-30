@@ -1,7 +1,15 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Animated,
+  LayoutAnimation
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
+import toggleAnimation from '../../animation';
 
 export default function CustomDropdown({
   icon,
@@ -14,13 +22,26 @@ export default function CustomDropdown({
 }) {
   const [openOptions, setOpenOptions] = useState(false);
 
+  const animationController = useRef(new Animated.Value(0)).current;
+
+  const toggleDropdown = () => {
+    const config = {
+      duration: 300,
+      toValue: openOptions ? 0 : 1,
+      useNativeDriver: true
+    };
+    Animated.timing(animationController, config).start();
+    LayoutAnimation.configureNext(toggleAnimation);
+    setOpenOptions(!openOptions);
+  };
+
   const isOpen = openOptions && children;
 
-  useEffect(() =>{
-    if(startOpen){
-      setOpenOptions(true)
+  useEffect(() => {
+    if (startOpen) {
+      setOpenOptions(true);
     }
-  },[])
+  }, []);
 
   return (
     // Container do dropdown
@@ -72,16 +93,16 @@ export default function CustomDropdown({
 
         {/* Action de abrir a dropdown e renderizar outros componentes caso seja true hasActions, se for falso, apenas renderizará children sem oculta-lo */}
 
-          <TouchableOpacity
-            style={styles.openOptions}
-            onPress={() => setOpenOptions(!openOptions)}
-          >
-            <MaterialIcons
-              name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
-              size={30}
-              color={colorSelection === 'light' ? colors.light : colors.primary}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.openOptions}
+          onPress={() => toggleDropdown()}
+        >
+          <MaterialIcons
+            name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
+            size={30}
+            color={colorSelection === 'light' ? colors.light : colors.primary}
+          />
+        </TouchableOpacity>
       </View>
       {isOpen}
     </View>
@@ -95,7 +116,8 @@ const styles = StyleSheet.create({
     padding: 10,
     gap: 5,
     borderRadius: 8,
-    borderWidth: 2
+    borderWidth: 2,
+    overflow: 'hidden'
   },
   iconSection: {
     justifyContent: 'center',
