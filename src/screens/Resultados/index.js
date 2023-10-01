@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
@@ -10,9 +10,12 @@ import Separator from '../../components/Separator/index';
 import ListResults from '../../components/ListResults';
 import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
+import MapModal from '../../components/Mapa/index';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
+  const [isMapVisible, setMapVisible] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState('');
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
@@ -34,7 +37,6 @@ export default function Resultados({ navigation }) {
               subTitle="Eis aqui o resultado de sua lista de compras:"
             />
             <View style={styles.optionsSection}>
-
               {/* Dropdown da lista de resultados de compras */}
               <CustomDropdown
                 startOpen
@@ -77,22 +79,55 @@ export default function Resultados({ navigation }) {
                 </View>
 
                 {/* Section de salvar localização, salvar e compartilhar o churrasco */}
-                <View style={{flexDirection: 'row', paddingHorizontal: 10, marginTop: 10, justifyContent: 'space-between'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingHorizontal: 10,
+                    marginTop: 10,
+                    justifyContent: 'space-between'
+                  }}
+                >
                   <View style={{ flexDirection: 'column' }}>
                     <Text style={styles.titleListResult}>Local:</Text>
-                    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', width: 150 }}>
-                      <Text style={styles.dataListResult}>Rua do caralho 666</Text>
-                      <View style={{alignSelf: 'flex-end'}}>
-                        <ButtonIcon icon='map-marker-plus-outline' colorButton='light'/>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        gap: 10,
+                        alignItems: 'center',
+                        width: 150
+                      }}
+                    >
+                      <Text style={styles.dataListResult}>
+                        {selectedAddress}
+                      </Text>
+                      <View style={{ alignSelf: 'flex-end' }}>
+                        <ButtonIcon
+                          onPress={() => {
+                            setMapVisible((prevState) => !prevState)
+                          }}
+                          icon="map-marker-plus-outline"
+                          colorButton="light"
+                        />
                       </View>
                     </View>
                   </View>
-                  <View style={{flexDirection: 'row', alignItems: 'flex-end', gap: 15}}>
-                    <ButtonIcon icon='content-save-outline' colorButton='light'/>
-                    <ButtonIcon icon='share-variant-outline' colorButton='light'/>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'flex-end',
+                      gap: 15
+                    }}
+                  >
+                    <ButtonIcon
+                      icon="content-save-outline"
+                      colorButton="light"
+                    />
+                    <ButtonIcon
+                      icon="share-variant-outline"
+                      colorButton="light"
+                    />
                   </View>
                 </View>
-
               </CustomDropdown>
             </View>
             <View style={styles.bottomSection}>
@@ -104,6 +139,14 @@ export default function Resultados({ navigation }) {
           </View>
         </View>
       </ScrollView>
+      <MapModal
+        visible={isMapVisible}
+        onClose={() => setMapVisible(false)}
+        onSaveLocation={(address) => {
+          setSelectedAddress(address)
+          setMapVisible((prevState) => !prevState)
+        }}
+      />
     </View>
   );
 }
