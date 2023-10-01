@@ -6,8 +6,7 @@ export default function Receitas() {
     <View style={styles.container}>
       <Text style={styles.title}>Receitas</Text>
       <CardComponent/>
-      <CardComponent/>
-      <CardComponent/>
+
     </View>
   );
 }
@@ -21,5 +20,8 @@ const styles = StyleSheet.create({
       color: 'white',
       fontSize: 40,
       paddingTop: '20%',
+      paddingLeft: '5%',
+      textDecorationLine: 'underline',
+
     },
 })
