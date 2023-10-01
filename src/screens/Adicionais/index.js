@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import SelectOption from '../../components/SelectOption';
+import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
+import Separator from '../../components/Separator';
+import CheckOption from '../../components/CheckOption';
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -16,10 +18,10 @@ export default function Adicionais({ navigation }) {
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
-      updateProgress(0.50);
+      updateProgress(0.5);
     };
   }, []);
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -30,38 +32,41 @@ export default function Adicionais({ navigation }) {
           colorText="red"
         />
         <View style={styles.optionsSection}>
-          <SelectOption
-            selectTitle="Bovina"
+          <CustomDropdown
+            selectTitle="Extras"
             icon={
               <MaterialCommunityIcons
-                name="cow"
+                name="plus-box"
                 size={30}
                 color={colors.primary}
               />
             }
-          />
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Pão de alho" />
+              <CheckOption checkLabel="Vinagrete" />
+              <CheckOption checkLabel="Queijo coalho" />
+            </View>
+          </CustomDropdown>
 
-          <SelectOption
-            selectTitle="Bovina"
+          <CustomDropdown
+            selectTitle="Essências"
             icon={
               <MaterialCommunityIcons
-                name="cow"
+                name="food-variant"
                 size={30}
                 color={colors.primary}
               />
             }
-          />
-
-          <SelectOption
-            selectTitle="Bovina"
-            icon={
-              <MaterialCommunityIcons
-                name="cow"
-                size={30}
-                color={colors.primary}
-              />
-            }
-          />
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Gelo" />
+              <CheckOption checkLabel="Carvão" />
+              <CheckOption checkLabel="Guardanapo" />
+            </View>
+          </CustomDropdown>
         </View>
         <View style={styles.bottomSection}>
           <SubmitButton

@@ -1,25 +1,40 @@
 import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
-import Checkbox from '../CheckOption';
 
 export default function SelectOption({
   icon,
   selectTitle,
-  colorSelection = 'red',
-  children
+  colorSelection = 'red'
 }) {
-  const [openOptions, setOpenOptions] = useState(false);
+  const [selected, setSelected] = useState(false);
+
+  const isSelectedRed = {
+    container: selected
+      ? { borderColor: colors.light, backgroundColor: colors.primary }
+      : { borderColor: colors.primary, backgroundColor: colors.light },
+    text: selected ? { color: colors.light } : { color: colors.primary },
+    colorIcon: selected ? colors.light : colors.primary
+  };
+
+  const isSelectedLight = {
+    container: selected
+      ? { borderColor: colors.primary, backgroundColor: colors.light }
+      : { borderColor: colors.light, backgroundColor: colors.primary },
+    text: selected ? { color: colors.primary } : { color: colors.light },
+    colorIcon: selected ? colors.primary : colors.light
+  };
 
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.selectContainer,
         colorSelection === 'light'
-          ? { borderColor: colors.light }
-          : { borderColor: colors.primary }
+          ? isSelectedRed.container
+          : isSelectedLight.container
       ]}
+      onPress={() => setSelected((prevState) => !prevState)}
     >
       <View
         style={{
@@ -33,41 +48,36 @@ export default function SelectOption({
             style={[
               styles.iconSection,
               colorSelection === 'light'
-                ? { borderColor: colors.light }
-                : { borderColor: colors.primary }
+                ? isSelectedRed.container
+                : isSelectedLight.container
             ]}
           >
-            {icon}
+            <MaterialCommunityIcons
+              name={icon}
+              size={30}
+              color={
+                colorSelection === 'light'
+                  ? isSelectedRed.colorIcon
+                  : isSelectedLight.colorIcon
+              }
+            />
           </View>
           <Text
             style={[
               styles.optionTitle,
               colorSelection === 'light'
-                ? { color: colors.light }
-                : { color: colors.primary }
+                ? isSelectedRed.text
+                : isSelectedLight.text
             ]}
           >
             {selectTitle}
           </Text>
         </View>
-
-        <TouchableOpacity
-          style={styles.openOptions}
-          onPress={() => setOpenOptions(!openOptions)}
-        >
-          <MaterialIcons
-            name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
-            size={30}
-            color={
-              colorSelection === 'light'
-                ? colors.light 
-                : colors.primary
-            }
-          />
-        </TouchableOpacity>
+        <View style={styles.check}>
+            {selected && <FontAwesome5 name='check' size={20} color={colorSelection === 'light' ? colors.light : colors.primary}/>}
+        </View>
       </View>
-      {openOptions && children}
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
     fontFamily: 'InriaSans_700Bold',
     fontSize: 20
   },
-  openOptions: {
+  check: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 8

@@ -9,7 +9,7 @@ import OutputValue from '../../components/OutputValue/index';
 import { useProgressContext } from '../../contexts/progress';
 
 export default function Convidados({ navigation }) {
-  const { updateProgress } = useProgressContext();
+  const { updateProgress, progress } = useProgressContext();
 
   const [convidados, setConvidados] = useState({
     homens: 0,
@@ -18,22 +18,51 @@ export default function Convidados({ navigation }) {
     total: 0
   });
 
+  const addHomembyInput = (e) => {
+    if (e === '') {
+      setConvidados((prevState) => ({ ...prevState, homens: 0 }));
+    } else if(parseInt(e, 10) > 50) {
+      setConvidados((prevState) => ({ ...prevState, homens: 50 }));
+    } else{
+      setConvidados((prevState) => ({ ...prevState, homens: parseInt(e, 10) }));
+    }
+  };
+
+  const addMulherbyInput = (e) => {
+    if (e === '') {
+      setConvidados((prevState) => ({ ...prevState, mulheres: 0 }));
+    } else if(parseInt(e, 10) > 50) {
+      setConvidados((prevState) => ({ ...prevState, mulheres: 50 }));
+    } else {
+      setConvidados((prevState) => ({ ...prevState, mulheres: parseInt(e, 10) }));
+    }
+  };
+
+  const addCriancabyInput = (e) => {
+    if (e === '') {
+      setConvidados((prevState) => ({ ...prevState, criancas: 0 }));
+    } else if(parseInt(e, 10) > 50) {
+      setConvidados((prevState) => ({ ...prevState, criancas: 50 }));
+    } else {
+      setConvidados((prevState) => ({ ...prevState, criancas: parseInt(e, 10) }));
+    }
+  };
+
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
-    updateProgress(0);
+    if (progress !== 0) updateProgress(0);
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
-      updateProgress(0.75);
+      updateProgress(0);
     };
   }, []);
 
   useEffect(() => {
     const { homens, mulheres, criancas } = convidados;
-    const totalConvidados = parseInt(homens) + parseInt(mulheres) + parseInt(criancas);
-    setConvidados({ ...convidados, total: totalConvidados });
-    console.log(convidados);
-  }, [convidados.homens || convidados.mulheres || convidados.criancas]);
+    const newTotal = homens + mulheres + criancas;
+    setConvidados((prevState) => ({ ...prevState, total: newTotal }));
+  }, [convidados.homens, convidados.mulheres, convidados.criancas]);
 
   return (
     <View style={styles.container}>
@@ -54,10 +83,16 @@ export default function Convidados({ navigation }) {
               />
             }
             value={convidados.homens}
-            onValueChange={(e) =>
-              setConvidados({ ...convidados, homens: parseInt(e) })
-            }
+            onValueChange={(e) => {
+              const newValue = parseInt(e.toFixed(), 10);
+              setConvidados((prevState) => ({
+                ...prevState,
+                homens: newValue
+              }));
+            }}
+            onChangeText={(e) => addHomembyInput(e)}
           />
+
           <CustomSlider
             sliderTitle="Mulheres"
             icon={
@@ -68,9 +103,14 @@ export default function Convidados({ navigation }) {
               />
             }
             value={convidados.mulheres}
-            onValueChange={(e) =>
-              setConvidados({ ...convidados, mulheres: parseInt(e) })
-            }
+            onValueChange={(e) => {
+              const newValue = parseInt(e.toFixed(), 10);
+              setConvidados((prevState) => ({
+                ...prevState,
+                mulheres: newValue
+              }));
+            }}
+            onChangeText={(e) => addMulherbyInput(e)}
           />
 
           <CustomSlider
@@ -79,9 +119,15 @@ export default function Convidados({ navigation }) {
               <MaterialIcons name="child-care" size={30} color={colors.light} />
             }
             value={convidados.criancas}
-            onValueChange={(e) =>
-              setConvidados({ ...convidados, criancas: parseInt(e) })
-            }
+            onValueChange={(e) => {
+              const newValue = parseInt(e.toFixed(), 10);
+              setConvidados((prevState) => ({
+                ...prevState,
+                criancas: newValue
+              }));
+            }}
+            onChangeText={(e) => addCriancabyInput(e)}
+
           />
         </View>
         <View style={styles.bottomSection}>

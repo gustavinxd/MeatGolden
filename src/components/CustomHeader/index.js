@@ -1,33 +1,27 @@
 import { StyleSheet, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { MaterialIcons } from '@expo/vector-icons';
-import colors from '../../colors';
+import MenuButton from '../Buttons/MenuButton/index';
+import BackButton from '../Buttons/BackButton/index';
 
-export default function CustomStackNavigator({ navigation, route }) {
+export default function CustomHeader({navigation, route, children, removeBackButton}) {
+  const BackButtonSet = removeBackButton ? 'flex-end' : 'space-between'
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.openDrawer()}>
-        <MaterialIcons
-          name="menu"
-          size={30}
-          color={
-            route.name === 'Assados' || route.name === 'Adicionais'
-              ? colors.primary
-              : colors.light
-          }
-        />
-      </TouchableOpacity>
+      <View style={[styles.containerButtons,{ justifyContent: BackButtonSet }]}>
+        {removeBackButton ? null : <BackButton navigation={navigation} route={route}/>}
+        <MenuButton navigation={navigation} route={route}/>
+      </View>
+      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
+  },
+  containerButtons: {
     width: '100%',
-    height: '100%',
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'flex-end',
-    marginLeft: 5
-  }
+  },
 });
