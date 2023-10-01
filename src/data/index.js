@@ -35,11 +35,6 @@ const consumoAssados = {
     crianca: 250
   }
 
-const consumoAssados = {
-    homem: 600,
-    mulher: 450,
-    crianca: 250
-  }
 
 
 const precos = {

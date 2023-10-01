@@ -142,7 +142,10 @@ export default function Resultados({ navigation }) {
       <MapModal
         visible={isMapVisible}
         onClose={() => setMapVisible(false)}
-        onSaveLocation={(address) => setSelectedAddress(address)}
+        onSaveLocation={(address) => {
+          setSelectedAddress(address)
+          setMapVisible((prevState) => !prevState)
+        }}
       />
     </View>
   );
