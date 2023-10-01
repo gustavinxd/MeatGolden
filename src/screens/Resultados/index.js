@@ -15,7 +15,7 @@ import MapModal from '../../components/Mapa/index';
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
   const [isMapVisible, setMapVisible] = useState(false);
-  const [selectedAddress, setSelectedAddress] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState('Selecione um local');
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
