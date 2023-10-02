@@ -1,53 +1,104 @@
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import ProgressBar from '../../components/ProgressBar/index';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
-import DescriptionScreen from '../../components/DescriptionScreen/index';
-import SubmitButton from '../../components/Buttons/SubmitButton/index';
-import SelectOption from '../../components/SelectOption/index';
+import DescriptionScreen from '../../components/DescriptionScreen';
+import SubmitButton from '../../components/Buttons/SubmitButton';
+import CustomDropdown from '../../components/CustomDropdown';
+import { useProgressContext } from '../../contexts/progress';
+import CheckOption from '../../components/CheckOption';
+import Separator from '../../components/Separator/index';
 
 export default function Assados({ navigation }) {
+  const { updateProgress } = useProgressContext();
+
+  // const [opcoesSelecionadas, setOpcoesSelecionadas] = useState({
+  //   bovina: [],
+  //   suina: [],
+  //   frango: []
+  // });
+
+  useEffect(() => {
+    // Aumente o progresso quando a tela for montada
+    updateProgress(0.25);
+
+    return () => {
+      // Diminua o progresso quando a tela for desmontada (caso deseje)
+      updateProgress(0.0);
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
-      <ProgressBar />
-      <DescriptionScreen
-        title="Agora é os assados!"
-        subTitle="Quais carnes serão servidas?"
-        desc="Selecione os assados que desejar."
-        colorText="red"
-      />
-      <View style={styles.optionsSection}>
-        <SelectOption
-          selectTitle="Bovina"
-          icon={
-            <MaterialCommunityIcons
-              name="cow"
-              size={30}
-              color={colors.primary}
-            />
-          }
+      <View style={styles.content}>
+        <DescriptionScreen
+          title="Agora é os assados!"
+          subTitle="Quais carnes serão servidas?"
+          desc="Selecione os assados que desejar."
+          colorText="red"
         />
-        <SelectOption
-          selectTitle="Suína"
-          icon={
-            <MaterialCommunityIcons
-              name="pig"
-              size={30}
-              color={colors.primary}
-            />
-          }
-        />
-        <SelectOption
-          selectTitle="Frango"
-          icon={<FontAwesome5 name="kiwi-bird" size={30} color={colors.primary} />}
-        />
-      </View>
-      <View style={styles.bottomSection}>
-        <SubmitButton
-          btnColor="red"
-          btnTitle="Continuar"
-          onPress={() => navigation.navigate('Bebidas')}
-        />
+        <View style={styles.optionsSection}>
+          <CustomDropdown
+            selectTitle="Bovina"
+            icon={
+              <MaterialCommunityIcons
+                name="cow"
+                size={30}
+                color={colors.primary}
+              />
+            }
+          >
+            <Separator />
+            <View style={{ gap: 10, padding: 10 }}>
+              <CheckOption checkLabel="Picanha" />
+              <CheckOption checkLabel="Contra-filé" />
+              <CheckOption checkLabel="Cupim" />
+            </View>
+          </CustomDropdown>
+
+          <CustomDropdown
+            selectTitle="Suína"
+            icon={
+              <MaterialCommunityIcons
+                name="pig"
+                size={30}
+                color={colors.primary}
+              />
+            }
+          >
+            <Separator />
+            <View style={styles.dropdownSection}>
+              <CheckOption checkLabel="Linguiça" />
+              <CheckOption checkLabel="Paleta" />
+              <CheckOption checkLabel="Costela" />
+            </View>
+          </CustomDropdown>
+
+          <CustomDropdown
+            selectTitle="Frango"
+            icon={
+              <MaterialCommunityIcons
+                name="food-drumstick"
+                size={30}
+                color={colors.primary}
+              />
+            }
+          >
+            <Separator />
+            <View style={styles.dropdownSection}>
+              <CheckOption checkLabel="Coxa" />
+              <CheckOption checkLabel="Asa" />
+              <CheckOption checkLabel="Coração" />
+            </View>
+          </CustomDropdown>
+        </View>
+        <View style={styles.bottomSection}>
+          <SubmitButton
+            btnColor="red"
+            btnTitle="Continuar"
+            onPress={() => navigation.navigate('Bebidas')}
+          />
+        </View>
       </View>
     </View>
   );
@@ -57,7 +108,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.light,
-    paddingHorizontal: 20
+    alignItems: 'center'
+  },
+  content: {
+    width: '85%',
+    paddingTop: 50
   },
   optionsSection: {
     flexDirection: 'column',
@@ -69,5 +124,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     gap: 40
+  },
+  dropdownSection: {
+    gap: 10,
+    padding: 10,
+    overflow: 'hidden'
   }
 });
