@@ -4,13 +4,13 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from './home.routes';
 import Churrascos from '../screens/Meus Churrascos/index';
-import Receitas from '../screens/Receitas/Home/index';
 import Convite from '../screens/Convite/index';
 import Precos from '../screens/Preços/index';
 import colors from '../colors';
 import CustomStackNavigator from '../components/CustomHeader';
 import BackButton from '../components/Buttons/BackButton';
 import CustomDrawerContent from '../components/CustomDrawer';
+import Receitas from './receitas.routes';
 
 const Drawer = createDrawerNavigator();
 

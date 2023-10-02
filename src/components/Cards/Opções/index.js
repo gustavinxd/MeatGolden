@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { StyleSheet, Linking, TouchableHighlight } from 'react-native';
+import { StyleSheet, Linking, TouchableHighlight, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
+import colors from '../../../colors';
 
 export default function CardReceita() {
   const teste = [
     {
       uri: 'https://www.receiteria.com.br/wp-content/uploads/receitas-de-picanha-na-brasa-0.jpg',
       title: 'Picanha grelhada na churrasqueira',
-      url: 'https://youtu.be/KgoqcbuZEBg?si=Zejb12YBGfWGbCDI',
+      url: 'https://youtu.be/KgoqcbuZEBg?si=Zejb12YBGfWGbCDI'
     },
     {
       uri: 'https://www.sabornamesa.com.br/media/k2/items/cache/3bd383cdf9446912a35458166e99234d_XL.jpg',
@@ -54,18 +55,17 @@ export default function CardReceita() {
   return (
     <>
       {teste.map((carne, index) => (
-
         <TouchableHighlight key={index}
         onPress={() => {
         Linking.openURL(carne.url); // Abre o link associado ao card
         }}
         underlayColor="#DDDDDD"> 
-          <Card style={styles.Card}>
+          <View style={styles.Card}>
               <Card.Cover source={{ uri: carne.uri }} style={styles.image}/>
               <Text variant="titleLarge" style={styles.title}>
                 {carne.title}
               </Text>
-          </Card> 
+          </View> 
         </TouchableHighlight>   
       ))}
     </>
@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
   Card: {
     borderRadius: 0,
     margin: '5%',
+    justifyContent: 'space-between',
+    flexDirection: 'row'
   },
   title: {
     padding: 10,
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
   image:{
     width: '100%',
     borderRadius: 0,
-    borderColor: 'white',
+    borderColor: colors.light,
     borderWidth: 4,
   }
 });
