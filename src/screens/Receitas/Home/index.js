@@ -5,7 +5,7 @@ import {
   ScrollView,
   TouchableHighlight
 } from 'react-native';
-import CardComponent from '../../../components/Cards/Opções/index';
+import CardComponent from '../../../components/Cards/Opcoes/index';
 
 export default function Receitas() {
   return (

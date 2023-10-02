@@ -5,10 +5,7 @@ import {
   InriaSans_400Regular,
   InriaSans_700Bold
 } from '@expo-google-fonts/inria-sans';
-// import RoutesApp from './src/routes/index';
-// import Home from './src/screens/Home/index';
-// import Receitas from './src/screens/Receitas/Home/index';
-import Bovina from './src/screens/Receitas/Bovina/index';
+import RoutesApp from './src/routes/index';
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
@@ -22,9 +19,6 @@ export default function App() {
     return null;
   }
   return (
-    // <RoutesApp/>
-    // <Home/>
-    // <Receitas />
-    <Bovina/>
+     <RoutesApp/>
   );
 }

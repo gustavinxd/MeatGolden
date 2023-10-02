@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import Logo from '../Icons/Logo/index.js';
 // import { AiOutlineMenu } from 'react-icons/ai';
+import Logo from '../Icons/Logo/index';
 
 export default function Header() {
   return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SvgXml } from 'react-native-svg';
 
-export default function Logo() {
+export default function Logo({style}) {
   const svgXml = `
       <svg width="73" height="71" viewBox="0 0 73 71" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="73" height="78" transform="translate(0 -7)" fill="black"/>
@@ -19,5 +19,5 @@ export default function Logo() {
       
   `;
 
-  return <SvgXml xml={svgXml} width="20%" />;
+  return <SvgXml xml={svgXml} width="20%" style={[{...style}]} />;
 }

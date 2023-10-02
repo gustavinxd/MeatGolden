@@ -4,17 +4,18 @@ import colors from '../../../colors/index';
 export default function SubmitButton({
   btnTitle,
   onPress,
-  btnColor = 'light'
+  btnColor = 'light',
+  style
 }) {
+  const chooseColor =
+    btnColor === 'red'
+      ? { backgroundColor: colors.primary }
+      : { backgroundColor: colors.light };
+      
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[
-        styles.btnContainer,
-        btnColor === 'red'
-          ? { backgroundColor: colors.primary }
-          : { backgroundColor: colors.light }
-      ]}
+      style={[styles.btnContainer, chooseColor , { ...style }]}
     >
       <Text
         style={[

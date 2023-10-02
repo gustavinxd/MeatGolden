@@ -11,6 +11,7 @@ import colors from '../colors';
 import CustomDrawerContent from '../components/CustomDrawer';
 import Menu from '../screens/Menu';
 import CustomHeader from '../components/CustomHeader';
+// import Logo from '../components/Icons/Logo';
 
 const Drawer = createDrawerNavigator();
 
