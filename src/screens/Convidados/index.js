@@ -7,9 +7,15 @@ import SubmitButton from '../../components/Buttons/SubmitButton/index';
 import CustomSlider from '../../components/CustomSlider/index';
 import OutputValue from '../../components/OutputValue/index';
 import { useProgressContext } from '../../contexts/progress';
+import { useValueContext } from '../../contexts/values';
+
 
 export default function Convidados({ navigation }) {
   const { updateProgress, progress } = useProgressContext();
+
+  const { value, updateHomens, updateMulheres, updateCriancas } = useValueContext();
+
+
 
   const [convidados, setConvidados] = useState({
     homens: 0,
@@ -18,33 +24,45 @@ export default function Convidados({ navigation }) {
     total: 0
   });
 
+  
+
   const addHomembyInput = (e) => {
     if (e === '') {
       setConvidados((prevState) => ({ ...prevState, homens: 0 }));
+      updateHomens(0);
     } else if(parseInt(e, 10) > 50) {
       setConvidados((prevState) => ({ ...prevState, homens: 50 }));
+      updateHomens(50);
     } else{
       setConvidados((prevState) => ({ ...prevState, homens: parseInt(e, 10) }));
+      updateHomens(parseInt(e, 10));
     }
   };
 
   const addMulherbyInput = (e) => {
     if (e === '') {
       setConvidados((prevState) => ({ ...prevState, mulheres: 0 }));
+      updateMulheres(0);
     } else if(parseInt(e, 10) > 50) {
       setConvidados((prevState) => ({ ...prevState, mulheres: 50 }));
+      updateMulheres(50);
     } else {
       setConvidados((prevState) => ({ ...prevState, mulheres: parseInt(e, 10) }));
+      updateMulheres(parseInt(e, 10));
+      updateMulheres(parseInt(e, 10));
     }
   };
 
   const addCriancabyInput = (e) => {
     if (e === '') {
       setConvidados((prevState) => ({ ...prevState, criancas: 0 }));
+      updateCriancas(0);
     } else if(parseInt(e, 10) > 50) {
       setConvidados((prevState) => ({ ...prevState, criancas: 50 }));
+      updateCriancas(50);
     } else {
       setConvidados((prevState) => ({ ...prevState, criancas: parseInt(e, 10) }));
+      updateCriancas(parseInt(e, 10));
     }
   };
 

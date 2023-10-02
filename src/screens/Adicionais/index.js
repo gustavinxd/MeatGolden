@@ -8,13 +8,17 @@ import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import Separator from '../../components/Separator';
 import CheckOption from '../../components/CheckOption';
+import { useValueContext } from '../../contexts/values';
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
-
+  const { value } = useValueContext();
+  
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
     updateProgress(0.75);
+    console.log(value.assados);
+    console.log(value.bebidas);
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)

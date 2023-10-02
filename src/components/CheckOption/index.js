@@ -1,20 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from 'react';
 import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
 
-export default function CheckOption({ checkLabel }) {
-  const [check,setCheck] = useState(false)
+export default function CheckOption({ onChange, checkLabel, checked }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.checkboxBase, check && styles.checkboxChecked]}
-        onPress={() =>{
-          setCheck((prevState) => !prevState)
-        }}
+        style={[styles.checkboxBase, checked && styles.checkboxChecked]}
+        onPress={onChange}
       >
-        {check && (
+        {checked && (
           <FontAwesome5 name="check" size={20} color={colors.light} />
         )}
       </TouchableOpacity>

@@ -1,20 +1,26 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen/index';
 import SubmitButton from '../../components/Buttons/SubmitButton/index';
 import SelectOption from '../../components/SelectOption/index';
 import { useProgressContext } from '../../contexts/progress';
+import { useValueContext } from '../../contexts/values';
 
 export default function Bebidas({ navigation }) {
   const { updateProgress } = useProgressContext();
+  const {
+    value,
+    updateCerveja,
+    updateRefrigerante,
+    updateSuco,
+    updateAgua,
+  } = useValueContext();
 
   useEffect(() => {
-    // Aumente o progresso quando a tela for montada
     updateProgress(0.5);
 
     return () => {
-      // Diminua o progresso quando a tela for desmontada (caso deseje)
       updateProgress(0.25);
     };
   }, []);
@@ -30,21 +36,30 @@ export default function Bebidas({ navigation }) {
         <View style={styles.optionsSection}>
           <SelectOption
             selectTitle="Cerveja"
-            icon='beer'
+            icon="beer"
+            onChange={() => updateCerveja(!value.bebidas.cerveja)}
+            selected={value.bebidas.cerveja}
           />
 
           <SelectOption
             selectTitle="Refrigerante"
-            icon='bottle-soda'
+            icon="bottle-soda"
+            onChange={() => updateRefrigerante(!value.bebidas.refrigerante)}
+            selected={value.bebidas.refrigerante}
           />
 
           <SelectOption
             selectTitle="Suco"
-            icon='cup'
+            icon="cup"
+            onChange={() => updateSuco(!value.bebidas.suco)}
+            selected={value.bebidas.suco}
           />
+
           <SelectOption
             selectTitle="Água"
-            icon='cup-water'
+            icon="cup-water"
+            onChange={() => updateAgua(!value.bebidas.agua)}
+            selected={value.bebidas.agua}
           />
         </View>
         <View style={styles.bottomSection}>
@@ -62,21 +77,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   content: {
     width: '85%',
-    paddingTop: 50
+    paddingTop: 50,
   },
   optionsSection: {
     flexDirection: 'column',
     gap: 15,
     marginBottom: 20,
-    marginTop: 10
+    marginTop: 10,
   },
   bottomSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 40
-  }
+    gap: 40,
+  },
 });
