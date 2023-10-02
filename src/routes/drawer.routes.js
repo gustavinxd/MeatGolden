@@ -4,7 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from './home.routes';
 import Churrascos from '../screens/Meus Churrascos/index';
-import Receitas from '../screens/Receitas/index';
+import Receitas from '../screens/Receitas/Home/index';
 import Convite from '../screens/Convite/index';
 import Precos from '../screens/Preços/index';
 import colors from '../colors';
