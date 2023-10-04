@@ -3,12 +3,25 @@ import colors from '../../colors';
 
 export default function ListResults({ title, results }) {
   const items = results ? Object.entries(results).filter((entry) => 
-    (typeof entry[1] === 'object' ? Object.keys(entry[1]).filter(key => entry[1][key] > 0).length > 0 : entry[1] > 0)
+    (typeof entry[1] === 'object' 
+      ? Object.keys(entry[1]).filter(key => entry[1][key] > 0).length > 0 
+      : entry[1] > 0)
   ) : [];
 
-  // Função para converter gramas para quilos, se necessário
-  const convertToKgIfNeeded = (weight) => {
-    return weight > 999 ? `${(weight / 1000).toFixed(2)} kg` : `${weight.toFixed(2)} g`;
+  // Função para converter gramas para quilos, se necessário, e para ajustar as unidades para bebidas e acompanhamentos
+  const formatValue = (value, itemName) => {
+    if (title === 'Carne') {
+      return value > 999 ? `${(value / 1000).toFixed(2)} kg` : `${value.toFixed(2)} g`;
+    } 
+    
+    if (title === 'Bebidas') {
+      if (itemName === 'cerveja') {
+        return `${value} Latas`;
+      }
+      return `${value} Garrafas`;
+    }
+    
+    return `${value} Pcts`;  // Acompanhamentos
   };
 
   // Renderiza somente se houver itens
@@ -19,15 +32,15 @@ export default function ListResults({ title, results }) {
   return (
     <View style={styles.container}>
       <Text style={styles.titleList}>{title}</Text>
-      {items.map(([name, value]) => (
+      {items.map(([itemName, value]) => (
         (typeof value === 'object' 
           ? Object.entries(value).filter(([, subValue]) => subValue > 0)
-          : [[name, value]]
-        ).map(([itemName, itemValue]) => (
-          <View key={itemName} style={styles.dataListSection}>
-            <Text style={styles.dataList}>- {itemName}</Text>
+          : [[itemName, value]]
+        ).map(([subItemName, itemValue]) => (
+          <View key={subItemName} style={styles.dataListSection}>
+            <Text style={styles.dataList}>- {subItemName}</Text>
             <Text style={[styles.dataList, { fontFamily: 'InriaSans_700Bold' }]}>
-              {convertToKgIfNeeded(itemValue)}
+              {formatValue(itemValue, subItemName)}
             </Text>
           </View>
         ))

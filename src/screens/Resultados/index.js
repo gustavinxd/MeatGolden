@@ -33,15 +33,21 @@ export default function Resultados({ navigation }) {
         value.convidados.mulheres * 400 +
         value.convidados.criancas * 250;
     
-      const distribuirCarnePorTipo = (tipos) => {
-        const totalTipos = tipos.length;
-        const carnePorTipo = totalCarne / totalTipos;
+      // Obter todos os tipos de carne selecionados, independente da categoria
+      const todosTiposDeCarne = [
+        ...value.assados.bovina,
+        ...value.assados.suina,
+        ...value.assados.frango,
+      ];
     
+      const totalTipos = todosTiposDeCarne.length;
+      const carnePorTipo = totalCarne / totalTipos;
+    
+      const distribuirCarnePorTipo = (tipos) => {
         const resultado = {};
         tipos.forEach(tipo => {
           resultado[tipo] = carnePorTipo;
         });
-    
         return resultado;
       };
     
@@ -52,36 +58,52 @@ export default function Resultados({ navigation }) {
       };
     };
     
+    
 
     const calcularBebidas = () => {
-      const totalBebidas =
-        value.convidados.homens * 4 +
-        value.convidados.mulheres * 4 +
-        value.convidados.criancas * 2;
-
+      const totalAdultos = 
+        value.convidados.homens + 
+        value.convidados.mulheres; // Removendo crianças da contagem total para cerveja
+      
+      const totalCerveja = totalAdultos * 3; // 4 latas por adulto
+      const totalOutrasBebidas = 
+        (value.convidados.homens +
+        value.convidados.mulheres +
+        value.convidados.criancas) * 2; // 4 unidades para todos, incluindo crianças
+    
       return {
-        cerveja: value.bebidas.cerveja ? totalBebidas : 0,
-        refrigerante: value.bebidas.refrigerante ? totalBebidas : 0,
-        suco: value.bebidas.suco ? totalBebidas : 0,
-        agua: value.bebidas.agua ? totalBebidas : 0
+        cerveja: value.bebidas.cerveja ? totalCerveja : 0,
+        refrigerante: value.bebidas.refrigerante ? totalOutrasBebidas : 0,
+        suco: value.bebidas.suco ? totalOutrasBebidas : 0,
+        agua: value.bebidas.agua ? totalOutrasBebidas : 0
       };
     };
+    
 
     const calcularAcompanhamentos = () => {
       const totalPessoas = value.convidados.total;
-      const essenciais = Math.ceil(totalPessoas / 10) * 2;
-      const acompanhamentos = Math.ceil(totalPessoas / 5) * 2;
-
+      let vinagrete;
+    
+      if (totalPessoas <= 5) {
+        vinagrete = value.adicionais.vinagrete ? 3 : 0;  // Se menos ou igual a 5 pessoas, então 3 pacotes de vinagrete
+      } else {
+        vinagrete = value.adicionais.vinagrete ? Math.ceil(totalPessoas / 10) * 5 : 0; // Se mais de 5 pessoas, então 5 pacotes a cada 10 pessoas
+      }
+    
+      const carvao = value.adicionais.carvao ? Math.ceil(totalPessoas / 10) : 0;  // 1 pacote de carvão para cada 10 pessoas
+      const acompanhamentos = Math.ceil(totalPessoas / 5) * 2;  // Outros acompanhamentos (ajuste conforme necessário)
+      const gelo = Math.ceil(totalPessoas / 10) * 2;
+    
       return {
         paodealho: value.adicionais.paodealho ? acompanhamentos : 0,
-        vinagrete: value.adicionais.vinagrete ? essenciais : 0,
-        gelo: value.adicionais.gelo ? essenciais : 0,
+        vinagrete,
+        gelo: value.adicionais.gelo ? gelo : 0,
         queijocoalho: value.adicionais.queijocoalho ? acompanhamentos : 0,
-        carvao: value.adicionais.carvao ? essenciais : 0,
+        carvao,
         guardanapo: value.adicionais.guardanapo ? acompanhamentos : 0
-        
       };
     };
+    
 
     setResults({
       carne: calcularCarne(),
