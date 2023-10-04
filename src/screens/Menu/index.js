@@ -43,16 +43,18 @@ const styles = StyleSheet.create({
     fontSize: 60,
     color: colors.light,
     position: 'absolute',
-    marginTop: 150,
-    fontFamily: 'InriaSans_700Bold'
+    marginTop: 120,
+    fontFamily: 'InriaSans_700Bold',
+    paddingLeft: 20,
   },
   slogan: {
     fontSize: 35,
     color: colors.light,
     fontFamily: 'InriaSans_700Bold',
     position: 'absolute',
-    marginTop: '70%',
-    paddingRight: '30%'
+    marginTop: '60%',
+    paddingRight: '30%',
+    paddingLeft: 20,
   },
   highlightedText: {
     color: colors.primary

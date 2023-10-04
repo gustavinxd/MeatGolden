@@ -19,6 +19,7 @@ export default function App() {
     return null;
   }
   return (
-     <RoutesApp/>
+    <RoutesApp/>
+    // <Precos/>
   );
 }
