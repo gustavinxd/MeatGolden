@@ -6,6 +6,7 @@ const ValueContext = createContext();
 
 export function ValueProvider({ children }) {
   const [value, setValue] = useState({
+    // Array de objetos com os dados
     convidados: {
       homens: 0,
       mulheres: 0,
@@ -18,7 +19,7 @@ export function ValueProvider({ children }) {
       frango: []
     },
     bebidas: {
-      cerveja: false, // Certifique-se de que o valor inicial seja false
+      cerveja: false, 
       refrigerante: false,
       suco: false,
       agua: false
@@ -55,6 +56,16 @@ export function ValueProvider({ children }) {
       }
     }));
   };
+
+  const updateTotal = (newValue) => {
+    setValue((prevState) => ({
+      ...prevState,
+      convidados: {
+        ...prevState.convidados,
+        total: newValue
+      }
+    }));
+  };  
 
   // Funções de atualização para as opções de assados selecionadas
   const updateBovina = (newValue) => {
@@ -138,13 +149,15 @@ export function ValueProvider({ children }) {
         updateHomens,
         updateMulheres,
         updateCriancas,
-        updateBovina,
+        updateBovina, 
         updateSuina,
         updateFrango,
         updateCerveja,
         updateRefrigerante,
         updateSuco,
-        updateAgua
+        updateAgua,
+        updateTotal
+
       }}
     >
       {children}

@@ -10,10 +10,12 @@ import { useProgressContext } from '../../contexts/progress';
 import { useValueContext } from '../../contexts/values';
 
 
-export default function Convidados({ navigation }) {
-  const { updateProgress, progress } = useProgressContext();
 
-  const { value, updateHomens, updateMulheres, updateCriancas } = useValueContext();
+export default function Convidados({ navigation }) {
+  const { updateProgress, progress } = useProgressContext();  
+
+  const { updateHomens, updateMulheres, updateCriancas, updateTotal } = useValueContext();
+
 
 
 
@@ -80,6 +82,10 @@ export default function Convidados({ navigation }) {
     const { homens, mulheres, criancas } = convidados;
     const newTotal = homens + mulheres + criancas;
     setConvidados((prevState) => ({ ...prevState, total: newTotal }));
+    updateHomens(homens);
+    updateMulheres(mulheres);
+    updateCriancas(criancas);
+    updateTotal(newTotal);    
   }, [convidados.homens, convidados.mulheres, convidados.criancas]);
 
   return (

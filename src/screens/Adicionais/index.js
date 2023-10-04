@@ -19,6 +19,7 @@ export default function Adicionais({ navigation }) {
     updateProgress(0.75);
     console.log(value.assados);
     console.log(value.bebidas);
+    console.log(value.convidados);
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)

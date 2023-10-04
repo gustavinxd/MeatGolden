@@ -9,13 +9,8 @@ import { useValueContext } from '../../contexts/values';
 
 export default function Bebidas({ navigation }) {
   const { updateProgress } = useProgressContext();
-  const {
-    value,
-    updateCerveja,
-    updateRefrigerante,
-    updateSuco,
-    updateAgua,
-  } = useValueContext();
+  const { value, updateCerveja, updateRefrigerante, updateSuco, updateAgua } =
+    useValueContext();
 
   useEffect(() => {
     updateProgress(0.5);
@@ -77,21 +72,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   content: {
     width: '85%',
-    paddingTop: 50,
+    paddingTop: 50
   },
   optionsSection: {
     flexDirection: 'column',
     gap: 15,
     marginBottom: 20,
-    marginTop: 10,
+    marginTop: 10
   },
   bottomSection: {
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 40,
-  },
+    gap: 40
+  }
 });

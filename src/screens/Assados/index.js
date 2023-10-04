@@ -35,6 +35,7 @@ export default function Assados({ navigation }) {
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
     updateProgress(0.25);
+    console.log(value);
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
