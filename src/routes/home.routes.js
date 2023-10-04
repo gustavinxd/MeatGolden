@@ -9,10 +9,14 @@ import colors from '../colors';
 import ProgressProvider from '../contexts/progress';
 import CustomHeader from '../components/CustomHeader/index';
 import ProgressBar from '../components/ProgressBar/index';
+import { useThemeContext } from '../contexts/theme';
 
 const Stack = createStackNavigator();
 
 export default function Home() {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.light : colors.dark;
+  
   return (
     <ProgressProvider>
       <Stack.Navigator
@@ -39,7 +43,7 @@ export default function Home() {
           component={Assados}
           options={{
             headerStyle: {
-              backgroundColor: colors.light
+              backgroundColor: themeColor
             }
           }}
         />
@@ -51,7 +55,7 @@ export default function Home() {
           component={Adicionais}
           options={{
             headerStyle: {
-              backgroundColor: colors.light
+              backgroundColor: themeColor
             }
           }}
         />

@@ -8,9 +8,14 @@ import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import Separator from '../../components/Separator';
 import CheckOption from '../../components/CheckOption';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.light : colors.dark;
+  const themeColorIcon = theme === 'light' ? colors.primary : colors.light;
+
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
@@ -23,7 +28,7 @@ export default function Adicionais({ navigation }) {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{backgroundColor: themeColor}]}>
       <View style={styles.content}>
         <DescriptionScreen
           title="Ta quase lá!"
@@ -38,7 +43,7 @@ export default function Adicionais({ navigation }) {
               <MaterialCommunityIcons
                 name="plus-box"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
           >
@@ -56,7 +61,7 @@ export default function Adicionais({ navigation }) {
               <MaterialCommunityIcons
                 name="food-variant"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
           >
@@ -83,7 +88,6 @@ export default function Adicionais({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
     alignItems: 'center'
   },
   content: {

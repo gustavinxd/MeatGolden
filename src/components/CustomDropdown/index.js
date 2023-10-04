@@ -10,6 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import toggleAnimation from '../../animation';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function CustomDropdown({
   icon,
@@ -20,6 +21,9 @@ export default function CustomDropdown({
   haveIcon = true,
   topSection
 }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+
   const [openOptions, setOpenOptions] = useState(false);
 
   const animationController = useRef(new Animated.Value(0)).current;
@@ -50,7 +54,7 @@ export default function CustomDropdown({
         styles.selectContainer,
         colorSelection === 'light'
           ? { borderColor: colors.light }
-          : { borderColor: colors.primary }
+          : { borderColor: themeColor }
       ]}
     >
       {/* Parte de cima do dropdown, onde pode receber um icone, label e action ou apenas outros componentes quando falso */}
@@ -70,7 +74,7 @@ export default function CustomDropdown({
                 styles.iconSection,
                 colorSelection === 'light'
                   ? { borderColor: colors.light }
-                  : { borderColor: colors.primary }
+                  : { borderColor: themeColor }
               ]}
             >
               {icon}
@@ -81,7 +85,7 @@ export default function CustomDropdown({
                 styles.optionTitle,
                 colorSelection === 'light'
                   ? { color: colors.light }
-                  : { color: colors.primary }
+                  : { color: themeColor }
               ]}
             >
               {selectTitle}
@@ -100,7 +104,7 @@ export default function CustomDropdown({
           <MaterialIcons
             name={openOptions ? 'keyboard-arrow-down' : 'keyboard-arrow-left'}
             size={30}
-            color={colorSelection === 'light' ? colors.light : colors.primary}
+            color={colorSelection === 'light' ? colors.light : themeColor}
           />
         </TouchableOpacity>
       </View>
