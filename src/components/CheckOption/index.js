@@ -3,22 +3,27 @@ import { useState } from 'react';
 import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function CheckOption({ checkLabel }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  const themeColorChecked = theme === 'light' ? colors.light : colors.dark;
   const [check,setCheck] = useState(false)
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.checkboxBase, check && styles.checkboxChecked]}
+        style={[styles.checkboxBase, {borderColor: themeColor}, check && {backgroundColor: themeColor}]}
         onPress={() =>{
           setCheck((prevState) => !prevState)
         }}
       >
         {check && (
-          <FontAwesome5 name="check" size={20} color={colors.light} />
+          <FontAwesome5 name="check" size={20} color={themeColorChecked} />
         )}
       </TouchableOpacity>
-      <Text style={styles.checkLabel}>{checkLabel}</Text>
+      <Text style={[styles.checkLabel, {color: themeColor}]}>{checkLabel}</Text>
     </View>
   );
 }
@@ -36,15 +41,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: colors.primary,
     backgroundColor: 'transparent'
   },
-  checkboxChecked: {
-    backgroundColor: colors.primary
-  },
+
   checkLabel:{
     fontFamily: 'InriaSans_400Regular',
     fontSize: 16,
-    color: colors.primary
   },
 });

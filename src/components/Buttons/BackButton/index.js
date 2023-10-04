@@ -1,8 +1,12 @@
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import colors from '../../../colors/index';
+import { useThemeContext } from '../../../contexts/theme';
 
 export default function BackButton({ navigation, route }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  
   return (
     <TouchableOpacity
       style={[
@@ -10,7 +14,7 @@ export default function BackButton({ navigation, route }) {
         {
           borderColor:
             route.name === 'Assados' || route.name === 'Adicionais'
-              ? colors.primary
+              ? themeColor
               : colors.light
         }
       ]}
@@ -21,7 +25,7 @@ export default function BackButton({ navigation, route }) {
         size={25}
         color={
           route.name === 'Assados' || route.name === 'Adicionais'
-            ? colors.primary
+            ? themeColor
             : colors.light
         }
       />

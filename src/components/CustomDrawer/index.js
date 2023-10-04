@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { useEffect } from 'react';
 import {
   DrawerContentScrollView,
   DrawerItemList
@@ -7,14 +8,22 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../../colors';
 import TeamLogo from '../TeamLogo';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function CustomDrawerContent(props) {
+  const {theme, toggleTheme} = useThemeContext();
+
+  const themeColor = theme === 'light' ? colors.dark : colors.light
+  const themeIcon = theme === 'light' ? 'moon' : 'sun'
+
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.drawerTop}>
-        <TouchableOpacity>
-          <Feather name="moon" size={30} color={colors.dark} />
-        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+          toggleTheme()
+        }}>
+          <Feather name={themeIcon} size={30} color={themeColor} />
+        </TouchableOpacity> 
       </View>
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
