@@ -12,7 +12,7 @@ import { useValueContext } from '../../contexts/values';
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
-  const { value, updateBovina, updateSuina, updateFrango } = useValueContext();
+  const { updateBovina, updateSuina, updateFrango } = useValueContext();
 
   const [checked, setChecked] = useState({
     picanha: false,
@@ -35,7 +35,7 @@ export default function Assados({ navigation }) {
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
     updateProgress(0.25);
-    console.log(value);
+    
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
@@ -98,7 +98,7 @@ export default function Assados({ navigation }) {
                 onChange={() => {
                   setChecked((prevState) => ({
                     ...prevState,
-                    picanha: !prevState.picanha // Corrigido aqui
+                    picanha: !prevState.picanha
                   }));
                   handleCheckOptionChange('Picanha', 'bovina');
                 }}

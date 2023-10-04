@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
@@ -12,15 +12,19 @@ import { useValueContext } from '../../contexts/values';
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
-  const { value } = useValueContext();
-  
+  const { value, updateAdicionais } = useValueContext();
+
+  const [checkedItems, setCheckedItems] = useState(value.adicionais); // Inicializa o estado com os valores do contexto
+
+  const handleCheck = (item, isChecked) => {
+    setCheckedItems((prev) => ({ ...prev, [item]: isChecked }));
+    updateAdicionais(item, isChecked); // Atualiza o contexto
+  };
+
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
     updateProgress(0.75);
-    console.log(value.assados);
-    console.log(value.bebidas);
-    console.log(value.convidados);
-
+    
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
       updateProgress(0.5);
@@ -49,9 +53,27 @@ export default function Adicionais({ navigation }) {
           >
             <Separator />
             <View style={{ gap: 10, padding: 10 }}>
-              <CheckOption checkLabel="Pão de alho" />
-              <CheckOption checkLabel="Vinagrete" />
-              <CheckOption checkLabel="Queijo coalho" />
+              <CheckOption
+                checkLabel="Pão de alho"
+                onChange={() =>
+                  handleCheck('paodealho', !checkedItems.paodealho)
+                }
+                checked={checkedItems.paodealho}
+              />
+              <CheckOption
+                checkLabel="Vinagrete"
+                onChange={() =>
+                  handleCheck('vinagrete', !checkedItems.vinagrete)
+                }
+                checked={checkedItems.vinagrete}
+              />
+              <CheckOption
+                checkLabel="Queijo coalho"
+                onChange={() =>
+                  handleCheck('queijocoalho', !checkedItems.queijocoalho)
+                }
+                checked={checkedItems.queijocoalho}
+              />
             </View>
           </CustomDropdown>
 
@@ -67,9 +89,23 @@ export default function Adicionais({ navigation }) {
           >
             <Separator />
             <View style={{ gap: 10, padding: 10 }}>
-              <CheckOption checkLabel="Gelo" />
-              <CheckOption checkLabel="Carvão" />
-              <CheckOption checkLabel="Guardanapo" />
+              <CheckOption
+                checkLabel="Gelo"
+                onChange={() => handleCheck('gelo', !checkedItems.gelo)}
+                checked={checkedItems.gelo}
+              />
+              <CheckOption
+                checkLabel="Carvão"
+                onChange={() => handleCheck('carvao', !checkedItems.carvao)}
+                checked={checkedItems.carvao}
+              />
+              <CheckOption
+                checkLabel="Guardanapo"
+                onChange={() =>
+                  handleCheck('guardanapo', !checkedItems.guardanapo)
+                }
+                checked={checkedItems.guardanapo}
+              />
             </View>
           </CustomDropdown>
         </View>

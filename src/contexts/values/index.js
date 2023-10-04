@@ -19,10 +19,18 @@ export function ValueProvider({ children }) {
       frango: []
     },
     bebidas: {
-      cerveja: false, 
+      cerveja: false,
       refrigerante: false,
       suco: false,
       agua: false
+    },
+    adicionais: {
+      paodealho: false,
+      vinagrete: false,
+      queijocoalho: false,
+      gelo: false,
+      carvao: false,
+      guardanapo: false
     }
   });
 
@@ -65,7 +73,7 @@ export function ValueProvider({ children }) {
         total: newValue
       }
     }));
-  };  
+  };
 
   // Funções de atualização para as opções de assados selecionadas
   const updateBovina = (newValue) => {
@@ -98,20 +106,18 @@ export function ValueProvider({ children }) {
     }));
   };
 
+  // FUNCAO PARA SALVAR BEBIDAS SELECIONADAS
   const updateCerveja = (newValue) => {
-    setValue((prevState) => {
-      const updatedState = {
-        ...prevState,
-        bebidas: {
-          ...prevState.bebidas,
-          cerveja: newValue
-        }
-      };
-      console.log('Updated Cerveja:', updatedState.bebidas.cerveja);
-      return updatedState;
-    });
+    setValue((prevState) => ({
+      ...prevState,
+      bebidas: {
+        ...prevState.bebidas,
+        cerveja: newValue
+      }
+    }));
   };
   
+
   const updateRefrigerante = (newValue) => {
     setValue((prevState) => ({
       ...prevState,
@@ -142,6 +148,18 @@ export function ValueProvider({ children }) {
     }));
   };
 
+  // FUNCAO PARA SALVAR EXTRAS SELECIONADOS
+
+  const updateAdicionais = (key, newValue) => {
+    setValue((prevState) => ({
+      ...prevState,
+      adicionais: {
+        ...prevState.adicionais,
+        [key]: newValue
+      }
+    }));
+  };
+
   return (
     <ValueContext.Provider
       value={{
@@ -149,15 +167,15 @@ export function ValueProvider({ children }) {
         updateHomens,
         updateMulheres,
         updateCriancas,
-        updateBovina, 
+        updateBovina,
         updateSuina,
         updateFrango,
         updateCerveja,
         updateRefrigerante,
         updateSuco,
         updateAgua,
-        updateTotal
-
+        updateTotal,
+        updateAdicionais
       }}
     >
       {children}

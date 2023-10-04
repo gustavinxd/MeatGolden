@@ -11,15 +11,21 @@ import ListResults from '../../components/ListResults';
 import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
+import { useValueContext } from '../../contexts/values';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
   const [isMapVisible, setMapVisible] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState('Selecione um local');
+  const { value } = useValueContext();
 
   useEffect(() => {
     // Aumente o progresso quando a tela for montada
     updateProgress(1);
+    console.log(value.assados);
+    console.log(value.bebidas);
+    console.log(value.convidados);
+    console.log(value.adicionais);
 
     return () => {
       // Diminua o progresso quando a tela for desmontada (caso deseje)
