@@ -12,6 +12,7 @@ import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
+import { initDB, saveItemsToDB } from '../../components/banco/index';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
@@ -23,54 +24,64 @@ export default function Resultados({ navigation }) {
     bebidas: {},
     acompanhamentos: {}
   });
+  const saveData = () => {
+    saveItemsToDB(results);
+  };
 
   useEffect(() => {
     updateProgress(1);
+    initDB();
 
     const calcularCarne = () => {
       const totalCarne =
         value.convidados.homens * 600 +
         value.convidados.mulheres * 400 +
         value.convidados.criancas * 250;
-    
+
       // Obter todos os tipos de carne selecionados, independente da categoria
       const todosTiposDeCarne = [
         ...value.assados.bovina,
         ...value.assados.suina,
-        ...value.assados.frango,
+        ...value.assados.frango
       ];
-    
+
       const totalTipos = todosTiposDeCarne.length;
       const carnePorTipo = totalCarne / totalTipos;
-    
+
       const distribuirCarnePorTipo = (tipos) => {
         const resultado = {};
-        tipos.forEach(tipo => {
+        tipos.forEach((tipo) => {
           resultado[tipo] = carnePorTipo;
         });
         return resultado;
       };
-    
+
       return {
-        bovina: value.assados.bovina.length > 0 ? distribuirCarnePorTipo(value.assados.bovina) : {},
-        suina: value.assados.suina.length > 0 ? distribuirCarnePorTipo(value.assados.suina) : {},
-        frango: value.assados.frango.length > 0 ? distribuirCarnePorTipo(value.assados.frango) : {},
+        bovina:
+          value.assados.bovina.length > 0
+            ? distribuirCarnePorTipo(value.assados.bovina)
+            : {},
+        suina:
+          value.assados.suina.length > 0
+            ? distribuirCarnePorTipo(value.assados.suina)
+            : {},
+        frango:
+          value.assados.frango.length > 0
+            ? distribuirCarnePorTipo(value.assados.frango)
+            : {}
       };
     };
-    
-    
 
     const calcularBebidas = () => {
-      const totalAdultos = 
-        value.convidados.homens + 
-        value.convidados.mulheres; // Removendo crianças da contagem total para cerveja
-      
+      const totalAdultos = value.convidados.homens + value.convidados.mulheres; // Removendo crianças da contagem total para cerveja
+
       const totalCerveja = totalAdultos * 3; // 4 latas por adulto
-      const totalOutrasBebidas = 
+      const totalOutrasBebidas =
         (value.convidados.homens +
-        value.convidados.mulheres +
-        value.convidados.criancas) * 2; // 4 unidades para todos, incluindo crianças
-    
+          value.convidados.mulheres +
+          value.convidados.criancas) *
+        2; // 4 unidades para todos, incluindo crianças
+
       return {
         cerveja: value.bebidas.cerveja ? totalCerveja : 0,
         refrigerante: value.bebidas.refrigerante ? totalOutrasBebidas : 0,
@@ -78,22 +89,23 @@ export default function Resultados({ navigation }) {
         agua: value.bebidas.agua ? totalOutrasBebidas : 0
       };
     };
-    
 
     const calcularAcompanhamentos = () => {
       const totalPessoas = value.convidados.total;
       let vinagrete;
-    
+
       if (totalPessoas <= 5) {
-        vinagrete = value.adicionais.vinagrete ? 3 : 0;  // Se menos ou igual a 5 pessoas, então 3 pacotes de vinagrete
+        vinagrete = value.adicionais.vinagrete ? 3 : 0; // Se menos ou igual a 5 pessoas, então 3 pacotes de vinagrete
       } else {
-        vinagrete = value.adicionais.vinagrete ? Math.ceil(totalPessoas / 10) * 5 : 0; // Se mais de 5 pessoas, então 5 pacotes a cada 10 pessoas
+        vinagrete = value.adicionais.vinagrete
+          ? Math.ceil(totalPessoas / 10) * 5
+          : 0; // Se mais de 5 pessoas, então 5 pacotes a cada 10 pessoas
       }
-    
-      const carvao = value.adicionais.carvao ? Math.ceil(totalPessoas / 10) : 0;  // 1 pacote de carvão para cada 10 pessoas
-      const acompanhamentos = Math.ceil(totalPessoas / 5) * 2;  // Outros acompanhamentos (ajuste conforme necessário)
+
+      const carvao = value.adicionais.carvao ? Math.ceil(totalPessoas / 10) : 0; // 1 pacote de carvão para cada 10 pessoas
+      const acompanhamentos = Math.ceil(totalPessoas / 5) * 2; // Outros acompanhamentos (ajuste conforme necessário)
       const gelo = Math.ceil(totalPessoas / 10) * 2;
-    
+
       return {
         paodealho: value.adicionais.paodealho ? acompanhamentos : 0,
         vinagrete,
@@ -103,7 +115,6 @@ export default function Resultados({ navigation }) {
         guardanapo: value.adicionais.guardanapo ? acompanhamentos : 0
       };
     };
-    
 
     setResults({
       carne: calcularCarne(),
@@ -209,6 +220,7 @@ export default function Resultados({ navigation }) {
                     }}
                   >
                     <ButtonIcon
+                      onPress={saveData}
                       icon="content-save-outline"
                       colorButton="light"
                     />
