@@ -57,14 +57,17 @@ export default function CardReceita() {
       {teste.map((carne, index) => (
         <TouchableHighlight key={index}
         onPress={() => {
-        Linking.openURL(carne.url); // Abre o link associado ao card
+        Linking.openURL(carne.url);// Abre o link associado ao card
         }}
         underlayColor="#DDDDDD"> 
           <View style={styles.Card}>
               <Card.Cover source={{ uri: carne.uri }} style={styles.image}/>
-              <Text variant="titleLarge" style={styles.title}>
-                {carne.title}
-              </Text>
+              <View style={styles.containerText}>
+                <Text style={styles.title}>
+                  {carne.title}
+                </Text>
+              </View>
+
           </View> 
         </TouchableHighlight>   
       ))}
@@ -76,17 +79,25 @@ const styles = StyleSheet.create({
   Card: {
     borderRadius: 0,
     margin: '5%',
-    justifyContent: 'space-between',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    width: '90%',
   },
   title: {
     padding: 10,
-    textAlign: 'center',
+    alignItems: 'center',
     fontFamily: 'InriaSans_700Bold',
-    fontSize: 20,
+    fontSize: 18,
+  },
+  containerText:{
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    width: '50%',
+    alignItems: 'center'
   },
   image:{
-    width: '100%',
+    width: '50%',
+    height: 100,
     borderRadius: 0,
     borderColor: colors.light,
     borderWidth: 4,

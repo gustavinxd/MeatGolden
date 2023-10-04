@@ -12,12 +12,12 @@ export default function ReceitasHome({navigation}) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text style={styles.title}>Receitas</Text>
-
-        <CardHome onPress={() => navigation.navigate('Bovina')} titulo='Bovina' link='aaaaaa' uri='aaaaa'/>
-        <CardHome onPress={() => navigation.navigate('Frango')} titulo='Frango' link='aaaaaa' uri='aaaaa'/>
-        <CardHome onPress={() => navigation.navigate('Suína')} titulo='Suína' link='aaaaaa' uri='aaaaa'/>
-
+        <Text style={styles.titulo}>Receitas</Text>
+        <View style={styles.cardshome}>
+          <CardHome onPress={() => navigation.navigate('Bovina')} title='Bovina'  uri='https://www.infomoney.com.br/wp-content/uploads/2019/06/carne-devons.jpg?resize=800%2C515&quality=50&strip=all'/>
+          <CardHome onPress={() => navigation.navigate('Frango')} title='Frango'  uri='https://www.canalrural.com.br/wp-content/plugins/seox-image-magick/imagick_convert.php?width=1200&height=627&format=.jpg&quality=91&imagick=imagens-cdn.canalrural.com.br/wp-content/uploads/carne-de-frango-4.jpg'/>
+          <CardHome onPress={() => navigation.navigate('Suína')} title='Suína' uri='https://www.tribunapr.com.br/wp-content/uploads/sites/81/2022/02/16140732/Carne-Suina_baixa-970x550.jpg'/>
+        </View>
       </ScrollView>
     </View>
   );
@@ -26,13 +26,19 @@ export default function ReceitasHome({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
   },
-  title: {
+  titulo: {
     color: 'white',
     fontSize: 40,
-    paddingTop: '20%',
+    paddingTop: '10%',
     paddingLeft: '5%',
     textDecorationLine: 'underline'
+  },
+  cardshome:{
+    paddingTop: 30,
+    marginBottom: 100,
+    alignItems: 'center',
+
   }
 });
