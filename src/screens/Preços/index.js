@@ -11,6 +11,7 @@ export default function Precos({navigation}) {
       <View style = {styles.container}>
         <View style = {styles.containerPrecos}>
           <BoiIcon style={styles.boiIcon}/>
+          <Text style={styles.subtitleBov}>Bovina</Text>
         </View>
       </View>
     </View>
@@ -24,6 +25,7 @@ const styles = StyleSheet.create({
     height: '85%',
     borderRadius: 10,
     padding: 20,
+    flexDirection: 'row',
   },
   container:{
     alignItems: 'center',
@@ -40,4 +42,18 @@ const styles = StyleSheet.create({
     fontFamily: 'InriaSans_700Bold',
     paddingLeft: 15,
   },
+  subtitleBov:{
+    fontSize: 23,
+    fontFamily: 'InriaSans_700Bold',
+    paddingLeft: 15,
+    color: colors.light,
+    padding: 13,
+    shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 10,
+      },
+      shadowOpacity: 0.80,
+      shadowRadius: 6.27,
+  }
 });

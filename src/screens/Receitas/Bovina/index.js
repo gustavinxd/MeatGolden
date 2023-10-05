@@ -7,13 +7,10 @@ import {
   Image
 } from 'react-native';
 import CardComponent from '../../../components/Cards/Opcoes/index';
-import Header from '../../../components/Header/home';
 
 export default function Bovina() {
   return (
     <View style={styles.container}>
-      {/* Header Temporário */}
-      <Header style={styles.headertemporario} />
       <ScrollView>
         <View style={styles.top}>
           <Text style={styles.title}>Receitas</Text>
