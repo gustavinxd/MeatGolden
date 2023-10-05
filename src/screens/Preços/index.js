@@ -2,6 +2,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import colors from '../../colors/index';
 import BoiIcon from '../../components/Icons/icons/boi';
+import InputComponent from '../../components/Inputs/index';
 
 export default function Precos({navigation}) {
   return (
@@ -12,6 +13,7 @@ export default function Precos({navigation}) {
         <View style = {styles.containerPrecos}>
           <BoiIcon style={styles.boiIcon}/>
           <Text style={styles.subtitleBov}>Bovina</Text>
+          <InputComponent/>
         </View>
       </View>
     </View>
