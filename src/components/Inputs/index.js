@@ -17,15 +17,12 @@ const InputComponent = () => {
 
   return (
     <View>
-      <Text>Valor em Real:</Text>
       <TextInput
-        placeholder="Digite o valor em R$"
+        placeholder="R$"
         keyboardType="numeric"
         onChangeText={(text) => setValor(text)}
         value={valor}
       />
-      <Button title="Mostrar Valor" onPress={mostrarValor} />
-      {objeto && <Text>O objeto {objeto.nome} custa: R$ {objeto.preco.toFixed(2)}</Text>}
     </View>
   );
 };
