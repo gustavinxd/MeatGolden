@@ -12,7 +12,7 @@ import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
-import { initDB, saveItemsToDB } from '../../services/banco/index';
+import { initDB, saveItemsToDB } from '../../services';
 
 export default function Resultados({ navigation }) {
   const { updateProgress } = useProgressContext();
