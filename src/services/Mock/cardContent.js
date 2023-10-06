@@ -1,3 +1,3 @@
-const mock = [
-    {}
+export const mock = [
+    {name: boi},
 ]

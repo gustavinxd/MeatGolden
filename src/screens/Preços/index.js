@@ -13,7 +13,9 @@ export default function Precos({navigation}) {
         <View style = {styles.containerPrecos}>
           <BoiIcon style={styles.boiIcon}/>
           <Text style={styles.subtitleBov}>Bovina</Text>
-          <InputComponent/>
+          <View style={styles.input}>
+            <InputComponent/>
+          </View>
         </View>
       </View>
     </View>
@@ -24,7 +26,7 @@ const styles = StyleSheet.create({
   containerPrecos: {
     backgroundColor: colors.primary,
     width: '85%',
-    height: '85%',
+    height: 500,
     borderRadius: 10,
     padding: 20,
     flexDirection: 'row',
@@ -57,5 +59,8 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.80,
       shadowRadius: 6.27,
+  },
+  input:{
+    flexDirection: 'column',
   }
 });
