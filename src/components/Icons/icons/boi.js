@@ -1,7 +1,7 @@
 import {View, Image, StyleSheet} from 'react-native';
 import colors from '../../../colors/index'
 
-export default function BoiIcon (){
+export default function  BoiIcon (){
     return(
         <View style={styles.boi}>
             <Image source={require('../../../../assets/img/boiIcon.png')} style={styles.image}/>

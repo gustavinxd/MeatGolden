@@ -1,23 +1,40 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import colors from '../../colors/index';
-import BoiIcon from '../../components/Icons/icons/boi';
+import Icon from '../../../assets/icon/icons';
 import InputComponent from '../../components/Inputs/index';
+import Divisor from '../../components/Divider/divisor'
+
+const windowWidth = Dimensions.get('window').width; // Obtenha a largura da tela
+const windowHeight = Dimensions.get('window').height; // Obtenha a altura da tela
 
 export default function Precos({navigation}) {
   return (
     <View style={styles.view}>
-      <Text style = {styles.title}>Configurar Preços</Text>
-      <Text  style = {styles.subtitle}>Altere para os valores corretos!</Text>
-      <View style = {styles.container}>
-        <View style = {styles.containerPrecos}>
-          <BoiIcon style={styles.boiIcon}/>
-          <Text style={styles.subtitleBov}>Bovina</Text>
-          <View style={styles.input}>
+      <ScrollView>
+        <Text style = {styles.title}>Configurar Preços</Text>
+        <Text  style = {styles.subtitle}>Altere para os valores corretos!</Text>
+        <View style = {styles.container}>
+          <View style = {styles.containerPrecos}>
+            <Icon name="ox" size={30} />
+          <View style={{flexDirection: 'column',}}>
             <InputComponent/>
           </View>
-        </View>
+          <Divisor />
+            <Icon name="pig" size={30} />
+          <View style={{flexDirection: 'column',}}>
+            <InputComponent/>
+          </View>
+          <Divisor />
+            <Icon name="chicken" size={30} />
+          <View style={{flexDirection: 'column',}}>
+            <InputComponent/>
+          </View>
+          </View>
       </View>
+
+      </ScrollView>
+      
     </View>
   );
 }
@@ -25,15 +42,15 @@ export default function Precos({navigation}) {
 const styles = StyleSheet.create({
   containerPrecos: {
     backgroundColor: colors.primary,
-    width: '85%',
-    height: 500,
+    width: windowWidth/1.2,
+    height: windowHeight/1.2,
     borderRadius: 10,
     padding: 20,
-    flexDirection: 'row',
   },
   container:{
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingTop: 10,
   },
   title:{
     fontSize: 30,
@@ -62,5 +79,6 @@ const styles = StyleSheet.create({
   },
   input:{
     flexDirection: 'column',
-  }
+  },
+
 });
