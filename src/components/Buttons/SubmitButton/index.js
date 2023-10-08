@@ -49,6 +49,6 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontFamily: 'InriaSans_700Bold',
-    fontSize: 16
+    fontSize: 16,
   }
 });
