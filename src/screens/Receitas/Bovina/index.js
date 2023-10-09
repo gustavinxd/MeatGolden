@@ -8,52 +8,50 @@ import {
 } from 'react-native';
 import CardComponent from '../../../components/Cards/Opcoes/index';
 
-export default function Bovina() {
+export default function Bovina({navigation}) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.top}>
-          <Text style={styles.title}>Receitas</Text>
-          <Image
-            source={require('../../../../assets/img/boi.png')}
-            style={styles.boi}
-          />
-        </View>
+          <View style={styles.top}>
+              <View style={styles.containerTitle}>
+                  <Text style={styles.title}>Receitas</Text>
+                  <Text style={[styles.title, { fontSize: 55, }]}>Bovina</Text>
+              </View>
 
-        <TouchableHighlight>
-          <CardComponent />
-        </TouchableHighlight>
+              <Image source = {require('../../../../assets/img/boi.png')} style={styles.boi}/>
+          </View>
+          <TouchableHighlight>
+              <CardComponent selectedConst={receitasBovina} />
+          </TouchableHighlight>
       </ScrollView>
     </View>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'black'
+      flex: 1,
+      backgroundColor: 'black'
   },
-  title: {
-    color: 'white',
-    fontSize: 40,
-    paddingLeft: '5%'
+  containerTitle:{
+      flexDirection: 'column',
+      marginTop: 15,
+      paddingLeft: 20,
+  },
+  title:{
+      color: 'white',
+      fontSize: 30,
+      fontFamily: 'InriaSans_700Bold',
   },
   subtitle: {
-    color: 'white',
-    fontSize: 65,
-    paddingLeft: '5%',
-    flexDirection: 'column',
-    position: 'absolute'
+      color: 'white',
+      fontFamily: 'InriaSans_700Bold',
+
   },
   top: {
-    justifyContent: 'space-between',
-    flex: 1,
-    flexDirection: 'row',
-    position: 'relative'
+      justifyContent: 'space-between',
+      flex: 1,
+      flexDirection: 'row',
   },
-  headertemporario: {
-    backgroundColor: 'red',
-    borderColor: 'white',
-    borderWidth: 3
-  }
 });

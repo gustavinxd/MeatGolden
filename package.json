@@ -12,6 +12,7 @@
     "@expo-google-fonts/inria-sans": "^0.2.3",
     "@expo-google-fonts/lalezar": "^0.2.3",
     "@react-native-community/cli": "^11.3.8",
+    "@react-native-community/datetimepicker": "^7.2.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-community/slider": "4.4.2",
     "@react-navigation/drawer": "^6.6.4",
@@ -42,7 +43,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^10.0.0",
-    "@react-native-community/datetimepicker": "7.2.0"
+    "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

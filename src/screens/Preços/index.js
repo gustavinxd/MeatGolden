@@ -4,8 +4,9 @@ import Divisor from '../../components/Divider/divisor';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors/index';
 import Icon from '../../../assets/icon/icons';
+import DescriptionScreen from '../../components/DescriptionScreen/index'
 
-
+//Passar o valor do input para REAL
 const formatarParaReal = (valor) => {
   // Remove caracteres não numéricos
   const numeroLimpo = valor.replace(/[^\d]/g, '');
@@ -53,6 +54,7 @@ const PrecosScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
+        <DescriptionScreen/>
         <Text style={styles.title}>Configurar Preços</Text>
         <Text style={styles.subtitle}>Altere para os valores corretos!</Text>
         <View style={styles.view}>
