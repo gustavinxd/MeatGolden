@@ -9,8 +9,10 @@ const Divisor = () => {
 const styles = StyleSheet.create({
   divisor: {
     height: 1,
+    width: '110%',
+    alignSelf: 'center',
     backgroundColor: colors.light, // Cor da linha divisória
-    marginVertical: 20, // Margem vertical para espaçamento
+    marginBottom: '10%', // Margem vertical para espaçamento
   },
 });
 
