@@ -3,10 +3,10 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableHighlight
 } from 'react-native';
 import CardComponent from '../../../components/Cards/Opções/index';
 import CardHome from './../../../components/Cards/CadsHome/index';
+
 
 export default function ReceitasHome({navigation}) {
   return (
@@ -22,7 +22,6 @@ export default function ReceitasHome({navigation}) {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -39,6 +38,5 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     marginBottom: 100,
     alignItems: 'center',
-
   }
 });

@@ -1,26 +1,32 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import colors from '../../../colors/index';
+import { useThemeContext } from '../../../contexts/theme';
 
 export default function SubmitButton({
   btnTitle,
   onPress,
-  btnColor = 'light'
+  btnColor = 'light',
+  style
 }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  const themeColorText = theme === 'light' ? colors.light : colors.dark;
+
+  const chooseColor =
+    btnColor === 'red'
+      ?  themeColor
+      : colors.light ;
+      
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[
-        styles.btnContainer,
-        btnColor === 'red'
-          ? { backgroundColor: colors.primary }
-          : { backgroundColor: colors.light }
-      ]}
+      style={[styles.btnContainer, { backgroundColor: chooseColor } , { ...style }]}
     >
       <Text
         style={[
           styles.btnTitle,
           btnColor === 'red'
-            ? { color: colors.light }
+            ? { color: themeColorText }
             : { color: colors.primary }
         ]}
       >
@@ -35,6 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '45%',
+    marginBottom: 30,
     padding: 10,
     borderRadius: 8,
     borderWidth: 2,
@@ -42,6 +49,6 @@ const styles = StyleSheet.create({
   },
   btnTitle: {
     fontFamily: 'InriaSans_700Bold',
-    fontSize: 16
+    fontSize: 16,
   }
 });
