@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Linking, TouchableHighlight, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import colors from '../../../colors';
 
 export default function CardReceita() {
-  const teste = [
+  const receitasBovina = [
     {
       uri: 'https://www.receiteria.com.br/wp-content/uploads/receitas-de-picanha-na-brasa-0.jpg',
       title: 'Picanha grelhada na churrasqueira',
@@ -16,16 +16,6 @@ export default function CardReceita() {
       url: 'https://youtu.be/27s4R5pVeec?si=F6Ewpc6tn7tvxA9t'
     },
     {
-      uri: 'https://vipfood.com.br/wp-content/uploads/2018/04/panqueca-carne-1.jpg',
-      title: 'Panqueca de arroz com carne moída',
-      url: 'https://youtu.be/kn5NcH7Bc3A?si=wlMG8CCq6vqprmNe'
-    },
-    {
-      uri: 'https://www.receitadevovo.com.br/_next/image?url=https%3A%2F%2Fd2qcpt1idvpipw.cloudfront.net%2Frecipes%2F2020%2F10%2Fmolho-madeira.jpg&w=1536&q=75',
-      title: 'Músculo ao molho madeira',
-      url: 'https://youtu.be/69dLrW32-E4?si=uNGgp2PLKnlOktPG'
-    },
-    {
       uri: 'https://www.sabornamesa.com.br/media/k2/items/cache/068055ed933d2e69cfeb9ff2d23bac50_XL.jpg',
       title: 'Kafta',
       url: 'https://youtu.be/N6aAlBV9NhQ?si=icIAAGjD4EIZ2DQO'
@@ -34,11 +24,6 @@ export default function CardReceita() {
       uri: 'https://www.saboresajinomoto.com.br/uploads/images/recipes/lanche-de-carne-louca.jpg',
       title: 'Sanduíche de carne louca',
       url: 'https://youtu.be/fov4BeoWg8Y?si=ZOo2mG-Oef4FnXLX'
-    },
-    {
-      uri: 'https://cdn.deliway.com.br/blog/base/589/080/898/o-que-e-ossobuco.jpg',
-      title: 'Ossobuco',
-      url: 'https://youtu.be/rs2QT9MGpT4?si=yyzrr-0VnmeNBGFO'
     },
     {
       uri: 'https://www.receitop.com/wp-content/uploads/2020/11/receitas-com-acem-1200x800.jpg',
@@ -52,25 +37,110 @@ export default function CardReceita() {
     }
   ];
 
+  const receitasFrango = [
+    {
+      uri: '',
+      title: 'Coraçãozinho de frango com shoyu na brasa',
+      url: 'https://youtu.be/ZM9vr8_o4i4'
+    },
+    {
+      uri: '',
+      title: 'Asa de frango com mostarda na brasa',
+      url: 'https://youtu.be/Y-eYorFJuP0'
+    },
+    {
+      uri: '',
+      title: 'Tulipa de frango na brasa',
+      url: 'https://youtu.be/V5T5D-cHsSo'
+    },
+    {
+      uri: '',
+      title: 'Filé de frango na brasa',
+      url: 'https://youtu.be/JWwA3fkSCbY'
+    },
+    {
+      uri: '',
+      title: 'Frango com parmesão na brasa',
+      url: 'https://youtu.be/7Y12tS2UhLM'
+    }
+  ];
+
+  const receitasSuina = [
+    {
+      uri: '',
+      title: 'Porco na grelha',
+      url: 'https://youtu.be/SRkjDkt6PBc?si=avPaw6GROYLP6Nq0'
+    },
+    {
+      uri: '',
+      title: 'Joelho de porco',
+      url: 'https://youtu.be/oFzRAhg7xrM?si=GTpd33GCoUKYDlR3'
+    },
+    {
+      uri: '',
+      title: 'Panceta à Pururuca na Churrasqueira',
+      url: 'https://youtu.be/DivEZ2Oyhqs?si=GVteZG5G01I_6Jxp'
+    },
+    {
+      uri: '',
+      title: 'Pernil Fatiado',
+      url: 'https://youtu.be/8Wu1emqypFg?si=LfYVih_rF2_s_NlY'
+    }
+  ];
+
+  const [selectedRecipe, setSelectedRecipe] = useState(null);
+
+  const handleCardPress = (recipe) => {
+    setSelectedRecipe(recipe);
+    Linking.openURL(recipe.url); // Abre o link associado ao card
+  };
+
   return (
     <>
-      {teste.map((carne, index) => (
-        <TouchableHighlight key={index}
-        onPress={() => {
-        Linking.openURL(carne.url);// Abre o link associado ao card
-        }}
-        underlayColor="#DDDDDD"> 
+      {receitasBovina.map((carne, index) => (
+        <TouchableHighlight
+          key={index}
+          onPress={() => handleCardPress(carne)}
+          underlayColor="#DDDDDD"
+        >
           <View style={styles.Card}>
-              <Card.Cover source={{ uri: carne.uri }} style={styles.image}/>
-              <View style={styles.containerText}>
-                <Text style={styles.title}>
-                  {carne.title}
-                </Text>
-              </View>
-
-          </View> 
-        </TouchableHighlight>   
+            <Card.Cover source={{ uri: carne.uri }} style={styles.image} />
+            <View style={styles.containerText}>
+              <Text style={styles.title}>{carne.title}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>
       ))}
+      {receitasFrango.map((carne, index) => (
+        <TouchableHighlight
+          key={`frango-${index}`}
+          onPress={() => handleCardPress(carne)}
+          underlayColor="#DDDDDD"
+        >
+          <View style={styles.Card}>
+            <Card.Cover source={{ uri: carne.uri }} style={styles.image} />
+            <View style={styles.containerText}>
+              <Text style={styles.title}>{carne.title}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>
+      ))}
+      {receitasSuina.map((carne, index) => (
+        <TouchableHighlight
+          key={`suina-${index}`}
+          onPress={() => handleCardPress(carne)}
+          underlayColor="#DDDDDD"
+        >
+          <View style={styles.Card}>
+            <Card.Cover source={{ uri: carne.uri }} style={styles.image} />
+            <View style={styles.containerText}>
+              <Text style={styles.title}>{carne.title}</Text>
+            </View>
+          </View>
+        </TouchableHighlight>
+      ))}
+
+      {selectedRecipe && <CardReceita receita={selectedRecipe} />}
     </>
   );
 }
@@ -81,25 +151,25 @@ const styles = StyleSheet.create({
     margin: '5%',
     flexDirection: 'row',
     backgroundColor: 'white',
-    width: '90%',
+    width: '90%'
   },
   title: {
     padding: 10,
     alignItems: 'center',
     fontFamily: 'InriaSans_700Bold',
-    fontSize: 18,
+    fontSize: 18
   },
-  containerText:{
+  containerText: {
     backgroundColor: 'white',
     flexDirection: 'row',
     width: '50%',
     alignItems: 'center'
   },
-  image:{
+  image: {
     width: '50%',
     height: 100,
     borderRadius: 0,
     borderColor: colors.light,
-    borderWidth: 4,
+    borderWidth: 4
   }
 });
