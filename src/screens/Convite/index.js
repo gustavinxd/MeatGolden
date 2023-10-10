@@ -10,7 +10,7 @@ import {
   ScrollView
 } from 'react-native';
 import colors from '../../colors/index';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/AntDesign';
 // import * as Animatable from 'react-native-animatable'; // Importe a biblioteca animatable
 import SubmitButton from '../../components/Buttons/SubmitButton';

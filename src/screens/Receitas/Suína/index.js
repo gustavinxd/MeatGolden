@@ -54,10 +54,5 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         borderColor: 'white',
         borderWidth: 3,
-    },
-    headertemporario: {
-      backgroundColor: 'red',
-      borderColor: 'white',
-      borderWidth: 3
     }
   });
