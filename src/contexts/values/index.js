@@ -5,8 +5,7 @@ import { createContext, useContext, useState } from 'react';
 const ValueContext = createContext();
 
 export function ValueProvider({ children }) {
-  const [value, setValue] = useState({
-    // Array de objetos com os dados
+  const initialValue = {
     convidados: {
       homens: 0,
       mulheres: 0,  
@@ -32,7 +31,11 @@ export function ValueProvider({ children }) {
       carvao: false,
       guardanapo: false
     }
-  });
+  };
+
+  const [value, setValue] = useState(initialValue);
+
+  const resetValues = () => setValue(initialValue);
 
   // Funções de atualização para os valores dos convidados
   const updateHomens = (newValue) => {
@@ -164,6 +167,7 @@ export function ValueProvider({ children }) {
     <ValueContext.Provider
       value={{
         value,
+        resetValues, 
         updateHomens,
         updateMulheres,
         updateCriancas,

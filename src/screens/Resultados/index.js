@@ -17,6 +17,7 @@ import { initDB, saveItemsToDB, readItemsFromDB } from '../../services';
 export default function Resultados({ navigation }) {
   const [churrascoId, setChurrascoId] = useState(1);
   const { updateProgress } = useProgressContext();
+  const { resetValues } = useValueContext();
   const [isMapVisible, setMapVisible] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState('Selecione um local');
   const { value } = useValueContext();
@@ -64,11 +65,15 @@ export default function Resultados({ navigation }) {
     fetchItems();
   };
 
+  const handleHomeClick = () => {
+    resetValues(); // Resetar os valores quando o botão Home é clicado
+    navigation.navigate('Menu');
+  };
+
   useEffect(() => {
     updateProgress(1);
     initDB();
     console.log(results);
-
 
     const calcularCarne = () => {
       const totalCarne =
@@ -338,7 +343,7 @@ export default function Resultados({ navigation }) {
             <View style={styles.bottomSection}>
               <SubmitButton
                 btnTitle="Home"
-                onPress={() => navigation.navigate('Menu')}
+                onPress={handleHomeClick} // Atualizado para chamar handleHomeClick
               />
             </View>
           </View>
