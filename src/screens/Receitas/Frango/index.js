@@ -27,8 +27,8 @@ export default function ReceitasFrango() {
             <Text style={[styles.title, { fontSize: 55 }]}>Frango</Text>
           </View>
           <Image
-            source={require('../../../../assets/img/boi.png')}
-            style={styles.boi}
+            source={require('../../../../assets/img/chicken.png')}
+            style={{width: '20%', height: '60%', marginRight: 60, marginTop: 35, }}
           />
         </View>
         <>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   containerTitle: {
     flexDirection: 'column',
-    marginTop: 15,
+    marginTop: 25,
     paddingLeft: 20
   },
   title: {

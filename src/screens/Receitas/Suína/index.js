@@ -28,7 +28,7 @@ export default function ReceitaSuina() {
           </View>
           <Image
             source={require('../../../../assets/img/pigReceita.png')}
-            style={styles.pig}
+            style={{width: '45%', height: '100%', marginRight: 30, }}
           />
         </View>
         <>
@@ -101,5 +101,8 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     borderColor: colors.light,
     borderWidth: 4
+  },
+  pig:{
+    width: 10,
   }
 });
