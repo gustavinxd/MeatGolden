@@ -19,7 +19,7 @@ const Icon = ({ name, size = 30 }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={iconSource} style={{ width: size, height: size, margin: 10, alignSelf: 'center', }} />
+      <Image source={iconSource} style={{ width: size, height: size, margin: 7, alignSelf: 'center', }} />
     </View>
   );
 };
@@ -29,8 +29,9 @@ const styles = StyleSheet.create({
   container:{
       backgroundColor: colors.light, 
       borderRadius: 10, 
-      width: '22%', 
-      height: '100%',
+      width: 100, 
+      height: 50,
+      alignSelf: 'center'
     },
 })
 
