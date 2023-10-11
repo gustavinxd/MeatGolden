@@ -12,9 +12,10 @@ import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
-import { initDB, saveItemsToDB } from '../../services';
+import { initDB, saveItemsToDB, readItemsFromDB } from '../../services';
 
 export default function Resultados({ navigation }) {
+  const [churrascoId, setChurrascoId] = useState(1);
   const { updateProgress } = useProgressContext();
   const [isMapVisible, setMapVisible] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState('Selecione um local');
@@ -31,14 +32,44 @@ export default function Resultados({ navigation }) {
     detalhes: {}
   });
 
-  const saveData = () => {
-    saveItemsToDB(results);
+  const saveData = async () => {
+    console.log('Botão Salvar foi clicado');
+    try {
+      if (results && totals) {
+        await saveItemsToDB(churrascoId, results, totals);
+      } else {
+        console.log('Results ou Totals não estão definidos.');
+      }
+    } catch (error) {
+      console.log('Erro ao salvar dados:', error);
+    }
   };
 
   useEffect(() => {
     updateProgress(1);
     initDB();
     console.log(results);
+
+    const fetchItems = async () => {
+      try {
+        const items = await readItemsFromDB(churrascoId);
+        console.log('Items:', items);
+        if (items && items.length > 0) {
+          // Verificar se items está definido e contém dados
+          console.log('Itens do DB:', items);
+        } else {
+          console.log(
+            'Nenhum item encontrado para o churrascoId:',
+            churrascoId
+          );
+        }
+      } catch (error) {
+        console.log('Erro ao buscar iten:', error);
+      }
+    };
+
+    fetchItems();
+
 
     const calcularCarne = () => {
       const totalCarne =
@@ -194,7 +225,7 @@ export default function Resultados({ navigation }) {
     return () => {
       updateProgress(0.75);
     };
-  }, []);
+  }, [churrascoId]);
 
   return (
     <View style={styles.container}>
