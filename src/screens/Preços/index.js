@@ -63,6 +63,7 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="ox" size={30} />
               <Text style={styles.titulo}>Bovina</Text>
             </View>
+            <TextInput style={styles.inputTotal} keyboardType="numeric" />
             {precos.bovina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -83,6 +84,7 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="pig" size={30} />
               <Text style={styles.titulo}>Suína</Text>
             </View>
+            <TextInput style={styles.inputTotal} keyboardType="numeric" />
             {precos.suina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -103,6 +105,7 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="chicken" size={30} />
               <Text style={styles.titulo}>Frango</Text>
             </View>
+            <TextInput style={styles.inputTotal} keyboardType="numeric" />
             {precos.frango.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -175,6 +178,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginRight: '20%',
     color: colors.light
+  },
+  inputTotal: {
+    width: '50%',
+    height: 24,
+    alignSelf: 'center',
+    borderWidth: 0,
+    borderColor: colors.light,
+    borderBottomWidth: 3,
+    color: colors.light,
+    marginBottom: 20
   },
   iconRow: {
     flexDirection: 'row', // Organiza os itens na linha
