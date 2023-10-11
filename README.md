@@ -1,6 +1,8 @@
 # MeatGolden
 
-![MeatGolden Logo](link-para-o-logo.png)
+<div> 
+  <img align='center' style='width: 300px' src='assets/img/Logo.svg'/>
+</div>
 
 ## Tabela de Conteúdo
 
