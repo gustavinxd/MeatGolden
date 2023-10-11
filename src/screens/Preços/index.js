@@ -58,12 +58,12 @@ const PrecosScreen = ({ navigation }) => {
         <Text style={styles.subtitle}>Altere para os valores corretos!</Text>
         <View style={styles.view}>
           <AlertComponent />
-          <View style={styles.grupo}>
-            <View style={styles.iconRow}>
-              <Icon name="ox" size={30} />
-              <Text style={styles.titulo}>Bovina</Text>
+          <View>
+            <Icon name="ox" size={35} />
+            <View style={styles.titleRow}>
+              <Text style={styles.titulo}>Bovina: </Text>
+              <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             </View>
-            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.bovina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -81,12 +81,12 @@ const PrecosScreen = ({ navigation }) => {
             ))}
           </View>
           <Divisor />
-          <View style={styles.grupo}>
-            <View style={styles.iconRow}>
-              <Icon name="pig" size={30} />
-              <Text style={styles.titulo}>Suína</Text>
+          <View>
+            <Icon name="pig" size={35} />
+            <View style={styles.titleRow}>
+              <Text style={styles.titulo}>Suína: </Text>
+              <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             </View>
-            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.suina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -104,12 +104,12 @@ const PrecosScreen = ({ navigation }) => {
             ))}
           </View>
           <Divisor />
-          <View style={styles.grupo}>
-            <View style={styles.iconRow}>
-              <Icon name="chicken" size={30} />
-              <Text style={styles.titulo}>Frango</Text>
+          <View>
+            <Icon name="chicken" size={30} />
+            <View style={styles.titleRow}>
+              <Text style={styles.titulo}>Frango: </Text>
+              <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             </View>
-            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.frango.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
@@ -140,7 +140,9 @@ const PrecosScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20
+    marginTop: 10, 
+    marginRight: 20, 
+    marginLeft: 20
   },
   title: {
     fontSize: 30,
@@ -153,15 +155,14 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: colors.primary,
-    padding: 24,
-    borderRadius: 10
-  },
-  grupo: {
-    marginBottom: 20
+    padding: 20,
+    borderRadius: 10,
+    
   },
   titulo: {
     fontSize: 20,
-    marginLeft: 10,
+    marginLeft: 5,
+    marginBottom: 20,
     fontFamily: 'InriaSans_700Bold',
     color: colors.light
   },
@@ -176,6 +177,17 @@ const styles = StyleSheet.create({
     color: colors.light,
     textAlign: 'center'
   },
+  inputPrimary: {
+    width: '50%',
+    height: 24,
+    alignSelf: 'center',
+    borderWidth: 0,
+    borderColor: colors.light,
+    borderBottomWidth: 3,
+    color: colors.light,
+    marginBottom: 20,
+    marginLeft: 10
+  },
   input: {
     width: 85,
     height: 24,
@@ -185,20 +197,10 @@ const styles = StyleSheet.create({
     marginRight: '20%',
     color: colors.light
   },
-  inputPrimary: {
-    width: '50%',
-    height: 24,
-    alignSelf: 'center',
-    borderWidth: 0,
-    borderColor: colors.light,
-    borderBottomWidth: 3,
-    color: colors.light,
-    marginBottom: 20
-  },
-  iconRow: {
+  titleRow: {
     flexDirection: 'row', // Organiza os itens na linha
-    alignItems: 'center', // Alinha os itens ao centro ao longo do eixo transversal (vertical)
-    marginBottom: 20
+    alignSelf: 'center', // Alinha os itens ao centro ao longo do eixo transversal (vertical)
+    marginTop: '5%',
   },
   submitButton: {
     alignSelf: 'center',
