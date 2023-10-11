@@ -10,30 +10,9 @@ import {
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import colors from '../../../colors/index';
+import { receitasSuina } from '../../../helpers/mock';
 
 export default function ReceitaSuina() {
-  const receitasSuina = [
-    {
-      uri: 'https://charcutaria.org/wp-content/uploads/2021/08/barriga-de-porco-pancetta-churrasco-brasa-scaled.jpg',
-      title: 'Porco na grelha',
-      url: 'https://youtu.be/SRkjDkt6PBc?si=avPaw6GROYLP6Nq0'
-    },
-    {
-      uri: 'https://i.ytimg.com/vi/t3EHtotTdfY/maxresdefault.jpg',
-      title: 'Joelho de porco',
-      url: 'https://youtu.be/t3EHtotTdfY?si=37lu3SI4nioDgAg9'
-    },
-    {
-      uri: 'https://portalvidalivre.com/uploads/article/image/223/panceta_thumb.png',
-      title: 'Panceta à Pururuca na Churrasqueira',
-      url: 'https://youtu.be/DivEZ2Oyhqs?si=GVteZG5G01I_6Jxp'
-    },
-    {
-      uri: 'https://i.ytimg.com/vi/8Wu1emqypFg/maxresdefault.jpg',
-      title: 'Pernil Fatiado',
-      url: 'https://youtu.be/8Wu1emqypFg?si=LfYVih_rF2_s_NlY'
-    }
-  ];
 
   const handleCardPress = (url) => {
     Linking.openURL(url);

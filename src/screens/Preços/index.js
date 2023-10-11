@@ -4,7 +4,7 @@ import Divisor from '../../components/Divider/divisor';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors/index';
 import Icon from '../../../assets/icon/icons';
-import DescriptionScreen from '../../components/DescriptionScreen/index'
+import AlertComponent from '../../components/Alert/index';
 
 //Passar o valor do input para REAL
 const formatarParaReal = (valor) => {
@@ -54,10 +54,10 @@ const PrecosScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <DescriptionScreen/>
         <Text style={styles.title}>Configurar Preços</Text>
         <Text style={styles.subtitle}>Altere para os valores corretos!</Text>
         <View style={styles.view}>
+        <AlertComponent/>
           <View style={styles.grupo}>
             <View style={styles.iconRow}>
               <Icon name="ox" size={30} />
@@ -97,9 +97,7 @@ const PrecosScreen = ({ navigation }) => {
               </View>
             ))}
           </View>
-
           <Divisor />
-
           <View style={styles.grupo}>
             <View style={styles.iconRow}>
               <Icon name="chicken" size={30} />
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
   },
   view: {
     backgroundColor: colors.primary,
-    padding: 30,
+    padding: 24,
     borderRadius: 10
   },
   grupo: {
@@ -170,12 +168,13 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   input: {
-    width: 80,
-    height: 20,
+    width: 85,
+    height: 24,
     borderWidth: 0,
-    paddingLeft: 5,
+    borderColor: colors.light,
     borderBottomWidth: 1,
-    marginRight: '20%'
+    marginRight: '20%',
+    color: colors.light
   },
   iconRow: {
     flexDirection: 'row', // Organiza os itens na linha
