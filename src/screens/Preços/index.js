@@ -22,19 +22,19 @@ const formatarParaReal = (valor) => {
 const PrecosScreen = ({ navigation }) => {
   const [precos, setPrecos] = useState({
     bovina: [
-      { nome: 'Contra Filé', preco: '' },
-      { nome: 'Maminha', preco: '' },
-      { nome: 'Cupim', preco: '' }
+      { nome: 'Contra Filé:', preco: '' },
+      { nome: 'Maminha:', preco: '' },
+      { nome: 'Cupim:', preco: '' }
     ],
     suina: [
-      { nome: 'Picanha', preco: '' },
-      { nome: 'Linguiça', preco: '' },
-      { nome: 'Paleta', preco: '' }
+      { nome: 'Picanha:', preco: '' },
+      { nome: 'Linguiça:', preco: '' },
+      { nome: 'Paleta:', preco: '' }
     ],
     frango: [
-      { nome: 'Coxa', preco: '' },
-      { nome: 'Coração', preco: '' },
-      { nome: 'Asa', preco: '' }
+      { nome: 'Coxa:', preco: '' },
+      { nome: 'Coração:', preco: '' },
+      { nome: 'Asa:', preco: '' }
     ]
   });
 
@@ -63,12 +63,14 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="ox" size={30} />
               <Text style={styles.titulo}>Bovina</Text>
             </View>
-            <TextInput style={styles.inputTotal} keyboardType="numeric" />
+            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.bovina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
                 <TextInput
                   style={styles.input}
+                  placeholder="R$ 0,00"
+                  placeholderTextColor="white"
                   keyboardType="numeric"
                   value={peca.preco}
                   onChangeText={(text) =>
@@ -84,12 +86,14 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="pig" size={30} />
               <Text style={styles.titulo}>Suína</Text>
             </View>
-            <TextInput style={styles.inputTotal} keyboardType="numeric" />
+            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.suina.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
                 <TextInput
                   style={styles.input}
+                  placeholder="R$ 0,00"
+                  placeholderTextColor="white"
                   keyboardType="numeric"
                   value={peca.preco}
                   onChangeText={(text) =>
@@ -105,12 +109,14 @@ const PrecosScreen = ({ navigation }) => {
               <Icon name="chicken" size={30} />
               <Text style={styles.titulo}>Frango</Text>
             </View>
-            <TextInput style={styles.inputTotal} keyboardType="numeric" />
+            <TextInput style={styles.inputPrimary} keyboardType="numeric" />
             {precos.frango.map((peca, index) => (
               <View key={index} style={styles.item}>
                 <Text style={styles.peca}>{peca.nome}</Text>
                 <TextInput
                   style={styles.input}
+                  placeholder="R$ 0,00"
+                  placeholderTextColor="white"
                   keyboardType="numeric"
                   value={peca.preco}
                   onChangeText={(text) =>
@@ -179,7 +185,7 @@ const styles = StyleSheet.create({
     marginRight: '20%',
     color: colors.light
   },
-  inputTotal: {
+  inputPrimary: {
     width: '50%',
     height: 24,
     alignSelf: 'center',
