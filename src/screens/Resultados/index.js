@@ -8,7 +8,7 @@ import { useProgressContext } from '../../contexts/progress';
 import CustomDropdown from '../../components/CustomDropdown';
 import Separator from '../../components/Separator/index';
 import ListResults from '../../components/ListResults';
-import PreviewResults from '../../components/PrevviewResults';
+import PreviewResults from '../../components/PreviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 
@@ -42,7 +42,6 @@ export default function Resultados({ navigation }) {
                 startOpen
                 haveIcon={false}
                 colorSelection="light"
-                selectTitle="Bovina"
                 topSection={<PreviewResults />}
                 icon={
                   <MaterialCommunityIcons

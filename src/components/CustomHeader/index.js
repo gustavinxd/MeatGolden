@@ -9,6 +9,7 @@ export default function CustomHeader({navigation, route, children, removeBackBut
       <View style={[styles.containerButtons,{ justifyContent: BackButtonSet }]}>
         {removeBackButton ? null : <BackButton navigation={navigation} route={route}/>}
         <MenuButton navigation={navigation} route={route}/>
+      
       </View>
       {children}
     </View>

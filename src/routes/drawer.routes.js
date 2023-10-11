@@ -4,15 +4,14 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from './home.routes';
 import Churrascos from '../screens/Meus Churrascos/index';
-import Receitas from '../screens/Receitas/Home/index';
 import Convite from '../screens/Convite/index';
 import Precos from '../screens/Preços/index';
 import colors from '../colors';
 import CustomDrawerContent from '../components/CustomDrawer';
+import Receitas from './receitas.routes';
 import Menu from '../screens/Menu';
 import CustomHeader from '../components/CustomHeader';
 import { useThemeContext } from '../contexts/theme';
-// import Logo from '../components/Icons/Logo';
 
 const Drawer = createDrawerNavigator();
 
@@ -74,7 +73,7 @@ export default function DrawerRoute() {
               />
             ),
             headerStyle: {
-              backgroundColor: colors.dark
+              backgroundColor: colors.black
             }
           };
         }}
@@ -102,6 +101,7 @@ export default function DrawerRoute() {
         name="Receitas"
         component={Receitas}
         options={{
+          headerShown: false,
           drawerIcon: ({color}) => (
             <MaterialIcons name="restaurant" size={30} color={color} />
           )
