@@ -24,6 +24,13 @@ export default function Resultados({ navigation }) {
     bebidas: {},
     acompanhamentos: {}
   });
+
+  const [totals, setTotals] = useState({
+    total: 0,
+    rateio: 0,
+    detalhes: {}
+  });
+
   const saveData = () => {
     saveItemsToDB(results);
   };
@@ -31,6 +38,7 @@ export default function Resultados({ navigation }) {
   useEffect(() => {
     updateProgress(1);
     initDB();
+    console.log(results);
 
     const calcularCarne = () => {
       const totalCarne =
@@ -122,6 +130,67 @@ export default function Resultados({ navigation }) {
       acompanhamentos: calcularAcompanhamentos()
     });
 
+    const precos = {
+      Picanha: 80,
+      'Contra-filé': 50,
+      Cupim: 60,
+      Linguiça: 20,
+      Paleta: 40,
+      Costela: 50,
+      Coxa: 15,
+      Asa: 12,
+      Coração: 20,
+      cerveja: 5,
+      refrigerante: 2,
+      suco: 3,
+      agua: 1,
+      paodealho: 10,
+      vinagrete: 5,
+      queijocoalho: 15,
+      gelo: 5,
+      carvao: 10,
+      guardanapo: 2
+    };
+
+    // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
+    const calcularTotais = () => {
+      let total = 0;
+
+      const calculatedResults = {
+        carne: calcularCarne(),
+        bebidas: calcularBebidas(),
+        acompanhamentos: calcularAcompanhamentos()
+      };
+
+      // Calcular total para carne
+      ['bovina', 'suina', 'frango'].forEach((tipo) => {
+        Object.keys(calculatedResults.carne[tipo]).forEach((item) => {
+          total += precos[item] * (calculatedResults.carne[tipo][item] / 1000); // Multiplicando a quantidade pelo preço
+        });
+      });
+
+      // Calcular total para bebidas
+      Object.keys(calculatedResults.bebidas).forEach((bebida) => {
+        total += precos[bebida] * calculatedResults.bebidas[bebida]; // Multiplicando a quantidade pelo preço
+      });
+
+      // Calcular total para acompanhamentos
+      Object.keys(calculatedResults.acompanhamentos).forEach((adicional) => {
+        total +=
+          precos[adicional] * calculatedResults.acompanhamentos[adicional]; // Multiplicando a quantidade pelo preço
+      });
+
+      const rateio = total / value.convidados.total;
+
+      setTotals({
+        total,
+        rateio,
+        detalhes: calculatedResults // Aqui os resultados são usados para ver as quantidades, substitua conforme necessário
+      });
+    };
+
+    calcularTotais();
+
     return () => {
       updateProgress(0.75);
     };
@@ -171,11 +240,15 @@ export default function Resultados({ navigation }) {
                 >
                   <View style={{ flexDirection: 'column', gap: 5 }}>
                     <Text style={styles.titleListResult}>Total:</Text>
-                    <Text style={styles.dataListResult}>R$ 1000</Text>
+                    <Text style={styles.dataListResult}>
+                      R$ {totals.total.toFixed(2)}
+                    </Text>
                   </View>
                   <View style={{ flexDirection: 'column', gap: 5 }}>
                     <Text style={styles.titleListResult}>Rateio:</Text>
-                    <Text style={styles.dataListResult}>R$ 200</Text>
+                    <Text style={styles.dataListResult}>
+                      R$ {totals.rateio.toFixed(2)}
+                    </Text>
                   </View>
                 </View>
 

@@ -9,7 +9,7 @@ export function ValueProvider({ children }) {
     // Array de objetos com os dados
     convidados: {
       homens: 0,
-      mulheres: 0,
+      mulheres: 0,  
       criancas: 0,
       total: 0
     },
