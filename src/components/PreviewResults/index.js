@@ -1,28 +1,33 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import colors from '../../colors';
+import { useThemeContext } from '../../contexts/theme';
 
-export default function PreviewResults({ dia, data }) {
+export default function PreviewResults({ dia, data, colorText = 'light' }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  const colorSelection = colorText === 'red' ? themeColor : colors.light;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.data}>06/08/2023</Text>
+      <Text style={[styles.data, { color: colorSelection }]}>06/08/2023</Text>
       <View style={styles.convidadosSection}>
         <MaterialCommunityIcons
           name="face-man-outline"
           size={18}
-          color={colors.light}
+          color={colorSelection}
         />
-        <Text style={styles.convidados}>1</Text>
+        <Text style={[styles.convidados, { color: colorSelection }]}>1</Text>
         <MaterialCommunityIcons
           name="face-woman-outline"
           size={18}
-          color={colors.light}
+          color={colorSelection}
         />
-        <Text style={styles.convidados}>1</Text>
-        <MaterialIcons name="child-care" size={18} color={colors.light} />
-        <Text style={styles.convidados}>1</Text>
-        <MaterialIcons name="people-alt" size={18} color={colors.light} />
-        <Text style={styles.convidados}>1</Text>
+        <Text style={[styles.convidados, { color: colorSelection }]}>1</Text>
+        <MaterialIcons name="child-care" size={18} color={colorSelection} />
+        <Text style={[styles.convidados, { color: colorSelection }]}>1</Text>
+        <MaterialIcons name="people-alt" size={18} color={colorSelection} />
+        <Text style={[styles.convidados, { color: colorSelection }]}>1</Text>
       </View>
     </View>
   );
@@ -41,12 +46,10 @@ const styles = StyleSheet.create({
   data: {
     fontFamily: 'InriaSans_700Bold',
     fontSize: 16,
-    alignItems: 'center',
-    color: colors.light
+    alignItems: 'center'
   },
   convidados: {
     fontFamily: 'InriaSans_400Regular',
-    fontSize: 14,
-    color: colors.light
+    fontSize: 14
   }
 });

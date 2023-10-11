@@ -13,7 +13,7 @@ export default function BackButton({ navigation, route }) {
         styles.btnBack,
         {
           borderColor:
-            route.name === 'Assados' || route.name === 'Adicionais'
+            route.name === 'Assados' || route.name === 'Adicionais' || route.name === 'Meus churrascos'
               ? themeColor
               : colors.light
         }
@@ -24,7 +24,7 @@ export default function BackButton({ navigation, route }) {
         name="arrow-back"
         size={25}
         color={
-          route.name === 'Assados' || route.name === 'Adicionais'
+          route.name === 'Assados' || route.name === 'Adicionais' || route.name === 'Meus churrascos'
             ? themeColor
             : colors.light
         }

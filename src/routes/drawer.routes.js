@@ -58,7 +58,7 @@ export default function DrawerRoute() {
         component={Menu}
         options={({ navigation, route }) => {
           return {
-            drawerIcon: ({color}) => (
+            drawerIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="grill-outline"
                 size={30}
@@ -92,9 +92,12 @@ export default function DrawerRoute() {
         name="Meus churrascos"
         component={Churrascos}
         options={{
-          drawerIcon: ({color}) => (
+          drawerIcon: ({ color }) => (
             <MaterialIcons name="list-alt" size={30} color={color} />
-          )
+          ),
+          headerStyle: {
+            backgroundColor: themeColor
+          }
         }}
       />
       <Drawer.Screen
@@ -102,7 +105,7 @@ export default function DrawerRoute() {
         component={Receitas}
         options={{
           headerShown: false,
-          drawerIcon: ({color}) => (
+          drawerIcon: ({ color }) => (
             <MaterialIcons name="restaurant" size={30} color={color} />
           )
         }}
@@ -111,7 +114,7 @@ export default function DrawerRoute() {
         name="Criar convite"
         component={Convite}
         options={{
-          drawerIcon: ({color}) => (
+          drawerIcon: ({ color }) => (
             <MaterialIcons name="mail" size={30} color={color} />
           )
         }}
@@ -120,12 +123,8 @@ export default function DrawerRoute() {
         name="Configurar preços"
         component={Precos}
         options={{
-          drawerIcon: ({color}) => (
-            <MaterialIcons
-              name="monetization-on"
-              size={30}
-              color={color}
-            />
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="monetization-on" size={30} color={color} />
           )
         }}
       />

@@ -13,7 +13,7 @@ export default function MenuButton({navigation,route}) {
         name="menu"
         size={30}
         color={
-          route.name === 'Assados' || route.name === 'Adicionais'
+          route.name === 'Assados' || route.name === 'Adicionais' || route.name === 'Meus churrascos'
             ? themeColor
             : colors.light
         }

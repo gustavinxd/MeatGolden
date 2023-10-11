@@ -1,24 +1,29 @@
 import { Text, View,StyleSheet } from 'react-native';
 import colors from '../../colors';
+import { useThemeContext } from '../../contexts/theme';
 
-export default function ListResults() {
+export default function ListResults({ colorText = 'light' }) {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  const colorSelection = colorText === 'red' ? themeColor : colors.light;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.titleList}>Assados</Text>
+      <Text style={[styles.titleList, {color: colorSelection}]}>Assados</Text>
       <View style={styles.dataListSection}>
-        <Text style={styles.dataList}>- Opção 1</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>5 kg</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>R$ 100</Text>
+        <Text style={[styles.dataList, {color: colorSelection}]}>- Opção 1</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>5 kg</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>R$ 100</Text>
       </View>
       <View style={styles.dataListSection}>
-        <Text style={styles.dataList}>- Opção 1</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>5 kg</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>R$ 100</Text>
+        <Text style={[styles.dataList, {color: colorSelection}]}>- Opção 1</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>5 kg</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>R$ 100</Text>
       </View>
       <View style={styles.dataListSection}>
-        <Text style={styles.dataList}>- Opção 1</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>5 kg</Text>
-        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold'}]}>R$ 100</Text>
+        <Text style={[styles.dataList, {color: colorSelection}]}>- Opção 1</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>5 kg</Text>
+        <Text style={[styles.dataList, {fontFamily: 'InriaSans_700Bold', color: colorSelection}]}>R$ 100</Text>
       </View>
     </View>
   );
@@ -33,14 +38,12 @@ const styles = StyleSheet.create({
     titleList:{
         fontFamily: 'InriaSans_700Bold',
         fontSize: 20,
-        color: colors.light,
         marginBottom: 5
         
     },
     dataList:{
         fontFamily: 'InriaSans_400Regular',
         fontSize: 16,
-        color: colors.light
     },
     dataListSection:{
         flexDirection: 'row',
