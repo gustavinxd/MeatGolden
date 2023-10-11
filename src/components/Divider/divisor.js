@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     backgroundColor: colors.light, // Cor da linha divisória
-    marginBottom: '10%' // Margem vertical para espaçamento
+    marginBottom: '10%',
+    marginTop: '10%' 
   }
 });
 
