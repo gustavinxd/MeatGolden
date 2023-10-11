@@ -54,7 +54,7 @@ export default function ReceitaSuina() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: colors.black
   },
   containerTitle: {
     flexDirection: 'column',
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   title: {
-    color: 'white',
+    color: colors.light,
     fontSize: 30,
     fontFamily: 'InriaSans_700Bold'
   },
   subtitle: {
-    color: 'white',
+    color: colors.light,
     fontFamily: 'InriaSans_700Bold'
   },
   top: {
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   Card: {
-    borderRadius: 0,
+    borderRadius: 8,
     margin: '5%',
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: colors.light,
     width: '90%'
   },
   titleCard: {
@@ -89,19 +89,17 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   containerText: {
-    backgroundColor: 'white',
+    borderRadius: 8,
+    backgroundColor: colors.light,
     flexDirection: 'row',
     width: '50%',
     alignItems: 'center'
   },
   image: {
     width: '50%',
+    borderRadius: 8,
     height: 100,
-    borderRadius: 0,
     borderColor: colors.light,
     borderWidth: 4
-  },
-  pig: {
-    width: 10
   }
 });
