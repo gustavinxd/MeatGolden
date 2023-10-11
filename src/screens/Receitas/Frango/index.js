@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableHighlight,
+  TouchableOpacity,
   Image,
   Linking
 } from 'react-native';
@@ -37,10 +37,9 @@ export default function ReceitasFrango() {
         </View>
         <>
           {receitasFrango.map((carne, index) => (
-            <TouchableHighlight
+            <TouchableOpacity
               key={index}
               onPress={() => handleCardPress(carne.url)}
-              underlayColor="#DDDDDD"
             >
               <View style={styles.Card}>
                 <Card.Cover source={{ uri: carne.uri }} style={styles.image} />
@@ -48,7 +47,7 @@ export default function ReceitasFrango() {
                   <Text style={styles.titleCard}>{carne.title}</Text>
                 </View>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           ))}
         </>
       </ScrollView>
@@ -94,14 +93,11 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   containerText: {
-    borderRadius: 8,
-    backgroundColor: colors.light,
     flexDirection: 'row',
     width: '50%',
     alignItems: 'center'
   },
   image: {
-    borderRadius: 8,
     width: '50%',
     height: 100,
     borderColor: colors.light,

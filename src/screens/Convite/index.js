@@ -9,26 +9,30 @@ import {
   StyleSheet,
   ScrollView
 } from 'react-native';
-import colors from '../../colors/index';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/AntDesign';
+import colors from '../../colors/index';
 import SubmitButton from '../../components/Buttons/SubmitButton';
+import ButtonIcon from '../../components/Buttons/ButtonIcon/index';
+import MapModal from '../../components/Mapa/index';
 
-export default function Convite({ navigation }) {
-  //Cria variavel e uma função para atualizar ela
+export default function Convite() {
+  // Cria variavel e uma função para atualizar ela
   const [nomeDoEvento, setnomeDoEvento] = useState('');
   const [data, setData] = useState('');
   const [endereco, setEndereco] = useState('');
   const [hora, setHora] = useState('');
 
-  const formatarData = (data) => {
+  const formatarData = (dataNow) => {
     // Formatar a data para o formato local
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return data.toLocaleDateString(undefined, options);
+    return dataNow.toLocaleDateString(undefined, options);
   };
 
   const [date, setDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
+
+  const [isMapVisible, setMapVisible] = useState(false);
 
   const toggleDatepicker = () => {
     setShowPicker(!showPicker);
@@ -54,10 +58,10 @@ export default function Convite({ navigation }) {
     // Adiciona os dois pontos para formatar como "HH:MM"
     if (numeros.length <= 2) {
       return numeros;
-    } else {
-      return `${numeros.slice(0, 2)}:${numeros.slice(2, 4)}`;
-      //slice retorna uma nova cópia contendo os elementos ou caracteres extraídos
     }
+
+    return `${numeros.slice(0, 2)}:${numeros.slice(2, 4)}`;
+    // slice retorna uma nova cópia contendo os elementos ou caracteres extraídos
   };
 
   const compartilharConvite = async () => {
@@ -84,7 +88,7 @@ export default function Convite({ navigation }) {
       Até logo!
       `;
 
-      //Permite o compartilhamento do conteúdo
+      // Permite o compartilhamento do conteúdo
       await Share.share({
         message: preMensagem
       });
@@ -143,12 +147,22 @@ export default function Convite({ navigation }) {
             onChangeText={(text) => setHora(formatarHora(text))}
           />
           <Text style={styles.label}>Endereço:</Text>
-          <TextInput
-            style={styles.input}
-            value={endereco}
-            onChangeText={(text) => setEndereco(text)}
-            editable={false} // Define o TextInput como não editável
-          />
+          <View style={{ position: 'relative'}}>
+            <TextInput
+              style={styles.input}
+              value={endereco}
+              onChangeText={(text) => setEndereco(text)}
+              editable={false} // Define o TextInput como não editável
+            />
+            <ButtonIcon
+              onPress={() => {
+                setMapVisible((prevState) => !prevState);
+              }}
+              icon="map-marker-plus-outline"
+              colorButton="light"
+              style={{position: 'absolute', right: 10, bottom: 25}}
+            />
+          </View>
         </View>
         <SubmitButton
           btnTitle="Enviar"
@@ -156,6 +170,14 @@ export default function Convite({ navigation }) {
           style={styles.submitButton}
         />
       </ScrollView>
+      <MapModal
+        visible={isMapVisible}
+        onClose={() => setMapVisible(false)}
+        onSaveLocation={(address) => {
+          setEndereco(address);
+          setMapVisible((prevState) => !prevState);
+        }}
+      />
     </View>
   );
 }
@@ -194,9 +216,12 @@ const styles = StyleSheet.create({
     height: 25,
     marginBottom: 20,
     paddingLeft: 10,
-    borderWidth: 0, // Remove todas as bordas
+    paddingBottom: 2,
+    fontFamily: 'InriaSans_400Regular',
+    fontSize: 16,
     borderColor: colors.black,
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    color: colors.light
   },
   iconMessage: {
     marginBottom: 20

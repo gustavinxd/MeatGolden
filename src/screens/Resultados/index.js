@@ -42,7 +42,6 @@ export default function Resultados({ navigation }) {
                 startOpen
                 haveIcon={false}
                 colorSelection="light"
-                selectTitle="Bovina"
                 topSection={<PreviewResults />}
                 icon={
                   <MaterialCommunityIcons

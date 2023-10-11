@@ -73,7 +73,7 @@ export default function DrawerRoute() {
               />
             ),
             headerStyle: {
-              backgroundColor: colors.dark
+              backgroundColor: colors.black
             }
           };
         }}
@@ -101,6 +101,7 @@ export default function DrawerRoute() {
         name="Receitas"
         component={Receitas}
         options={{
+          headerShown: false,
           drawerIcon: ({color}) => (
             <MaterialIcons name="restaurant" size={30} color={color} />
           )

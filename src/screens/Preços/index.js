@@ -6,7 +6,7 @@ import colors from '../../colors/index';
 import Icon from '../../../assets/icon/icons';
 import AlertComponent from '../../components/Alert/index';
 
-//Passar o valor do input para REAL
+// Passar o valor do input para REAL
 const formatarParaReal = (valor) => {
   // Remove caracteres não numéricos
   const numeroLimpo = valor.replace(/[^\d]/g, '');
@@ -19,7 +19,7 @@ const formatarParaReal = (valor) => {
   });
 };
 
-const PrecosScreen = ({ navigation }) => {
+export default function PrecoScreen(){
   const [precos, setPrecos] = useState({
     bovina: [
       { nome: 'Contra Filé:', preco: '' },
@@ -208,4 +208,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PrecosScreen;

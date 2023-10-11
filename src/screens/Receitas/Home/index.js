@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
-import CardHome from './../../../components/Cards/CadsHome/index';
+import CardHome from '../../../components/Cards/CadsHome/index';
 import colors from '../../../colors/index';
 
 export default function ReceitasHome({ navigation }) {
