@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, SafeAreaView, ImageBackground, Text } from 'react-native';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors';
-import Logo from '../../components/Icons/Logo';
+import Logo from '../../components/Logo';
 
 export default function Menu({ navigation }) {
   const imagemUrl =

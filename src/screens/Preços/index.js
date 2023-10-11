@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
-import Divisor from '../../components/Divider/divisor';
+import Divisor from '../../components/Divider';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors/index';
-import Icon from '../../../assets/icon/icons';
 import AlertComponent from '../../components/Alert/index';
+import AnimalIcon from '../../components/AnimalIcons';
 
 // Passar o valor do input para REAL
 const formatarParaReal = (valor) => {
@@ -59,7 +59,7 @@ export default function PrecoScreen(){
         <View style={styles.view}>
           <AlertComponent />
           <View>
-            <Icon name="ox" size={35} />
+            <AnimalIcon name="ox" size={35} />
             <View style={styles.titleRow}>
               <Text style={styles.titulo}>Bovina: </Text>
               <TextInput style={styles.inputPrimary} keyboardType="numeric" />
@@ -82,7 +82,7 @@ export default function PrecoScreen(){
           </View>
           <Divisor />
           <View>
-            <Icon name="pig" size={35} />
+            <AnimalIcon name="pig" size={35} />
             <View style={styles.titleRow}>
               <Text style={styles.titulo}>Suína: </Text>
               <TextInput style={styles.inputPrimary} keyboardType="numeric" />
@@ -105,7 +105,7 @@ export default function PrecoScreen(){
           </View>
           <Divisor />
           <View>
-            <Icon name="chicken" size={30} />
+            <AnimalIcon name="chicken" size={30} />
             <View style={styles.titleRow}>
               <Text style={styles.titulo}>Frango: </Text>
               <TextInput style={styles.inputPrimary} keyboardType="numeric" />

@@ -1,17 +1,18 @@
 import React from 'react';
 import { Image, View, StyleSheet } from 'react-native';
-import colors from '../../src/colors/index';
+import colors from '../../colors';
 
-const Icon = ({ name, size = 30 }) => {
+
+export default function AnimalIcon({name, size}){
   let iconSource;
 
   // Verificar o nome do ícone e atribuir a imagem correspondente
   if (name === 'ox') {
-    iconSource = require('../img/ox.png');
+    iconSource = require('../../../assets/img/ox.png');
   } else if (name === 'pig') {
-    iconSource = require('../img/pig.png');
+    iconSource = require('../../../assets/img/pig.png');
   } else if (name === 'chicken') {
-    iconSource = require('../img/hen.png');
+    iconSource = require('../../../assets/img/hen.png');
   // } else if (name === 'message') {
   //   iconSource = <BiMessageSquareCheck/>
   }
@@ -34,6 +35,4 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
     },
 })
-
-export default Icon;
 

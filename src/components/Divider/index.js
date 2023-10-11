@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import colors from '../../colors/index';
 
-const Divisor = () => {
+export default function Divisor(){
   return <View style={styles.divisor} />;
 };
 
@@ -16,5 +16,3 @@ const styles = StyleSheet.create({
     marginTop: '10%' 
   }
 });
-
-export default Divisor;
