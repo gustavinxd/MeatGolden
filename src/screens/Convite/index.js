@@ -10,9 +10,8 @@ import {
   ScrollView
 } from 'react-native';
 import colors from '../../colors/index';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/AntDesign';
-// import * as Animatable from 'react-native-animatable'; // Importe a biblioteca animatable
 import SubmitButton from '../../components/Buttons/SubmitButton';
 
 export default function Convite({ navigation }) {
@@ -39,7 +38,7 @@ export default function Convite({ navigation }) {
     if (type === 'set') {
       const currentDate = selectedDate || date;
       setDate(currentDate);
-  
+
       if (Platform.OS === 'android') {
         toggleDatepicker();
         setData(formatarData(currentDate)); // Formata a data antes de exibi-la no TextInput
@@ -125,24 +124,24 @@ export default function Convite({ navigation }) {
           )}
           {!showPicker && (
             <Pressable onPress={toggleDatepicker}>
-            <TextInput
-              style={styles.input}
-              value={data}
-              onChangeText={setData}
-              keyboardType="numeric"
-              editable={false}
-              onPressIn={toggleDatepicker}
-            />
-          </Pressable>
-          )}
-          <Text style={styles.label}>Hora:</Text>
               <TextInput
                 style={styles.input}
+                value={data}
+                onChangeText={setData}
                 keyboardType="numeric"
-                maxLength={5} // Limita o comprimento do input para "HH:MM"
-                value={hora}
-                onChangeText={(text) => setHora(formatarHora(text))}
-                />
+                editable={false}
+                onPressIn={toggleDatepicker}
+              />
+            </Pressable>
+          )}
+          <Text style={styles.label}>Hora:</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            maxLength={5} // Limita o comprimento do input para "HH:MM"
+            value={hora}
+            onChangeText={(text) => setHora(formatarHora(text))}
+          />
           <Text style={styles.label}>Endereço:</Text>
           <TextInput
             style={styles.input}
@@ -150,19 +149,6 @@ export default function Convite({ navigation }) {
             onChangeText={(text) => setEndereco(text)}
             editable={false} // Define o TextInput como não editável
           />
-          {/* <DatePicker
-          date={setData}
-          value={data}
-          mode="date"
-          format="YYYY-MM-DD"
-          minDate="2022-01-01"
-          maxDate="2040-12-31"
-          confirmBtnText="Confirmar"
-          cancelBtnText="Cancelar"
-          timeZoneOffsetInMinutes={-180} // -180 para GMT-3 (Brasília)
-
-          onDateChange={(date) => setData(date)}>
-          </DatePicker> */}
         </View>
         <SubmitButton
           btnTitle="Enviar"
@@ -172,7 +158,7 @@ export default function Convite({ navigation }) {
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

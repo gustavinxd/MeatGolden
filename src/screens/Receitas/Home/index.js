@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
-import CardComponent from '../../../components/Cards/Opções/index';
 import CardHome from './../../../components/Cards/CadsHome/index';
+import colors from '../../../colors/index';
 
 export default function ReceitasHome({ navigation }) {
   return (
@@ -31,14 +31,15 @@ export default function ReceitasHome({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: colors.black
   },
   titulo: {
-    color: 'white',
-    fontSize: 40,
+    color: colors.light,
+    fontSize: 50,
     paddingTop: '10%',
-    paddingLeft: '5%',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    fontFamily: 'InriaSans_700Bold',
+    textAlign: 'center'
   },
   cardshome: {
     paddingTop: 30,
