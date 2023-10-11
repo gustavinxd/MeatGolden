@@ -45,48 +45,46 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
           Object.keys(results.carne[tipo]).forEach((item) => {
             if (results.carne[tipo][item] > 0) {
               tx.executeSql(
-                'INSERT INTO carnes (churrascoId, tipo, item, quantidade) VALUES (?, ?, ?, ?)',
-                [churrascoId, tipo, item, results.carne[tipo][item]]
+                'INSERT OR REPLACE INTO carnes (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM carnes WHERE churrascoId = ? AND tipo = ? AND item = ?), ?, ?, ?, ?)',
+                [churrascoId, tipo, item, churrascoId, tipo, item, results.carne[tipo][item]]
               );
-              console.log('salvei carne aqui');
+              console.log('salvei/atualizei carne aqui');
             }
           });
         });
 
         // Salvar bebidas
         Object.keys(results.bebidas).forEach((tipo) => {
-          // Aqui assumimos que `tipo` é uma chave em `results.bebidas`
           if (results.bebidas[tipo] > 0) {
             tx.executeSql(
-              'INSERT INTO bebidas (churrascoId, tipo, item, quantidade) VALUES (?, ?, ?, ?)', // Adicionado `tipo`
-              [churrascoId, tipo, tipo, results.bebidas[tipo]] // Adicionado `tipo` aos valores
+              'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+              [churrascoId, tipo, churrascoId, tipo, tipo, results.bebidas[tipo]]
             );
-            console.log('salvei bebida aqui');
+            console.log('salvei/atualizei bebida aqui');
           }
         });
 
         // Salvar acompanhamentos
         Object.keys(results.acompanhamentos).forEach((tipo) => {
-          // Aqui assumimos que `tipo` é uma chave em `results.acompanhamentos`
           if (results.acompanhamentos[tipo] > 0) {
             tx.executeSql(
-              'INSERT INTO acompanhamentos (churrascoId, tipo, item, quantidade) VALUES (?, ?, ?, ?)', // Adicionado `tipo`
-              [churrascoId, tipo, tipo, results.acompanhamentos[tipo]] // Adicionado `tipo` aos valores
+              'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+              [churrascoId, tipo, churrascoId, tipo, tipo, results.acompanhamentos[tipo]]
             );
-            console.log('salvei acompanhamento aqui');
+            console.log('salvei/atualizei acompanhamento aqui');
           }
         });
 
         // Salvar totais
         tx.executeSql(
-          'INSERT INTO totais (churrascoId, total, rateio) VALUES (?, ?, ?)',
-          [churrascoId, totals.total, totals.rateio],
+          'INSERT OR REPLACE INTO totais (id, churrascoId, total, rateio) VALUES ((SELECT id FROM totais WHERE churrascoId = ?), ?, ?, ?)',
+          [churrascoId, churrascoId, totals.total, totals.rateio],
           (tx, resultSet) => {
             resolve(resultSet.insertId);
-            console.log('Inseri o total meu fih');
+            console.log('Inseri/atualizei o total aqui');
           },
           (tx, error) => {
-            console.log('Erro ao inserir totais:', error);
+            console.log('Erro ao inserir/atualizar totais:', error);
             reject(error);
           }
         );

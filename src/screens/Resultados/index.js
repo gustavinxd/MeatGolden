@@ -43,12 +43,6 @@ export default function Resultados({ navigation }) {
     } catch (error) {
       console.log('Erro ao salvar dados:', error);
     }
-  };
-
-  useEffect(() => {
-    updateProgress(1);
-    initDB();
-    console.log(results);
 
     const fetchItems = async () => {
       try {
@@ -67,8 +61,13 @@ export default function Resultados({ navigation }) {
         console.log('Erro ao buscar iten:', error);
       }
     };
-
     fetchItems();
+  };
+
+  useEffect(() => {
+    updateProgress(1);
+    initDB();
+    console.log(results);
 
 
     const calcularCarne = () => {
@@ -225,7 +224,7 @@ export default function Resultados({ navigation }) {
     return () => {
       updateProgress(0.75);
     };
-  }, [churrascoId]);
+  }, []);
 
   return (
     <View style={styles.container}>
