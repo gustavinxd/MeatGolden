@@ -32,52 +32,52 @@ export const receitasBovina = [
 ];
 
 export const receitasFrango = [
-    {
-      uri: 'https://i.ytimg.com/vi/ZM9vr8_o4i4/hqdefault.jpg',
-      title: 'Coraçãozinho de frango com shoyu na brasa',
-      url: 'https://youtu.be/ZM9vr8_o4i4'
-    },
-    {
-      uri: 'https://www.saboresajinomoto.com.br/uploads/images/recipes/churrasco-de-tulipas-e-asinhas-de-frango-na-mostarda.jpg',
-      title: 'Asa de frango com mostarda na brasa',
-      url: 'https://youtu.be/Y-eYorFJuP0'
-    },
-    {
-      uri: 'https://www.receiteria.com.br/wp-content/uploads/receitas-de-tulipa-de-frango-00.jpg',
-      title: 'Tulipa de frango na brasa',
-      url: 'https://youtu.be/V5T5D-cHsSo'
-    },
-    {
-      uri: 'https://www.santamassa.com.br/wp-content/webp-express/webp-images/uploads/2022/07/post_07_julho_blog-6.jpg.webp',
-      title: 'Filé de frango na brasa',
-      url: 'https://youtu.be/JWwA3fkSCbY'
-    },
-    {
-      uri: 'https://www.curraldeminas.com.br/wp-content/uploads/2016/02/assinha-de-frango-com-parmesao-curral-de-minas.jpg',
-      title: 'Frango com parmesão na brasa',
-      url: 'https://youtu.be/7Y12tS2UhLM'
-    }
-  ];
+  {
+    uri: 'https://i.ytimg.com/vi/ZM9vr8_o4i4/hqdefault.jpg',
+    title: 'Coraçãozinho de frango com shoyu na brasa',
+    url: 'https://youtu.be/ZM9vr8_o4i4'
+  },
+  {
+    uri: 'https://www.saboresajinomoto.com.br/uploads/images/recipes/churrasco-de-tulipas-e-asinhas-de-frango-na-mostarda.jpg',
+    title: 'Asa de frango com mostarda na brasa',
+    url: 'https://youtu.be/Y-eYorFJuP0'
+  },
+  {
+    uri: 'https://www.receiteria.com.br/wp-content/uploads/receitas-de-tulipa-de-frango-00.jpg',
+    title: 'Tulipa de frango na brasa',
+    url: 'https://youtu.be/V5T5D-cHsSo'
+  },
+  {
+    uri: 'https://www.santamassa.com.br/wp-content/webp-express/webp-images/uploads/2022/07/post_07_julho_blog-6.jpg.webp',
+    title: 'Filé de frango na brasa',
+    url: 'https://youtu.be/JWwA3fkSCbY'
+  },
+  {
+    uri: 'https://www.curraldeminas.com.br/wp-content/uploads/2016/02/assinha-de-frango-com-parmesao-curral-de-minas.jpg',
+    title: 'Frango com parmesão na brasa',
+    url: 'https://youtu.be/7Y12tS2UhLM'
+  }
+];
 
 export const receitasSuina = [
-    {
-      uri: 'https://charcutaria.org/wp-content/uploads/2021/08/barriga-de-porco-pancetta-churrasco-brasa-scaled.jpg',
-      title: 'Porco na grelha',
-      url: 'https://youtu.be/SRkjDkt6PBc?si=avPaw6GROYLP6Nq0'
-    },
-    {
-      uri: 'https://i.ytimg.com/vi/t3EHtotTdfY/maxresdefault.jpg',
-      title: 'Joelho de porco',
-      url: 'https://youtu.be/t3EHtotTdfY?si=37lu3SI4nioDgAg9'
-    },
-    {
-      uri: 'https://portalvidalivre.com/uploads/article/image/223/panceta_thumb.png',
-      title: 'Panceta à Pururuca na Churrasqueira',
-      url: 'https://youtu.be/DivEZ2Oyhqs?si=GVteZG5G01I_6Jxp'
-    },
-    {
-      uri: 'https://i.ytimg.com/vi/8Wu1emqypFg/maxresdefault.jpg',
-      title: 'Pernil Fatiado',
-      url: 'https://youtu.be/8Wu1emqypFg?si=LfYVih_rF2_s_NlY'
-    }
-  ];
+  {
+    uri: 'https://charcutaria.org/wp-content/uploads/2021/08/barriga-de-porco-pancetta-churrasco-brasa-scaled.jpg',
+    title: 'Porco na grelha',
+    url: 'https://youtu.be/SRkjDkt6PBc?si=avPaw6GROYLP6Nq0'
+  },
+  {
+    uri: 'https://i.ytimg.com/vi/t3EHtotTdfY/maxresdefault.jpg',
+    title: 'Joelho de porco',
+    url: 'https://youtu.be/t3EHtotTdfY?si=37lu3SI4nioDgAg9'
+  },
+  {
+    uri: 'https://portalvidalivre.com/uploads/article/image/223/panceta_thumb.png',
+    title: 'Panceta à Pururuca na Churrasqueira',
+    url: 'https://youtu.be/DivEZ2Oyhqs?si=GVteZG5G01I_6Jxp'
+  },
+  {
+    uri: 'https://i.ytimg.com/vi/8Wu1emqypFg/maxresdefault.jpg',
+    title: 'Pernil Fatiado',
+    url: 'https://youtu.be/8Wu1emqypFg?si=LfYVih_rF2_s_NlY'
+  }
+];

@@ -13,7 +13,6 @@ import colors from '../../../colors/index';
 import { receitasFrango } from '../../../helpers/mock';
 
 export default function ReceitasFrango() {
-
   const handleCardPress = (url) => {
     Linking.openURL(url);
   };
@@ -28,7 +27,12 @@ export default function ReceitasFrango() {
           </View>
           <Image
             source={require('../../../../assets/img/chicken.png')}
-            style={{width: '20%', height: '60%', marginRight: 60, marginTop: 35, }}
+            style={{
+              width: '20%',
+              height: '60%',
+              marginRight: 60,
+              marginTop: 35
+            }}
           />
         </View>
         <>

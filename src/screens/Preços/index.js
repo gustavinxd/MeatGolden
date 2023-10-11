@@ -15,7 +15,7 @@ const formatarParaReal = (valor) => {
   const numeroFormatado = Number(numeroLimpo) / 100;
   return numeroFormatado.toLocaleString('pt-BR', {
     style: 'currency',
-    currency: 'BRL',
+    currency: 'BRL'
   });
 };
 
@@ -57,7 +57,7 @@ const PrecosScreen = ({ navigation }) => {
         <Text style={styles.title}>Configurar Preços</Text>
         <Text style={styles.subtitle}>Altere para os valores corretos!</Text>
         <View style={styles.view}>
-        <AlertComponent/>
+          <AlertComponent />
           <View style={styles.grupo}>
             <View style={styles.iconRow}>
               <Icon name="ox" size={30} />
@@ -131,7 +131,7 @@ const PrecosScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
+    margin: 20
   },
   title: {
     fontSize: 30,

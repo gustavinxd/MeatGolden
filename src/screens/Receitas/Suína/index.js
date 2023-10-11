@@ -13,7 +13,6 @@ import colors from '../../../colors/index';
 import { receitasSuina } from '../../../helpers/mock';
 
 export default function ReceitaSuina() {
-
   const handleCardPress = (url) => {
     Linking.openURL(url);
   };
@@ -28,7 +27,7 @@ export default function ReceitaSuina() {
           </View>
           <Image
             source={require('../../../../assets/img/pigReceita.png')}
-            style={{width: '45%', height: '100%', marginRight: 30, }}
+            style={{ width: '45%', height: '100%', marginRight: 30 }}
           />
         </View>
         <>
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
     borderColor: colors.light,
     borderWidth: 4
   },
-  pig:{
-    width: 10,
+  pig: {
+    width: 10
   }
 });
