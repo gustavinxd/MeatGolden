@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen';
 import SubmitButton from '../../components/Buttons/SubmitButton';
@@ -8,7 +7,7 @@ import { useProgressContext } from '../../contexts/progress';
 import CustomDropdown from '../../components/CustomDropdown';
 import Separator from '../../components/Separator/index';
 import ListResults from '../../components/ListResults';
-import PreviewResults from '../../components/PrevviewResults';
+import PreviewResults from '../../components/PreviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
@@ -258,15 +257,7 @@ export default function Resultados({ navigation }) {
                 startOpen
                 haveIcon={false}
                 colorSelection="light"
-                selectTitle="Bovina"
                 topSection={<PreviewResults />}
-                icon={
-                  <MaterialCommunityIcons
-                    name="face-man-outline"
-                    size={30}
-                    color={colors.light}
-                  />
-                }
               >
                 <Separator color="light" />
                 {/* Render da lista de compras */}

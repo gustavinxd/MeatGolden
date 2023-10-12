@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function CheckOption({ onChange, checkLabel, checked: propChecked }) {
-  // Adiciona um estado local para manter o controle do status de verificação
-  const [checked, setChecked] = useState(propChecked);
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+  const themeColorChecked = theme === 'light' ? colors.light : colors.dark;
+  const [check, setCheck] = useState(propChecked);
 
-  // Sincronize o estado local com o prop quando ele muda
   useEffect(() => {
-    setChecked(propChecked);
+    setCheck(propChecked);
   }, [propChecked]);
 
   const handlePress = () => {
-    // Atualiza o estado local quando o componente é clicado
-    const newChecked = !checked;
-    setChecked(newChecked);
+    const newChecked = !check;
+    setCheck(newChecked);
 
-    // Chama a função onChange passada como prop para atualizar o estado no componente pai
     if (onChange) {
       onChange(newChecked);
     }
@@ -26,23 +26,25 @@ export default function CheckOption({ onChange, checkLabel, checked: propChecked
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-        onPress={handlePress}
+        style={[styles.checkboxBase, { borderColor: themeColor }, check && { backgroundColor: themeColor }]}
+        onPress={() => {
+          handlePress();
+        }}
       >
-        {checked && (
-          <FontAwesome5 name="check" size={20} color={colors.light} />
+        {check && (
+          <FontAwesome5 name="check" size={20} color={themeColorChecked} />
         )}
       </TouchableOpacity>
-      <Text style={styles.checkLabel}>{checkLabel}</Text>
+      <Text style={[styles.checkLabel, { color: themeColor }]}>{checkLabel}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flexDirection: 'row',
     gap: 10,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   checkboxBase: {
     width: 25,
@@ -51,15 +53,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 4,
     borderWidth: 2,
-    borderColor: colors.primary,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
-  checkboxChecked: {
-    backgroundColor: colors.primary
-  },
-  checkLabel:{
+
+  checkLabel: {
     fontFamily: 'InriaSans_400Regular',
     fontSize: 16,
-    color: colors.primary
   },
 });

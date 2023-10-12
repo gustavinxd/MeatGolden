@@ -9,7 +9,7 @@ import colors from '../colors';
 import ProgressProvider from '../contexts/progress';
 import CustomHeader from '../components/CustomHeader/index';
 import ProgressBar from '../components/ProgressBar/index';
-import { ValueProvider } from '../contexts/values';
+import { ValueProvider } from '../contexts/values'; // Mantenha esta importação
 
 const Stack = createStackNavigator();
 

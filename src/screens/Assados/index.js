@@ -8,11 +8,15 @@ import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import CheckOption from '../../components/CheckOption';
 import Separator from '../../components/Separator/index';
-import { useValueContext } from '../../contexts/values';
+import { useValueContext } from '../../contexts/values'; // Mantenha esta importação
+import { useThemeContext } from '../../contexts/theme'; // Mantenha esta importação
 
 export default function Assados({ navigation }) {
   const { updateProgress } = useProgressContext();
   const { updateBovina, updateSuina, updateFrango } = useValueContext();
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.light : colors.dark;
+  const themeColorIcon = theme === 'light' ? colors.primary : colors.light;
 
   const [checked, setChecked] = useState({
     picanha: false,
@@ -71,7 +75,7 @@ export default function Assados({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: themeColor}]}>
       <View style={styles.content}>
         <DescriptionScreen
           title="Agora é os assados!"
@@ -86,7 +90,7 @@ export default function Assados({ navigation }) {
               <MaterialCommunityIcons
                 name="cow"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
             selected={selectedOptions.bovina} // Passe o valor atual
@@ -137,7 +141,7 @@ export default function Assados({ navigation }) {
               <MaterialCommunityIcons
                 name="pig"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
             selected={selectedOptions.suina} // Passe o valor atual
@@ -187,7 +191,7 @@ export default function Assados({ navigation }) {
               <MaterialCommunityIcons
                 name="food-drumstick"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
             selected={selectedOptions.frango} // Passe o valor atual
@@ -247,7 +251,6 @@ export default function Assados({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
     alignItems: 'center'
   },
   content: {

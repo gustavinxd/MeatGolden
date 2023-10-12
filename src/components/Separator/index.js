@@ -1,8 +1,12 @@
 import { View } from 'react-native';
 import colors from '../../colors';
+import { useThemeContext } from '../../contexts/theme';
 
 export default function Separator({ color = 'red' }) {
-  const choiceColor = color === 'light' ? colors.light : colors.primary
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.primary : colors.light;
+
+  const choiceColor = color === 'light' ? colors.light : themeColor
   return (
     <View
       style={{

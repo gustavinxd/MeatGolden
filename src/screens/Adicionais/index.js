@@ -8,31 +8,33 @@ import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import Separator from '../../components/Separator';
 import CheckOption from '../../components/CheckOption';
-import { useValueContext } from '../../contexts/values';
+import { useValueContext } from '../../contexts/values'; // Mantenha esta importação
+import { useThemeContext } from '../../contexts/theme'; // Mantenha esta importação
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
   const { value, updateAdicionais } = useValueContext();
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.light : colors.dark;
+  const themeColorIcon = theme === 'light' ? colors.primary : colors.light;
 
-  const [checkedItems, setCheckedItems] = useState(value.adicionais); // Inicializa o estado com os valores do contexto
+  const [checkedItems, setCheckedItems] = useState(value.adicionais);
 
   const handleCheck = (item, isChecked) => {
     setCheckedItems((prev) => ({ ...prev, [item]: isChecked }));
-    updateAdicionais(item, isChecked); // Atualiza o contexto
+    updateAdicionais(item, isChecked);
   };
 
   useEffect(() => {
-    // Aumente o progresso quando a tela for montada
     updateProgress(0.75);
-    
+
     return () => {
-      // Diminua o progresso quando a tela for desmontada (caso deseje)
       updateProgress(0.5);
     };
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: themeColor }]}>
       <View style={styles.content}>
         <DescriptionScreen
           title="Ta quase lá!"
@@ -47,7 +49,7 @@ export default function Adicionais({ navigation }) {
               <MaterialCommunityIcons
                 name="plus-box"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
           >
@@ -83,7 +85,7 @@ export default function Adicionais({ navigation }) {
               <MaterialCommunityIcons
                 name="food-variant"
                 size={30}
-                color={colors.primary}
+                color={themeColorIcon}
               />
             }
           >
@@ -124,7 +126,6 @@ export default function Adicionais({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
     alignItems: 'center'
   },
   content: {

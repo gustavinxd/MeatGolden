@@ -4,17 +4,23 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Home from './home.routes';
 import Churrascos from '../screens/Meus Churrascos/index';
-import Receitas from '../screens/Receitas/index';
 import Convite from '../screens/Convite/index';
 import Precos from '../screens/Preços/index';
 import colors from '../colors';
 import CustomDrawerContent from '../components/CustomDrawer';
+import Receitas from './receitas.routes';
 import Menu from '../screens/Menu';
 import CustomHeader from '../components/CustomHeader';
+import { useThemeContext } from '../contexts/theme';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoute() {
+  const { theme } = useThemeContext();
+  const themeColor = theme === 'light' ? colors.light : colors.dark;
+  const themeColorText = theme === 'light' ? colors.dark : colors.light;
+  const themeColorItem = theme === 'light' ? colors.light : colors.darkGrey;
+
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -29,10 +35,19 @@ export default function DrawerRoute() {
           },
           drawerActiveBackgroundColor: colors.focusPrimary,
           drawerActiveTintColor: colors.primary,
-          headerTitle: () => <CustomHeader navigation={navigation} route={route}/>,
-          headerLeft: () => {return null},
+          drawerInactiveTintColor: themeColorText,
+          drawerInactiveBackgroundColor: themeColorItem,
+          drawerStyle: {
+            backgroundColor: themeColor
+          },
+          headerTitle: () => (
+            <CustomHeader navigation={navigation} route={route} />
+          ),
+          headerLeft: () => {
+            return null;
+          },
           headerStyle: {
-            backgroundColor: colors.primary,
+            backgroundColor: colors.primary
           },
           headerShadowVisible: false
         };
@@ -41,56 +56,57 @@ export default function DrawerRoute() {
       <Drawer.Screen
         name="Menu"
         component={Menu}
-        options={({navigation, route}) => {
-          return{
-            drawerIcon: () => (
+        options={({ navigation, route }) => {
+          return {
+            drawerIcon: ({ color }) => (
               <MaterialCommunityIcons
                 name="grill-outline"
                 size={30}
-                color={colors.primary}
+                color={color}
               />
             ),
-            headerTitle: () => <CustomHeader removeBackButton navigation={navigation} route={route}/>,
+            headerTitle: () => (
+              <CustomHeader
+                removeBackButton
+                navigation={navigation}
+                route={route}
+              />
+            ),
             headerStyle: {
-              backgroundColor: colors.dark
-            },
-            
-          }
+              backgroundColor: colors.black
+            }
+          };
         }}
       />
       <Drawer.Screen
         name="Calculadora"
         component={Home}
         options={{
-          drawerIcon: () => (
-            <MaterialCommunityIcons
-              name="grill-outline"
-              size={30}
-              color={colors.primary}
-            />
-          ),
           headerShown: false,
-          drawerItemStyle:{
+          drawerItemStyle: {
             display: 'none'
           }
-          
         }}
       />
       <Drawer.Screen
         name="Meus churrascos"
         component={Churrascos}
         options={{
-          drawerIcon: () => (
-            <MaterialIcons name="list-alt" size={30} color={colors.primary} />
-          )
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="list-alt" size={30} color={color} />
+          ),
+          headerStyle: {
+            backgroundColor: themeColor
+          }
         }}
       />
       <Drawer.Screen
         name="Receitas"
         component={Receitas}
         options={{
-          drawerIcon: () => (
-            <MaterialIcons name="restaurant" size={30} color={colors.primary} />
+          headerShown: false,
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="restaurant" size={30} color={color} />
           )
         }}
       />
@@ -98,8 +114,8 @@ export default function DrawerRoute() {
         name="Criar convite"
         component={Convite}
         options={{
-          drawerIcon: () => (
-            <MaterialIcons name="mail" size={30} color={colors.primary} />
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="mail" size={30} color={color} />
           )
         }}
       />
@@ -107,12 +123,8 @@ export default function DrawerRoute() {
         name="Configurar preços"
         component={Precos}
         options={{
-          drawerIcon: () => (
-            <MaterialIcons
-              name="monetization-on"
-              size={30}
-              color={colors.primary}
-            />
+          drawerIcon: ({ color }) => (
+            <MaterialIcons name="monetization-on" size={30} color={color} />
           )
         }}
       />
