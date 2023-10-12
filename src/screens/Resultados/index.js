@@ -12,7 +12,7 @@ import PreviewResults from '../../components/PrevviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
-import { initDB, saveItemsToDB, readItemsFromDB } from '../../services';
+import { initDB, saveItemsToDB, readItemsFromDB, getLastChurrascoId } from '../../services';
 
 export default function Resultados({ navigation }) {
   const [churrascoId, setChurrascoId] = useState(1);
@@ -68,12 +68,24 @@ export default function Resultados({ navigation }) {
   const handleHomeClick = () => {
     resetValues(); // Resetar os valores quando o botão Home é clicado
     navigation.navigate('Menu');
+    updateProgress(0);
   };
 
   useEffect(() => {
     updateProgress(1);
     initDB();
     console.log(results);
+
+    const fetchLastChurrascoId = async () => {
+      try {
+        const lastId = await getLastChurrascoId();
+        setChurrascoId(lastId + 1);  // Definir o próximo churrascoId
+      } catch (error) {
+        console.log('Erro ao obter o último churrascoId:', error);
+      }
+    };
+
+    fetchLastChurrascoId();
 
     const calcularCarne = () => {
       const totalCarne =

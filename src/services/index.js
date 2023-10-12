@@ -46,7 +46,15 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
             if (results.carne[tipo][item] > 0) {
               tx.executeSql(
                 'INSERT OR REPLACE INTO carnes (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM carnes WHERE churrascoId = ? AND tipo = ? AND item = ?), ?, ?, ?, ?)',
-                [churrascoId, tipo, item, churrascoId, tipo, item, results.carne[tipo][item]]
+                [
+                  churrascoId,
+                  tipo,
+                  item,
+                  churrascoId,
+                  tipo,
+                  item,
+                  results.carne[tipo][item]
+                ]
               );
               console.log('salvei/atualizei carne aqui');
             }
@@ -58,7 +66,14 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
           if (results.bebidas[tipo] > 0) {
             tx.executeSql(
               'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-              [churrascoId, tipo, churrascoId, tipo, tipo, results.bebidas[tipo]]
+              [
+                churrascoId,
+                tipo,
+                churrascoId,
+                tipo,
+                tipo,
+                results.bebidas[tipo]
+              ]
             );
             console.log('salvei/atualizei bebida aqui');
           }
@@ -69,7 +84,14 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
           if (results.acompanhamentos[tipo] > 0) {
             tx.executeSql(
               'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-              [churrascoId, tipo, churrascoId, tipo, tipo, results.acompanhamentos[tipo]]
+              [
+                churrascoId,
+                tipo,
+                churrascoId,
+                tipo,
+                tipo,
+                results.acompanhamentos[tipo]
+              ]
             );
             console.log('salvei/atualizei acompanhamento aqui');
           }
@@ -161,6 +183,28 @@ export const readItemsFromDB = (churrascoId) => {
         },
         (error) => {
           console.log('Erro ao ler carnes:', error);
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
+export const getLastChurrascoId = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        'SELECT MAX(churrascoId) as lastId FROM totais;',
+        [],
+        (tx, results) => {
+          if (results.rows.length > 0) {
+            resolve(results.rows.item(0).lastId);
+          } else {
+            resolve(0);
+          }
+        },
+        (error) => {
+          console.log('Erro ao obter o último churrascoId:', error);
           reject(error);
         }
       );
