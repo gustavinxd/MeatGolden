@@ -11,7 +11,13 @@ import PreviewResults from '../../components/PreviewResults';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
-import { initDB, saveItemsToDB, readItemsFromDB, getLastChurrascoId } from '../../services';
+import {
+  initDB,
+  saveItemsToDB,
+  readItemsFromDB,
+  getLastChurrascoId,
+  getPricesFromDB
+} from '../../services';
 
 export default function Resultados({ navigation }) {
   const [churrascoId, setChurrascoId] = useState(1);
@@ -25,6 +31,38 @@ export default function Resultados({ navigation }) {
     bebidas: {},
     acompanhamentos: {}
   });
+
+  const [precos, setPrecos] = useState({
+    Picanha: 80,
+    'Contra-filé': 50,
+    Cupim: 60,
+    Linguiça: 20,
+    Paleta: 40,
+    Costela: 50,
+    Coxa: 15,
+    Asa: 12,
+    Coração: 20,
+    cerveja: 5,
+    refrigerante: 2,
+    suco: 3,
+    agua: 1,
+    paodealho: 10,
+    vinagrete: 5,
+    queijocoalho: 15,
+    gelo: 5,
+    carvao: 10,
+    guardanapo: 2
+  });
+
+  const fetchCarnesFromDB = async () => {
+    try {
+      const carnesFromDB = await getPricesFromDB(); // Função para buscar valores das carnes do banco
+      return carnesFromDB;
+    } catch (error) {
+      console.log('Erro ao buscar preços das carnes do banco de dados:', error);
+      return {};
+    }
+  };
 
   const [totals, setTotals] = useState({
     total: 0,
@@ -70,15 +108,39 @@ export default function Resultados({ navigation }) {
     updateProgress(0);
   };
 
+  const fetchData = async () => {
+    try {
+      const carnesFromDB = await fetchCarnesFromDB();
+      const updatedPrecos = { ...precos };
+
+      // Atualiza o estado 'precos' apenas para as carnes
+      ['bovina', 'suina', 'frango'].forEach((grupo) => {
+        carnesFromDB[grupo].forEach((carne) => {
+          updatedPrecos[carne.nome] = carne.preco; // Aqui, os preços são atualizados
+        });
+      });
+
+      setPrecos(updatedPrecos);
+
+      // Adicione o console log aqui para registrar os valores da tabela "preco"
+      console.log('Valores da tabela "preco":', carnesFromDB);
+    } catch (error) {
+      console.log('Erro ao buscar preços das carnes do banco de dados:', error);
+    }
+  };
+  
   useEffect(() => {
     updateProgress(1);
     initDB();
+    fetchCarnesFromDB();
+    fetchData();
+
     console.log(results);
 
     const fetchLastChurrascoId = async () => {
       try {
         const lastId = await getLastChurrascoId();
-        setChurrascoId(lastId + 1);  // Definir o próximo churrascoId
+        setChurrascoId(lastId + 1); // Definir o próximo churrascoId
       } catch (error) {
         console.log('Erro ao obter o último churrascoId:', error);
       }
@@ -175,28 +237,6 @@ export default function Resultados({ navigation }) {
       bebidas: calcularBebidas(),
       acompanhamentos: calcularAcompanhamentos()
     });
-
-    const precos = {
-      Picanha: 80,
-      'Contra-filé': 50,
-      Cupim: 60,
-      Linguiça: 20,
-      Paleta: 40,
-      Costela: 50,
-      Coxa: 15,
-      Asa: 12,
-      Coração: 20,
-      cerveja: 5,
-      refrigerante: 2,
-      suco: 3,
-      agua: 1,
-      paodealho: 10,
-      vinagrete: 5,
-      queijocoalho: 15,
-      gelo: 5,
-      carvao: 10,
-      guardanapo: 2
-    };
 
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {

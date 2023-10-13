@@ -1,54 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView } from 'react-native';
 import Divisor from '../../components/Divider';
 import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors/index';
 import AlertComponent from '../../components/Alert/index';
 import AnimalIcon from '../../components/AnimalIcons';
+import db from '../../database/index';
 
-// Passar o valor do input para REAL
-const formatarParaReal = (valor) => {
-  // Remove caracteres não numéricos
-  const numeroLimpo = valor.replace(/[^\d]/g, '');
-
-  // Formata o valor para o formato de moeda brasileira
-  const numeroFormatado = Number(numeroLimpo) / 100;
-  return numeroFormatado.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-};
-
-export default function PrecoScreen(){
+export default function PrecoScreen() {
   const [precos, setPrecos] = useState({
     bovina: [
-      { nome: 'Contra Filé:', preco: '' },
-      { nome: 'Maminha:', preco: '' },
-      { nome: 'Cupim:', preco: '' }
+      { nome: 'Contra Filé', preco: '' },
+      { nome: 'Maminha', preco: '' },
+      { nome: 'Cupim', preco: '' }
     ],
     suina: [
-      { nome: 'Picanha:', preco: '' },
-      { nome: 'Linguiça:', preco: '' },
-      { nome: 'Paleta:', preco: '' }
+      { nome: 'Picanha', preco: '' },
+      { nome: 'Linguiça', preco: '' },
+      { nome: 'Paleta', preco: '' }
     ],
     frango: [
-      { nome: 'Coxa:', preco: '' },
-      { nome: 'Coração:', preco: '' },
-      { nome: 'Asa:', preco: '' }
+      { nome: 'Coxa', preco: '' },
+      { nome: 'Coração', preco: '' },
+      { nome: 'Asa', preco: '' }
     ]
   });
 
-  const handleInputChange = (grupo, index, value) => {
-    const valorFormatado = formatarParaReal(value);
+  useEffect(() => {
+    // Carregar os preços do banco de dados ao carregar a tela
+    const loadPrices = async () => {
+      try {
+        const pricesFromDB = await getPricesFromDB();
+        setPrecos(pricesFromDB);
+      } catch (error) {
+        console.log('Erro ao carregar preços do banco de dados:', error);
+      }
+    };
 
-    setPrecos((prevState) => {
-      return {
-        ...prevState,
-        [grupo]: prevState[grupo].map((item, i) =>
-          i === index ? { ...item, preco: valorFormatado } : item
-        )
-      };
-    });
+    loadPrices();
+  }, []);
+
+  const handleInputChange = async (grupo, index, value) => {
+    // Atualizar o estado precos com os valores temporários
+    const updatedPrecos = { ...precos };
+    updatedPrecos[grupo][index].preco = value;
+    setPrecos(updatedPrecos);
+
+    // Atualizar o preço no banco de dados
+    try {
+      await db.transaction((tx) => {
+        tx.executeSql(
+          'INSERT OR REPLACE INTO precos (item, preco) VALUES (?, ?)',
+          [precos[grupo][index].nome, value]
+        );
+      });
+
+      console.log('Preço atualizado:', value);
+    } catch (error) {
+      console.log('Erro ao atualizar preço:', error);
+    }
   };
 
   return (
@@ -135,13 +145,14 @@ export default function PrecoScreen(){
       </ScrollView>
     </View>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10, 
-    marginRight: 20, 
+    marginTop: 10,
+    marginRight: 20,
     marginLeft: 20
   },
   title: {
@@ -156,8 +167,7 @@ const styles = StyleSheet.create({
   view: {
     backgroundColor: colors.primary,
     padding: 20,
-    borderRadius: 10,
-    
+    borderRadius: 10
   },
   titulo: {
     fontSize: 20,
@@ -198,13 +208,12 @@ const styles = StyleSheet.create({
     color: colors.light
   },
   titleRow: {
-    flexDirection: 'row', // Organiza os itens na linha
-    alignSelf: 'center', // Alinha os itens ao centro ao longo do eixo transversal (vertical)
-    marginTop: '5%',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    marginTop: '5%'
   },
   submitButton: {
     alignSelf: 'center',
     marginTop: '5%'
   }
 });
-
