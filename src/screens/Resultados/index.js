@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Share } from 'react-native';
 import colors from '../../colors';
 import DescriptionScreen from '../../components/DescriptionScreen';
 import SubmitButton from '../../components/Buttons/SubmitButton';
@@ -31,6 +31,10 @@ export default function Resultados({ navigation }) {
     bebidas: {},
     acompanhamentos: {}
   });
+  const currentDate = new Date(); // Traz a data de hoje
+  const formattedDate = `${currentDate.getDate()}/${
+    currentDate.getMonth() + 1
+  }/${currentDate.getFullYear()}`; // seta a forma da data
 
   const [precos, setPrecos] = useState({
     Picanha: 80,
@@ -53,6 +57,7 @@ export default function Resultados({ navigation }) {
     carvao: 10,
     guardanapo: 2
   });
+
 
   const fetchCarnesFromDB = async () => {
     try {
@@ -128,7 +133,46 @@ export default function Resultados({ navigation }) {
       console.log('Erro ao buscar preços das carnes do banco de dados:', error);
     }
   };
-  
+
+    const compartilharLista = async () => {
+      try {
+        const preMensagem = `
+      🔥 Lista de compras do churrasco! 🔥
+
+      Eis aqui o resultado de sua lista de compras:
+
+      Carnes:
+
+      - ${results.carne}\n
+
+      Bebidas:
+
+      - ${results.bebidas}\n
+
+      Acompanhamentos:
+
+      - ${results.acompanhamentos}\n
+      
+      Total:
+      - R$: ${totals.total}\n
+
+      Rateio:
+      - R$: ${totals.total}\n
+      
+      Estamos ansiosos para vê-lo lá! Baixe o **MeatGolden** agora e junte-se a nós para uma festa de sabores irresistíveis.
+      
+      Até logo!
+      `;
+
+        // Permite o compartilhamento do conteúdo
+        await Share.share({
+          message: preMensagem
+        });
+      } catch (error) {
+        console.error('Erro ao compartilhar convite: ', error);
+      }
+    };
+
   useEffect(() => {
     updateProgress(1);
     initDB();
@@ -297,7 +341,7 @@ export default function Resultados({ navigation }) {
                 startOpen
                 haveIcon={false}
                 colorSelection="light"
-                topSection={<PreviewResults />}
+                topSection={<PreviewResults dia={formattedDate} data={value} />}
               >
                 <Separator color="light" />
                 {/* Render da lista de compras */}
@@ -376,6 +420,7 @@ export default function Resultados({ navigation }) {
                       colorButton="light"
                     />
                     <ButtonIcon
+                      onPress={compartilharLista}
                       icon="share-variant-outline"
                       colorButton="light"
                     />
