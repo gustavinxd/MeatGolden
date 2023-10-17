@@ -58,7 +58,6 @@ export default function Resultados({ navigation }) {
     guardanapo: 2
   });
 
-
   const fetchCarnesFromDB = async () => {
     try {
       const carnesFromDB = await getPricesFromDB(); // Função para buscar valores das carnes do banco
@@ -74,12 +73,22 @@ export default function Resultados({ navigation }) {
     rateio: 0,
     detalhes: {}
   });
-
   const saveData = async () => {
     console.log('Botão Salvar foi clicado');
+    console.log('Results:', results);
+    console.log('Totals:', totals);
+
     try {
       if (results && totals) {
-        await saveItemsToDB(churrascoId, results, totals);
+        console.log('Tentando salvar itens no DB...');
+        await saveItemsToDB(
+          churrascoId,
+          results,
+          totals,
+          formattedDate,
+          selectedAddress
+        );
+        console.log('Itens salvos no DB.');
       } else {
         console.log('Results ou Totals não estão definidos.');
       }
@@ -89,10 +98,10 @@ export default function Resultados({ navigation }) {
 
     const fetchItems = async () => {
       try {
+        console.log('Tentando buscar itens do DB...');
         const items = await readItemsFromDB(churrascoId);
         console.log('Items:', items);
         if (items && items.length > 0) {
-          // Verificar se items está definido e contém dados
           console.log('Itens do DB:', items);
         } else {
           console.log(
@@ -101,9 +110,10 @@ export default function Resultados({ navigation }) {
           );
         }
       } catch (error) {
-        console.log('Erro ao buscar iten:', error);
+        console.log('Erro ao buscar itens:', error);
       }
     };
+
     fetchItems();
   };
 
@@ -134,9 +144,9 @@ export default function Resultados({ navigation }) {
     }
   };
 
-    const compartilharLista = async () => {
-      try {
-        const preMensagem = `
+  const compartilharLista = async () => {
+    try {
+      const preMensagem = `
       🔥 Lista de compras do churrasco! 🔥
 
       Eis aqui o resultado de sua lista de compras:
@@ -164,14 +174,14 @@ export default function Resultados({ navigation }) {
       Até logo!
       `;
 
-        // Permite o compartilhamento do conteúdo
-        await Share.share({
-          message: preMensagem
-        });
-      } catch (error) {
-        console.error('Erro ao compartilhar convite: ', error);
-      }
-    };
+      // Permite o compartilhamento do conteúdo
+      await Share.share({
+        message: preMensagem
+      });
+    } catch (error) {
+      console.error('Erro ao compartilhar convite: ', error);
+    }
+  };
 
   useEffect(() => {
     updateProgress(1);
@@ -283,6 +293,7 @@ export default function Resultados({ navigation }) {
     });
 
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
+    // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {
       let total = 0;
 
@@ -310,7 +321,9 @@ export default function Resultados({ navigation }) {
           precos[adicional] * calculatedResults.acompanhamentos[adicional]; // Multiplicando a quantidade pelo preço
       });
 
-      const rateio = total / value.convidados.total;
+      // Ajustando o cálculo do rateio para considerar apenas adultos (homens e mulheres)
+      const totalAdultos = value.convidados.homens + value.convidados.mulheres;
+      const rateio = total / totalAdultos;
 
       setTotals({
         total,
