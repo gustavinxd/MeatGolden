@@ -20,13 +20,10 @@ export const initDB = () => {
           'CREATE TABLE IF NOT EXISTS acompanhamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, tipo TEXT NOT NULL, item TEXT NOT NULL, quantidade REAL NOT NULL);'
         );
         tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL);'
+          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL, data TEXT NOT NULL, endereco TEXT);'
         );
         tx.executeSql(
           'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL);'
-        );
-        tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL, data TEXT NOT NULL, endereco TEXT);'
         );
         const precoData = [
           { item: 'Picanha', preco: 80 },
