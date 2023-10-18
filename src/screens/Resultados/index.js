@@ -253,6 +253,8 @@ export default function Resultados({ navigation }) {
       guardanapo: 2
     };
 
+    const totalAdultos = value.convidados.homens + value.convidados.mulheres;
+
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {
       let total = 0;
@@ -282,7 +284,7 @@ export default function Resultados({ navigation }) {
           precos[adicional] * calculatedResults.acompanhamentos[adicional]; // Multiplicando a quantidade pelo preço
       });
 
-      const rateio = total / value.convidados.total;
+      const rateio = total / totalAdultos;
 
       setTotals({
         total,
