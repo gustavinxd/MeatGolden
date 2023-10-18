@@ -23,7 +23,7 @@ export const initDB = () => {
           'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL);'
         );
         tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL);'
+          'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL, data TEXT, endereco Text);'
         );
         const precoData = [
           { item: 'Picanha', preco: 30 },
@@ -58,6 +58,8 @@ export const initDB = () => {
 // Salvar dados no banco de dados
 export const saveItemsToDB = (churrascoId, results, totals) => {
   console.log('Dentro de saveItemsToDB', { churrascoId, results, totals });
+  const endereco = totals.endereco ? totals.endereco : null;
+  const dataAtual = new Date().toISOString().split('T')[0]; // Formato: YYYY-MM-DD
   return new Promise((resolve, reject) => {
     console.log('to aqui');
     db.transaction(
@@ -146,8 +148,16 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
 
         // Salvar totais
         tx.executeSql(
-          'INSERT OR REPLACE INTO totais (id, churrascoId, total, rateio) VALUES ((SELECT id FROM totais WHERE churrascoId = ?), ?, ?, ?)',
-          [churrascoId, churrascoId, totals.total, totals.rateio],
+          'INSERT OR REPLACE INTO totais (id, churrascoId, total, rateio, data, endereco) VALUES ((SELECT id FROM totais WHERE churrascoId = ?), ?, ?, ?, ?, ?)',
+          [
+            churrascoId,
+            churrascoId,
+            totals.total,
+            totals.rateio,
+            dataAtual,
+            endereco
+          ],
+
           (tx, resultSet) => {
             resolve(resultSet.insertId);
             console.log('Inseri/atualizei o total aqui');
@@ -305,6 +315,5 @@ export const updatePrices = (priceData) => {
     );
   });
 };
-
 
 export {};

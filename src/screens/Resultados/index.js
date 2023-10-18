@@ -12,7 +12,6 @@ import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
 import {
-
   saveItemsToDB,
   readItemsFromDB,
   getLastChurrascoId,
@@ -49,13 +48,17 @@ export default function Resultados({ navigation }) {
       console.log('Verificando results e totals');
       console.log('Results:', results);
       console.log('Totals:', totals);
+      const newTotals = {
+        ...totals,
+        endereco: selectedAddress
+      };
 
       if (!results || !totals) {
         throw new Error('Results ou Totals não estão definidos.');
       }
 
       console.log('Chamando saveItemsToDB');
-      await saveItemsToDB(churrascoId, results, totals);
+      await saveItemsToDB(churrascoId, results, newTotals);
       console.log('Dados salvos com sucesso.');
 
       console.log('Chamando readItemsFromDB');
@@ -120,13 +123,12 @@ export default function Resultados({ navigation }) {
   };
   const [pricesFromDB, setPricesFromDB] = useState({});
 
-
   useEffect(() => {
     updateProgress(1);
 
     const intervalId = setInterval(() => {
-      getPricesFromDB().then(prices => setPricesFromDB(prices));
-    }, 1000);  // A cada 10 segundos
+      getPricesFromDB().then((prices) => setPricesFromDB(prices));
+    }, 1000); // A cada 10 segundos
 
     const fetchLastChurrascoId = async () => {
       try {
@@ -256,17 +258,17 @@ export default function Resultados({ navigation }) {
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {
       let total = 0;
-    
+
       const calculatedResults = {
         carne: calcularCarne(),
         bebidas: calcularBebidas(),
         acompanhamentos: calcularAcompanhamentos()
       };
-    
+
       // Calcular total para carne
       ['bovina', 'suina', 'frango'].forEach((tipo) => {
         Object.keys(calculatedResults.carne[tipo]).forEach((item) => {
-          const precoItem = pricesFromDB[item] || precos[item] || 0;  // Use os preços do banco de dados, se disponíveis
+          const precoItem = pricesFromDB[item] || precos[item] || 0; // Use os preços do banco de dados, se disponíveis
           total += precoItem * (calculatedResults.carne[tipo][item] / 1000); // Multiplicando a quantidade pelo preço
         });
       });
@@ -297,7 +299,7 @@ export default function Resultados({ navigation }) {
       updateProgress(0.75);
       clearInterval(intervalId);
     };
-  }, [pricesFromDB]);
+  }, [pricesFromDB, selectedAddress]);
 
   return (
     <View style={styles.container}>
