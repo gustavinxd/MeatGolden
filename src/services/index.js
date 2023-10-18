@@ -20,21 +20,24 @@ export const initDB = () => {
           'CREATE TABLE IF NOT EXISTS acompanhamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, tipo TEXT NOT NULL, item TEXT NOT NULL, quantidade REAL NOT NULL);'
         );
         tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL);'
+          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL, data TEXT, endereco TEXT);'
         );
         tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL, data TEXT, endereco Text);'
+          'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL);'
+        );
+        tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS convidados (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, homens INTEGER NOT NULL, mulheres INTEGER NOT NULL, criancas INTEGER NOT NULL, total INTEGER NOT NULL);'
         );
         const precoData = [
-          { item: 'Picanha', preco: 30 },
-          { item: 'Contra-filé', preco: 5 },
-          { item: 'Cupim', preco: 5 },
-          { item: 'Linguiça', preco: 8 },
-          { item: 'Paleta', preco: 5 },
-          { item: 'Costela', preco: 10 },
-          { item: 'Coxa', preco: 5 },
-          { item: 'Asa', preco: 5 },
-          { item: 'Coração', preco: 5 }
+          { item: 'Picanha', preco: 80 },
+          { item: 'Contra-filé', preco: 50 },
+          { item: 'Cupim', preco: 60 },
+          { item: 'Linguiça', preco: 20 },
+          { item: 'Paleta', preco: 40 },
+          { item: 'Costela', preco: 50 },
+          { item: 'Coxa', preco: 15 },
+          { item: 'Asa', preco: 12 },
+          { item: 'Coração', preco: 20 }
         ];
         precoData.forEach((data) => {
           tx.executeSql(
@@ -56,10 +59,18 @@ export const initDB = () => {
 };
 
 // Salvar dados no banco de dados
-export const saveItemsToDB = (churrascoId, results, totals) => {
+export const saveItemsToDB = (
+  churrascoId,
+  results,
+  totals,
+  valueConvidados
+) => {
   console.log('Dentro de saveItemsToDB', { churrascoId, results, totals });
   const endereco = totals.endereco ? totals.endereco : null;
-  const dataAtual = new Date().toISOString().split('T')[0]; // Formato: YYYY-MM-DD
+  const currentDate = new Date(); // Traz a data de hoje
+  const dataAtual = `${currentDate.getDate()}/${
+    currentDate.getMonth() + 1
+  }/${currentDate.getFullYear()}`; // Formato: YYYY-MM-DD
   return new Promise((resolve, reject) => {
     console.log('to aqui');
     db.transaction(
@@ -84,6 +95,19 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
             }
           );
         };
+        if (valueConvidados) {
+          tx.executeSql(
+            'INSERT OR REPLACE INTO convidados (churrascoId, homens, mulheres, criancas, total) VALUES (?, ?, ?, ?, ?);',
+            [
+              churrascoId,
+              valueConvidados.homens,
+              valueConvidados.mulheres,
+              valueConvidados.criancas,
+              valueConvidados.total // Incluído o campo totalConvidados
+            ]
+          );
+          console.log('Salvei o valor de convidados');
+        }
 
         // Salvar carnes
         Object.keys(results.carne).forEach((tipo) => {
@@ -183,7 +207,8 @@ export const readItemsFromDB = (churrascoId) => {
       carnes: [],
       bebidas: [],
       acompanhamentos: [],
-      totais: []
+      totais: [],
+      convidados: []
     };
 
     db.transaction((tx) => {
@@ -211,6 +236,25 @@ export const readItemsFromDB = (churrascoId) => {
                     items.acompanhamentos.push(results.rows.item(i));
                   }
 
+                  tx.executeSql(
+                    'SELECT * FROM convidados WHERE churrascoId = ?;',
+                    [churrascoId],
+                    (tx, results) => {
+                      const row = results.rows.item(0);
+                      items.convidados = {
+                        homens: row.homens,
+                        mulheres: row.mulheres,
+                        criancas: row.criancas,
+                        total: row.total
+                      };
+                      console.log('Dados dos convidados:', items.convidados);
+                    },
+                    (error) => {
+                      console.log('Erro ao ler convidados:', error);
+                      reject(error);
+                    }
+                  );
+                  
                   tx.executeSql(
                     'SELECT * FROM totais WHERE churrascoId = ?;',
                     [churrascoId],
@@ -281,7 +325,7 @@ export const getPricesFromDB = () => {
             const row = results.rows.item(i);
             prices[row.item] = row.preco; // Associando o preço ao nome do item
           }
-          console.log('Preços obtidos:', prices); // Log dos preços obtidos
+           // Log dos preços obtidos
           resolve(prices);
         },
         (error) => {

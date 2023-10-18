@@ -58,7 +58,7 @@ export default function Resultados({ navigation }) {
       }
 
       console.log('Chamando saveItemsToDB');
-      await saveItemsToDB(churrascoId, results, newTotals);
+      await saveItemsToDB(churrascoId, results, newTotals, value.convidados);
       console.log('Dados salvos com sucesso.');
 
       console.log('Chamando readItemsFromDB');
@@ -125,10 +125,9 @@ export default function Resultados({ navigation }) {
 
   useEffect(() => {
     updateProgress(1);
+    
 
-    const intervalId = setInterval(() => {
       getPricesFromDB().then((prices) => setPricesFromDB(prices));
-    }, 1000); // A cada 10 segundos
 
     const fetchLastChurrascoId = async () => {
       try {
@@ -232,15 +231,6 @@ export default function Resultados({ navigation }) {
     });
 
     const precos = {
-      // Picanha: 50,
-      // 'Contra-filé': 50,
-      // Cupim: 60,
-      // Linguiça: 20,
-      // Paleta: 40,
-      // Costela: 50,
-      // Coxa: 15,
-      // Asa: 12,
-      // Coração: 20,
       cerveja: 5,
       refrigerante: 2,
       suco: 3,
@@ -289,7 +279,6 @@ export default function Resultados({ navigation }) {
       setTotals({
         total,
         rateio,
-        detalhes: calculatedResults
       });
     };
 
@@ -297,7 +286,6 @@ export default function Resultados({ navigation }) {
 
     return () => {
       updateProgress(0.75);
-      clearInterval(intervalId);
     };
   }, [pricesFromDB, selectedAddress]);
 
