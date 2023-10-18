@@ -127,7 +127,9 @@ export default function Resultados({ navigation }) {
     updateProgress(1);
     
 
+    const intervalId = setInterval(() => {
       getPricesFromDB().then((prices) => setPricesFromDB(prices));
+    }, 1000); // A cada 10 segundos
 
     const fetchLastChurrascoId = async () => {
       try {
@@ -278,7 +280,7 @@ export default function Resultados({ navigation }) {
 
       setTotals({
         total,
-        rateio,
+        rateio
       });
     };
 
@@ -286,6 +288,7 @@ export default function Resultados({ navigation }) {
 
     return () => {
       updateProgress(0.75);
+      clearInterval(intervalId);
     };
   }, [pricesFromDB, selectedAddress]);
 

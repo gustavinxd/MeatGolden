@@ -360,4 +360,44 @@ export const updatePrices = (priceData) => {
   });
 };
 
+export const getAllChurrascos = () => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      // 1. Obter todos os churrascoIds distintos
+      tx.executeSql(
+        'SELECT DISTINCT churrascoId FROM totais;',
+        [],
+        (tx, results) => {
+          const ids = [];
+          for (let i = 0; i < results.rows.length; i++) {
+            ids.push(results.rows.item(i).churrascoId);
+          }
+
+          console.log('Churrasco IDs:', ids);  // Log adicionado
+
+          // 2. Para cada churrascoId, obter todos os itens relacionados
+          const promises = ids.map((id) => readItemsFromDB(id));
+
+          Promise.all(promises)
+            .then((churrascos) => {
+              console.log('Churrascos:', churrascos);  // Log adicionado
+              resolve(churrascos);
+            })
+            .catch((error) => {
+              console.log('Erro ao obter os itens dos churrascos:', error);
+              reject(error);
+            });
+        },
+        (error) => {
+          console.log('Erro ao obter os churrascoIds:', error);
+          reject(error);
+        }
+      );
+    });
+  });
+};
+
+
+
+
 export {};

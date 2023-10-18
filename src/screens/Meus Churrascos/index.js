@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import colors from '../../colors';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
@@ -7,11 +8,28 @@ import PreviewResults from '../../components/PreviewResults';
 import Separator from '../../components/Separator';
 import ListResults from '../../components/ListResults';
 import { useThemeContext } from '../../contexts/theme';
+import { getAllChurrascos } from '../../services/index';
 
 export default function Churrascos() {
   const { theme } = useThemeContext();
   const themeColor = theme === 'light' ? colors.light : colors.dark;
   const themeColorText = theme === 'light' ? colors.primary : colors.light;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getAllChurrascos()
+      .then((churrascos) => {
+        console.log('Churrascos obtidos:', churrascos); // Adicione este log
+        setData(churrascos);
+      })
+      .catch((error) => {
+        console.error('Erro ao obter churrascos:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(data); // Isto irá logar os dados quando eles forem atualizados
+  }, [data]);
 
   return (
     <View style={[styles.container, { backgroundColor: themeColor }]}>
@@ -27,14 +45,14 @@ export default function Churrascos() {
               {/* Dropdown da lista de resultados de compras */}
               <CustomDropdown
                 haveIcon={false}
-                topSection={<PreviewResults colorText='red' />}
+                // topSection={<PreviewResults colorText='red' />}
               >
                 <Separator />
                 {/* Render da lista de compras */}
-                <ListResults colorText='red'/>
-                <ListResults colorText='red'/>
-                <ListResults colorText='red'/>
-                <ListResults colorText='red'/>
+                <ListResults colorText="red" />
+                <ListResults colorText="red" />
+                <ListResults colorText="red" />
+                <ListResults colorText="red" />
 
                 {/* Section de resultados */}
                 <View
@@ -46,12 +64,34 @@ export default function Churrascos() {
                   }}
                 >
                   <View style={{ flexDirection: 'column', gap: 5 }}>
-                    <Text style={[styles.titleListResult, { color: themeColorText }]}>Total:</Text>
-                    <Text style={[styles.dataListResult, { color: themeColorText }]}>R$ 1000</Text>
+                    <Text
+                      style={[
+                        styles.titleListResult,
+                        { color: themeColorText }
+                      ]}
+                    >
+                      Total:
+                    </Text>
+                    <Text
+                      style={[styles.dataListResult, { color: themeColorText }]}
+                    >
+                      R$ 1000
+                    </Text>
                   </View>
                   <View style={{ flexDirection: 'column', gap: 5 }}>
-                    <Text style={[styles.titleListResult, { color: themeColorText }]}>Rateio:</Text>
-                    <Text style={[styles.dataListResult, { color: themeColorText }]}>R$ 200</Text>
+                    <Text
+                      style={[
+                        styles.titleListResult,
+                        { color: themeColorText }
+                      ]}
+                    >
+                      Rateio:
+                    </Text>
+                    <Text
+                      style={[styles.dataListResult, { color: themeColorText }]}
+                    >
+                      R$ 200
+                    </Text>
                   </View>
                 </View>
 
@@ -65,7 +105,14 @@ export default function Churrascos() {
                   }}
                 >
                   <View style={{ flexDirection: 'column' }}>
-                    <Text style={[styles.titleListResult, { color: themeColorText }]}>Local:</Text>
+                    <Text
+                      style={[
+                        styles.titleListResult,
+                        { color: themeColorText }
+                      ]}
+                    >
+                      Local:
+                    </Text>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -74,7 +121,14 @@ export default function Churrascos() {
                         width: 150
                       }}
                     >
-                      <Text style={[styles.dataListResult, { color: themeColorText }]}>Lugar ai</Text>
+                      <Text
+                        style={[
+                          styles.dataListResult,
+                          { color: themeColorText }
+                        ]}
+                      >
+                        Lugar ai
+                      </Text>
                     </View>
                   </View>
                   <View
