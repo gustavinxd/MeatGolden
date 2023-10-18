@@ -15,7 +15,8 @@ import {
   initDB,
   saveItemsToDB,
   readItemsFromDB,
-  getLastChurrascoId
+  getLastChurrascoId,
+  getPricesFromDB
 } from '../../services';
 
 export default function Resultados({ navigation }) {
@@ -117,11 +118,16 @@ export default function Resultados({ navigation }) {
       console.error('Erro ao compartilhar convite: ', error);
     }
   };
+  const [pricesFromDB, setPricesFromDB] = useState({});
+
 
   useEffect(() => {
     updateProgress(1);
     initDB();
 
+    const intervalId = setInterval(() => {
+      getPricesFromDB().then(prices => setPricesFromDB(prices));
+    }, 1000);  // A cada 10 segundos
     console.log(results);
 
     const fetchLastChurrascoId = async () => {
@@ -226,15 +232,15 @@ export default function Resultados({ navigation }) {
     });
 
     const precos = {
-      Picanha: 80,
-      'Contra-filé': 50,
-      Cupim: 60,
-      Linguiça: 20,
-      Paleta: 40,
-      Costela: 50,
-      Coxa: 15,
-      Asa: 12,
-      Coração: 20,
+      // Picanha: 50,
+      // 'Contra-filé': 50,
+      // Cupim: 60,
+      // Linguiça: 20,
+      // Paleta: 40,
+      // Costela: 50,
+      // Coxa: 15,
+      // Asa: 12,
+      // Coração: 20,
       cerveja: 5,
       refrigerante: 2,
       suco: 3,
@@ -250,17 +256,18 @@ export default function Resultados({ navigation }) {
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {
       let total = 0;
-
+    
       const calculatedResults = {
         carne: calcularCarne(),
         bebidas: calcularBebidas(),
         acompanhamentos: calcularAcompanhamentos()
       };
-
+    
       // Calcular total para carne
       ['bovina', 'suina', 'frango'].forEach((tipo) => {
         Object.keys(calculatedResults.carne[tipo]).forEach((item) => {
-          total += precos[item] * (calculatedResults.carne[tipo][item] / 1000); // Multiplicando a quantidade pelo preço
+          const precoItem = pricesFromDB[item] || precos[item] || 0;  // Use os preços do banco de dados, se disponíveis
+          total += precoItem * (calculatedResults.carne[tipo][item] / 1000); // Multiplicando a quantidade pelo preço
         });
       });
 
@@ -288,8 +295,9 @@ export default function Resultados({ navigation }) {
 
     return () => {
       updateProgress(0.75);
+      clearInterval(intervalId);
     };
-  }, []);
+  }, [pricesFromDB]);
 
   return (
     <View style={styles.container}>

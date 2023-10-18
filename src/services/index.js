@@ -26,15 +26,15 @@ export const initDB = () => {
           'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL);'
         );
         const precoData = [
-          { item: 'Picanha', preco: 80 },
-          { item: 'Contra-filé', preco: 50 },
-          { item: 'Cupim', preco: 60 },
-          { item: 'Linguiça', preco: 20 },
-          { item: 'Paleta', preco: 40 },
-          { item: 'Costela', preco: 50 },
-          { item: 'Coxa', preco: 15 },
-          { item: 'Asa', preco: 12 },
-          { item: 'Coração', preco: 20 }
+          { item: 'Picanha', preco: 30 },
+          { item: 'Contra-filé', preco: 5 },
+          { item: 'Cupim', preco: 5 },
+          { item: 'Linguiça', preco: 8 },
+          { item: 'Paleta', preco: 5 },
+          { item: 'Costela', preco: 10 },
+          { item: 'Coxa', preco: 5 },
+          { item: 'Asa', preco: 5 },
+          { item: 'Coração', preco: 5 }
         ];
         precoData.forEach((data) => {
           tx.executeSql(
@@ -62,7 +62,6 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
     console.log('to aqui');
     db.transaction(
       (tx) => {
-
         const insertIfPriceExists = (item, insertCallback) => {
           tx.executeSql(
             'SELECT * FROM precos WHERE item = ?',
@@ -71,7 +70,11 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
               if (results.rows.length > 0) {
                 insertCallback();
               } else {
-                console.log('Preço para o item', item, 'não encontrado. Pulando a inserção.');
+                console.log(
+                  'Preço para o item',
+                  item,
+                  'não encontrado. Pulando a inserção.'
+                );
               }
             },
             (error) => {
@@ -108,36 +111,36 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
         // Salvar bebidas
         Object.keys(results.bebidas).forEach((tipo) => {
           if (results.bebidas[tipo] > 0) {
-              tx.executeSql(
-                'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-                [
-                  churrascoId,
-                  tipo,
-                  churrascoId,
-                  tipo,
-                  tipo,
-                  results.bebidas[tipo]
-                ]
-              );
-              console.log('salvei/atualizei bebida aqui');
+            tx.executeSql(
+              'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+              [
+                churrascoId,
+                tipo,
+                churrascoId,
+                tipo,
+                tipo,
+                results.bebidas[tipo]
+              ]
+            );
+            console.log('salvei/atualizei bebida aqui');
           }
         });
 
         // Salvar acompanhamentos
         Object.keys(results.acompanhamentos).forEach((tipo) => {
           if (results.acompanhamentos[tipo] > 0) {
-              tx.executeSql(
-                'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-                [
-                  churrascoId,
-                  tipo,
-                  churrascoId,
-                  tipo,
-                  tipo,
-                  results.acompanhamentos[tipo]
-                ]
-              );
-              console.log('salvei/atualizei acompanhamento aqui');
+            tx.executeSql(
+              'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+              [
+                churrascoId,
+                tipo,
+                churrascoId,
+                tipo,
+                tipo,
+                results.acompanhamentos[tipo]
+              ]
+            );
+            console.log('salvei/atualizei acompanhamento aqui');
           }
         });
 
@@ -162,7 +165,6 @@ export const saveItemsToDB = (churrascoId, results, totals) => {
     );
   });
 };
-
 
 // Ler dados do banco de dados
 export const readItemsFromDB = (churrascoId) => {
@@ -261,19 +263,15 @@ export const getPricesFromDB = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM precos;',
-        [],
+        'SELECT * FROM precos WHERE item IN (?, ?, ?, ?, ?, ?);', // Query modificada para selecionar apenas carnes
+        ['Picanha', 'Contra-filé', 'Cupim', 'Linguiça', 'Paleta', 'Costela'],
         (tx, results) => {
-          const prices = {
-            bovina: [],
-            suina: [],
-            frango: []
-          };
+          const prices = {};
           for (let i = 0; i < results.rows.length; i++) {
             const row = results.rows.item(i);
-            const grupo = getGrupoFromItem(row.item);
-            prices[grupo].push({ nome: row.item, preco: row.preco });
+            prices[row.item] = row.preco; // Associando o preço ao nome do item
           }
+          console.log('Preços obtidos:', prices); // Log dos preços obtidos
           resolve(prices);
         },
         (error) => {
@@ -283,24 +281,6 @@ export const getPricesFromDB = () => {
       );
     });
   });
-};
-
-const getGrupoFromItem = (item) => {
-  const bovinoItems = ['Picanha', 'Contra-filé', 'Cupim'];
-  const suinaItems = ['Linguiça', 'Paleta', 'Costela'];
-  const frangoItems = ['Coxa', 'Asa', 'Coração'];
-
-  if (bovinoItems.includes(item)) {
-    return 'bovina';
-  }
-  if (suinaItems.includes(item)) {
-    return 'suina';
-  }
-  if (frangoItems.includes(item)) {
-    return 'frango';
-  }
-
-  return 'outro';
 };
 
 export {};
