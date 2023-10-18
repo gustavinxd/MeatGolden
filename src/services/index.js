@@ -20,7 +20,7 @@ export const initDB = () => {
           'CREATE TABLE IF NOT EXISTS acompanhamentos (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, tipo TEXT NOT NULL, item TEXT NOT NULL, quantidade REAL NOT NULL);'
         );
         tx.executeSql(
-          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL, data TEXT NOT NULL, endereco TEXT);'
+          'CREATE TABLE IF NOT EXISTS totais (id INTEGER PRIMARY KEY AUTOINCREMENT, churrascoId INTEGER NOT NULL, total REAL NOT NULL, rateio REAL NOT NULL);'
         );
         tx.executeSql(
           'CREATE TABLE IF NOT EXISTS precos (id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT NOT NULL, preco REAL NOT NULL);'
@@ -56,64 +56,88 @@ export const initDB = () => {
 };
 
 // Salvar dados no banco de dados
-export const saveItemsToDB = (churrascoId, results, totals, data, endereco) => {
+export const saveItemsToDB = (churrascoId, results, totals) => {
+  console.log('Dentro de saveItemsToDB', { churrascoId, results, totals });
   return new Promise((resolve, reject) => {
+    console.log('to aqui');
     db.transaction(
       (tx) => {
+
+        const insertIfPriceExists = (item, insertCallback) => {
+          tx.executeSql(
+            'SELECT * FROM precos WHERE item = ?',
+            [item],
+            (tx, results) => {
+              if (results.rows.length > 0) {
+                insertCallback();
+              } else {
+                console.log('Preço para o item', item, 'não encontrado. Pulando a inserção.');
+              }
+            },
+            (error) => {
+              console.log('Erro ao verificar preço:', error);
+            }
+          );
+        };
+
         // Salvar carnes
         Object.keys(results.carne).forEach((tipo) => {
-          Object.keys(results.carne[tipo]).forEach((item) => {
-            if (results.carne[tipo][item] > 0) {
-              tx.executeSql(
-                'INSERT OR REPLACE INTO carnes (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM carnes WHERE churrascoId = ? AND tipo = ? AND item = ?), ?, ?, ?, ?)',
-                [
-                  churrascoId,
-                  tipo,
-                  item,
-                  churrascoId,
-                  tipo,
-                  item,
-                  results.carne[tipo][item]
-                ]
-              );
-              console.log('salvei/atualizei carne aqui');
-            }
-          });
+          if (results.carne[tipo]) {
+            Object.keys(results.carne[tipo]).forEach((item) => {
+              if (results.carne[tipo][item] > 0) {
+                insertIfPriceExists(item, () => {
+                  tx.executeSql(
+                    'INSERT OR REPLACE INTO carnes (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM carnes WHERE churrascoId = ? AND tipo = ? AND item = ?), ?, ?, ?, ?)',
+                    [
+                      churrascoId,
+                      tipo,
+                      item,
+                      churrascoId,
+                      tipo,
+                      item,
+                      results.carne[tipo][item]
+                    ]
+                  );
+                  console.log('salvei/atualizei carne aqui');
+                });
+              }
+            });
+          }
         });
 
         // Salvar bebidas
         Object.keys(results.bebidas).forEach((tipo) => {
           if (results.bebidas[tipo] > 0) {
-            tx.executeSql(
-              'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-              [
-                churrascoId,
-                tipo,
-                churrascoId,
-                tipo,
-                tipo,
-                results.bebidas[tipo]
-              ]
-            );
-            console.log('salvei/atualizei bebida aqui');
+              tx.executeSql(
+                'INSERT OR REPLACE INTO bebidas (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM bebidas WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+                [
+                  churrascoId,
+                  tipo,
+                  churrascoId,
+                  tipo,
+                  tipo,
+                  results.bebidas[tipo]
+                ]
+              );
+              console.log('salvei/atualizei bebida aqui');
           }
         });
 
         // Salvar acompanhamentos
         Object.keys(results.acompanhamentos).forEach((tipo) => {
           if (results.acompanhamentos[tipo] > 0) {
-            tx.executeSql(
-              'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
-              [
-                churrascoId,
-                tipo,
-                churrascoId,
-                tipo,
-                tipo,
-                results.acompanhamentos[tipo]
-              ]
-            );
-            console.log('salvei/atualizei acompanhamento aqui');
+              tx.executeSql(
+                'INSERT OR REPLACE INTO acompanhamentos (id, churrascoId, tipo, item, quantidade) VALUES ((SELECT id FROM acompanhamentos WHERE churrascoId = ? AND tipo = ?), ?, ?, ?, ?)',
+                [
+                  churrascoId,
+                  tipo,
+                  churrascoId,
+                  tipo,
+                  tipo,
+                  results.acompanhamentos[tipo]
+                ]
+              );
+              console.log('salvei/atualizei acompanhamento aqui');
           }
         });
 
@@ -130,19 +154,6 @@ export const saveItemsToDB = (churrascoId, results, totals, data, endereco) => {
             reject(error);
           }
         );
-
-        tx.executeSql(
-          'INSERT INTO totais (churrascoId, total, rateio, data, endereco) VALUES (?, ?, ?, ?, ?)',
-          [churrascoId, totals.total, totals.rateio, data, endereco],
-          (tx, resultSet) => {
-            resolve(resultSet.insertId);
-            console.log('Inseri o total aqui');
-          },
-          (tx, error) => {
-            console.log('Erro ao inserir totais:', error);
-            reject(error);
-          }
-        );
       },
       (error) => {
         console.log('Erro na transação:', error);
@@ -151,6 +162,7 @@ export const saveItemsToDB = (churrascoId, results, totals, data, endereco) => {
     );
   });
 };
+
 
 // Ler dados do banco de dados
 export const readItemsFromDB = (churrascoId) => {

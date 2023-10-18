@@ -15,8 +15,7 @@ import {
   initDB,
   saveItemsToDB,
   readItemsFromDB,
-  getLastChurrascoId,
-  getPricesFromDB
+  getLastChurrascoId
 } from '../../services';
 
 export default function Resultados({ navigation }) {
@@ -36,112 +35,48 @@ export default function Resultados({ navigation }) {
     currentDate.getMonth() + 1
   }/${currentDate.getFullYear()}`; // seta a forma da data
 
-  const [precos, setPrecos] = useState({
-    Picanha: 80,
-    'Contra-filé': 50,
-    Cupim: 60,
-    Linguiça: 20,
-    Paleta: 40,
-    Costela: 50,
-    Coxa: 15,
-    Asa: 12,
-    Coração: 20,
-    cerveja: 5,
-    refrigerante: 2,
-    suco: 3,
-    agua: 1,
-    paodealho: 10,
-    vinagrete: 5,
-    queijocoalho: 15,
-    gelo: 5,
-    carvao: 10,
-    guardanapo: 2
-  });
-
-  const fetchCarnesFromDB = async () => {
-    try {
-      const carnesFromDB = await getPricesFromDB(); // Função para buscar valores das carnes do banco
-      return carnesFromDB;
-    } catch (error) {
-      console.log('Erro ao buscar preços das carnes do banco de dados:', error);
-      return {};
-    }
-  };
-
   const [totals, setTotals] = useState({
     total: 0,
     rateio: 0,
     detalhes: {}
   });
+
   const saveData = async () => {
     console.log('Botão Salvar foi clicado');
-    console.log('Results:', results);
-    console.log('Totals:', totals);
 
     try {
-      if (results && totals) {
-        console.log('Tentando salvar itens no DB...');
-        await saveItemsToDB(
-          churrascoId,
-          results,
-          totals,
-          formattedDate,
-          selectedAddress
+      console.log('Verificando results e totals');
+      console.log('Results:', results);
+      console.log('Totals:', totals);
+
+      if (!results || !totals) {
+        throw new Error('Results ou Totals não estão definidos.');
+      }
+
+      console.log('Chamando saveItemsToDB');
+      await saveItemsToDB(churrascoId, results, totals);
+      console.log('Dados salvos com sucesso.');
+
+      console.log('Chamando readItemsFromDB');
+      const items = await readItemsFromDB(churrascoId);
+      console.log('Items:', items);
+
+      if (!items || items.length === 0) {
+        throw new Error(
+          `Nenhum item encontrado para o churrascoId: ${churrascoId}`
         );
-        console.log('Itens salvos no DB.');
-      } else {
-        console.log('Results ou Totals não estão definidos.');
       }
+
+      console.log('Itens do DB:', items);
     } catch (error) {
-      console.log('Erro ao salvar dados:', error);
+      console.error('Erro ao salvar ou recuperar dados:', error);
     }
-
-    const fetchItems = async () => {
-      try {
-        console.log('Tentando buscar itens do DB...');
-        const items = await readItemsFromDB(churrascoId);
-        console.log('Items:', items);
-        if (items && items.length > 0) {
-          console.log('Itens do DB:', items);
-        } else {
-          console.log(
-            'Nenhum item encontrado para o churrascoId:',
-            churrascoId
-          );
-        }
-      } catch (error) {
-        console.log('Erro ao buscar itens:', error);
-      }
-    };
-
-    fetchItems();
   };
 
   const handleHomeClick = () => {
     resetValues(); // Resetar os valores quando o botão Home é clicado
     navigation.navigate('Menu');
     updateProgress(0);
-  };
-
-  const fetchData = async () => {
-    try {
-      const carnesFromDB = await fetchCarnesFromDB();
-      const updatedPrecos = { ...precos };
-
-      // Atualiza o estado 'precos' apenas para as carnes
-      ['bovina', 'suina', 'frango'].forEach((grupo) => {
-        carnesFromDB[grupo].forEach((carne) => {
-          updatedPrecos[carne.nome] = carne.preco; // Aqui, os preços são atualizados
-        });
-      });
-
-      setPrecos(updatedPrecos);
-
-      // Adicione o console log aqui para registrar os valores da tabela "preco"
-      console.log('Valores da tabela "preco":', carnesFromDB);
-    } catch (error) {
-      console.log('Erro ao buscar preços das carnes do banco de dados:', error);
-    }
   };
 
   const compartilharLista = async () => {
@@ -186,8 +121,6 @@ export default function Resultados({ navigation }) {
   useEffect(() => {
     updateProgress(1);
     initDB();
-    fetchCarnesFromDB();
-    fetchData();
 
     console.log(results);
 
@@ -292,7 +225,28 @@ export default function Resultados({ navigation }) {
       acompanhamentos: calcularAcompanhamentos()
     });
 
-    // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
+    const precos = {
+      Picanha: 80,
+      'Contra-filé': 50,
+      Cupim: 60,
+      Linguiça: 20,
+      Paleta: 40,
+      Costela: 50,
+      Coxa: 15,
+      Asa: 12,
+      Coração: 20,
+      cerveja: 5,
+      refrigerante: 2,
+      suco: 3,
+      agua: 1,
+      paodealho: 10,
+      vinagrete: 5,
+      queijocoalho: 15,
+      gelo: 5,
+      carvao: 10,
+      guardanapo: 2
+    };
+
     // Calcular o preço total baseado nos resultados dos métodos calcularCarne, calcularBebidas e calcularAcompanhamentos
     const calcularTotais = () => {
       let total = 0;
@@ -321,14 +275,12 @@ export default function Resultados({ navigation }) {
           precos[adicional] * calculatedResults.acompanhamentos[adicional]; // Multiplicando a quantidade pelo preço
       });
 
-      // Ajustando o cálculo do rateio para considerar apenas adultos (homens e mulheres)
-      const totalAdultos = value.convidados.homens + value.convidados.mulheres;
-      const rateio = total / totalAdultos;
+      const rateio = total / value.convidados.total;
 
       setTotals({
         total,
         rateio,
-        detalhes: calculatedResults // Aqui os resultados são usados para ver as quantidades, substitua conforme necessário
+        detalhes: calculatedResults
       });
     };
 
