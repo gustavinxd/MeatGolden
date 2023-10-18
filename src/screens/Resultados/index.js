@@ -12,7 +12,7 @@ import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import MapModal from '../../components/Mapa/index';
 import { useValueContext } from '../../contexts/values';
 import {
-  initDB,
+
   saveItemsToDB,
   readItemsFromDB,
   getLastChurrascoId,
@@ -123,12 +123,10 @@ export default function Resultados({ navigation }) {
 
   useEffect(() => {
     updateProgress(1);
-    initDB();
 
     const intervalId = setInterval(() => {
       getPricesFromDB().then(prices => setPricesFromDB(prices));
     }, 1000);  // A cada 10 segundos
-    console.log(results);
 
     const fetchLastChurrascoId = async () => {
       try {

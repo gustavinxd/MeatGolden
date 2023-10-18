@@ -5,6 +5,7 @@ import SubmitButton from '../../components/Buttons/SubmitButton';
 import colors from '../../colors/index';
 import AlertComponent from '../../components/Alert/index';
 import AnimalIcon from '../../components/AnimalIcons';
+import { updatePrices } from '../../services/index';
 
 // Passar o valor do input para REAL
 const formatarParaReal = (valor) => {
@@ -19,22 +20,23 @@ const formatarParaReal = (valor) => {
   });
 };
 
-export default function PrecoScreen(){
+
+export default function PrecoScreen() {
   const [precos, setPrecos] = useState({
     bovina: [
-      { nome: 'Contra Filé:', preco: '' },
-      { nome: 'Maminha:', preco: '' },
-      { nome: 'Cupim:', preco: '' }
+      { nome: 'Contra-filé', preco: '' },
+      { nome: 'Picanha', preco: '' },
+      { nome: 'Cupim', preco: '' }
     ],
     suina: [
-      { nome: 'Picanha:', preco: '' },
-      { nome: 'Linguiça:', preco: '' },
-      { nome: 'Paleta:', preco: '' }
+      { nome: 'Costela', preco: '' },
+      { nome: 'Linguiça', preco: '' },
+      { nome: 'Paleta', preco: '' }
     ],
     frango: [
       { nome: 'Coxa:', preco: '' },
-      { nome: 'Coração:', preco: '' },
-      { nome: 'Asa:', preco: '' }
+      { nome: 'Coração', preco: '' },
+      { nome: 'Asa', preco: '' }
     ]
   });
 
@@ -49,6 +51,23 @@ export default function PrecoScreen(){
         )
       };
     });
+  };
+
+  const savePricesToDB = async () => {
+    try {
+      // Coleta os dados dos preços
+      const prices = [
+        ...precos.bovina.map(item => ({ item: item.nome, preco: parseFloat(item.preco.replace('R$', '').replace(',', '.')) })),
+        ...precos.suina.map(item => ({ item: item.nome, preco: parseFloat(item.preco.replace('R$', '').replace(',', '.')) })),
+        ...precos.frango.map(item => ({ item: item.nome, preco: parseFloat(item.preco.replace('R$', '').replace(',', '.')) }))
+      ];
+      
+      // Chama a função updatePrices para atualizar os preços no banco de dados
+      await updatePrices(prices);
+      console.log('Preços atualizados com sucesso');
+    } catch (error) {
+      console.log('Erro ao atualizar preços:', error);
+    }
   };
 
   return (
@@ -129,19 +148,19 @@ export default function PrecoScreen(){
         </View>
         <SubmitButton
           btnTitle="Salvar"
-          // onPress={''}
+          onPress={savePricesToDB}
           style={styles.submitButton}
         />
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 10, 
-    marginRight: 20, 
+    marginTop: 10,
+    marginRight: 20,
     marginLeft: 20
   },
   title: {
@@ -156,8 +175,7 @@ const styles = StyleSheet.create({
   view: {
     backgroundColor: colors.primary,
     padding: 20,
-    borderRadius: 10,
-    
+    borderRadius: 10
   },
   titulo: {
     fontSize: 20,
@@ -200,7 +218,7 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row', // Organiza os itens na linha
     alignSelf: 'center', // Alinha os itens ao centro ao longo do eixo transversal (vertical)
-    marginTop: '5%',
+    marginTop: '5%'
   },
   submitButton: {
     alignSelf: 'center',

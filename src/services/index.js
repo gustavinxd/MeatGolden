@@ -283,4 +283,28 @@ export const getPricesFromDB = () => {
   });
 };
 
+export const updatePrices = (priceData) => {
+  return new Promise((resolve, reject) => {
+    db.transaction(
+      (tx) => {
+        priceData.forEach((data) => {
+          tx.executeSql(
+            'INSERT OR REPLACE INTO precos (id, item, preco) VALUES ((SELECT id FROM precos WHERE item = ?), ?, ?)',
+            [data.item, data.item, data.preco]
+          );
+        });
+      },
+      (error) => {
+        console.log('Erro ao atualizar preços:', error);
+        reject(error);
+      },
+      () => {
+        console.log('Preços atualizados com sucesso');
+        resolve();
+      }
+    );
+  });
+};
+
+
 export {};
