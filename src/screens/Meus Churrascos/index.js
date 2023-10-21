@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, FlatList } from 'react-native';
 import colors from '../../colors';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import CustomDropdown from '../../components/CustomDropdown';
@@ -8,28 +8,25 @@ import PreviewResults from '../../components/PreviewResults';
 import Separator from '../../components/Separator';
 import ListResults from '../../components/ListResults';
 import { useThemeContext } from '../../contexts/theme';
-import { getAllChurrascos } from '../../services/index';
+import { getAllChurrascos, readItemsFromDB } from '../../services/index';
+import DATA from '../../services/teste';
 
 export default function Churrascos() {
   const { theme } = useThemeContext();
   const themeColor = theme === 'light' ? colors.light : colors.dark;
   const themeColorText = theme === 'light' ? colors.primary : colors.light;
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
 
-  useEffect(() => {
-    getAllChurrascos()
-      .then((churrascos) => {
-        console.log('Churrascos obtidos:', churrascos); // Adicione este log
-        setData(churrascos);
-      })
-      .catch((error) => {
-        console.error('Erro ao obter churrascos:', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    console.log(data); // Isto irá logar os dados quando eles forem atualizados
-  }, [data]);
+  // useEffect(() => {
+  //   getAllChurrascos()
+  //     .then((churrascos) => {
+  //       console.log('Churrascos obtidos:', churrascos); // Adicione este log
+  //       setData(churrascos);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Erro ao obter churrascos:', error);
+  //     });
+  // }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: themeColor }]}>
@@ -43,108 +40,134 @@ export default function Churrascos() {
             />
             <View style={styles.optionsSection}>
               {/* Dropdown da lista de resultados de compras */}
-              <CustomDropdown
-                haveIcon={false}
-                // topSection={<PreviewResults colorText='red' />}
-              >
-                <Separator />
-                {/* Render da lista de compras */}
-                <ListResults colorText="red" />
-                <ListResults colorText="red" />
-                <ListResults colorText="red" />
-                <ListResults colorText="red" />
 
-                {/* Section de resultados */}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingHorizontal: 25,
-                    marginTop: 10
-                  }}
-                >
-                  <View style={{ flexDirection: 'column', gap: 5 }}>
-                    <Text
-                      style={[
-                        styles.titleListResult,
-                        { color: themeColorText }
-                      ]}
-                    >
-                      Total:
-                    </Text>
-                    <Text
-                      style={[styles.dataListResult, { color: themeColorText }]}
-                    >
-                      R$ 1000
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: 'column', gap: 5 }}>
-                    <Text
-                      style={[
-                        styles.titleListResult,
-                        { color: themeColorText }
-                      ]}
-                    >
-                      Rateio:
-                    </Text>
-                    <Text
-                      style={[styles.dataListResult, { color: themeColorText }]}
-                    >
-                      R$ 200
-                    </Text>
-                  </View>
-                </View>
+              {DATA.map((item) => {
+                return (
+                  <CustomDropdown
+                    key={item.id}
+                    haveIcon={false}
+                    topSection={
+                      <PreviewResults
+                        colorText="red"
+                        data={item}
+                        dia={item.totais.data}
+                      />
+                    }
+                  >
+                    <Separator />
+                    {/* Render da lista de compras */}
+                    <ListResults
+                      colorText="red"
+                      title="Carne"
+                      results={item.carnes}
+                    />
+                    <ListResults
+                      colorText="red"
+                      title="Bebidas"
+                      results={item.bebidas}
+                    />
+                    <ListResults
+                      colorText="red"
+                      title="Acompanhamentos"
+                      results={item.acompanhamentos}
+                    />
 
-                {/* Section de salvar localização, salvar e compartilhar o churrasco */}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    paddingHorizontal: 10,
-                    marginTop: 10,
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <View style={{ flexDirection: 'column' }}>
-                    <Text
-                      style={[
-                        styles.titleListResult,
-                        { color: themeColorText }
-                      ]}
-                    >
-                      Local:
-                    </Text>
+                    {/* Section de resultados */}
                     <View
                       style={{
                         flexDirection: 'row',
-                        gap: 10,
-                        alignItems: 'center',
-                        width: 150
+                        justifyContent: 'space-between',
+                        paddingHorizontal: 25,
+                        marginTop: 10
                       }}
                     >
-                      <Text
-                        style={[
-                          styles.dataListResult,
-                          { color: themeColorText }
-                        ]}
-                      >
-                        Lugar ai
-                      </Text>
+                      <View style={{ flexDirection: 'column', gap: 5 }}>
+                        <Text
+                          style={[
+                            styles.titleListResult,
+                            { color: themeColorText }
+                          ]}
+                        >
+                          Total:
+                        </Text>
+                        <Text
+                          style={[
+                            styles.dataListResult,
+                            { color: themeColorText }
+                          ]}
+                        >
+                          R$ {item.totais.total.toFixed(2)}
+                        </Text>
+                      </View>
+                      <View style={{ flexDirection: 'column', gap: 5 }}>
+                        <Text
+                          style={[
+                            styles.titleListResult,
+                            { color: themeColorText }
+                          ]}
+                        >
+                          Rateio:
+                        </Text>
+                        <Text
+                          style={[
+                            styles.dataListResult,
+                            { color: themeColorText }
+                          ]}
+                        >
+                          R$ {item.totais.rateio.toFixed(2)}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'flex-end',
-                      gap: 15
-                    }}
-                  >
-                    <ButtonIcon
-                      icon="share-variant-outline"
-                      colorButton="light"
-                    />
-                  </View>
-                </View>
-              </CustomDropdown>
+
+                    {/* Section de salvar localização, salvar e compartilhar o churrasco */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        paddingHorizontal: 10,
+                        marginTop: 10,
+                        justifyContent: 'space-between'
+                      }}
+                    >
+                      <View style={{ flexDirection: 'column' }}>
+                        <Text
+                          style={[
+                            styles.titleListResult,
+                            { color: themeColorText }
+                          ]}
+                        >
+                          Local:
+                        </Text>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            gap: 10,
+                            alignItems: 'center',
+                            width: 150
+                          }}
+                        >
+                          <Text
+                            style={[
+                              styles.dataListResult,
+                              { color: themeColorText }
+                            ]}
+                          >
+                            {item.totais.endereco}
+                          </Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'flex-end',
+                          gap: 15
+                        }}
+                      >
+                        <ButtonIcon icon="share-variant-outline" />
+                      </View>
+                    </View>
+                  </CustomDropdown>
+                );
+              })}
             </View>
           </View>
         </View>
