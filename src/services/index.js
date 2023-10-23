@@ -6,6 +6,7 @@ import db from '../database';
 export const initDB = () => {
   return new Promise((resolve, reject) => {
     db.transaction(
+      
       (tx) => {
         tx.executeSql(
           'CREATE TABLE IF NOT EXISTS churrascos (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL);'
@@ -360,42 +361,84 @@ export const updatePrices = (priceData) => {
   });
 };
 
-export const getAllChurrascos = () => {
+
+
+export const getAllChurrascosFromDB = () => {
   return new Promise((resolve, reject) => {
+    const churrascos = [];
+
     db.transaction((tx) => {
-      // 1. Obter todos os churrascoIds distintos
-      tx.executeSql(
-        'SELECT DISTINCT churrascoId FROM totais;',
-        [],
-        (tx, results) => {
-          const ids = [];
-          for (let i = 0; i < results.rows.length; i++) {
-            ids.push(results.rows.item(i).churrascoId);
-          }
+      tx.executeSql('SELECT * FROM totais;', [], (tx, results) => {
+        for (let i = 0; i < results.rows.length; i++) {
+          const row = results.rows.item(i); // Modificado aqui
+          const churrascoId = row.churrascoId;
 
-          console.log('Churrasco IDs:', ids);  // Log adicionado
+          tx.executeSql(
+            'SELECT * FROM carnes WHERE churrascoId = ?;',
+            [churrascoId],
+            (tx, carnesResults) => {
+              const carnes = [];
 
-          // 2. Para cada churrascoId, obter todos os itens relacionados
-          const promises = ids.map((id) => readItemsFromDB(id));
+              for (let j = 0; j < carnesResults.rows.length; j++) {
+                carnes.push(carnesResults.rows.item(j)); // Modificado aqui
+              }
 
-          Promise.all(promises)
-            .then((churrascos) => {
-              console.log('Churrascos:', churrascos);  // Log adicionado
-              resolve(churrascos);
-            })
-            .catch((error) => {
-              console.log('Erro ao obter os itens dos churrascos:', error);
-              reject(error);
-            });
-        },
-        (error) => {
-          console.log('Erro ao obter os churrascoIds:', error);
-          reject(error);
+              tx.executeSql(
+                'SELECT * FROM bebidas WHERE churrascoId = ?;',
+                [churrascoId],
+                (tx, bebidasResults) => {
+                  const bebidas = [];
+
+                  for (let j = 0; j < bebidasResults.rows.length; j++) {
+                    bebidas.push(bebidasResults.rows.item(j)); // Modificado aqui
+                  }
+
+                  tx.executeSql(
+                    'SELECT * FROM acompanhamentos WHERE churrascoId = ?;',
+                    [churrascoId],
+                    (tx, acompanhamentosResults) => {
+                      const acompanhamentos = [];
+
+                      for (let j = 0; j < acompanhamentosResults.rows.length; j++) {
+                        acompanhamentos.push(acompanhamentosResults.rows.item(j)); // Modificado aqui
+                      }
+
+                      tx.executeSql(
+                        'SELECT * FROM convidados WHERE churrascoId = ?;',
+                        [churrascoId],
+                        (tx, convidadosResults) => {
+                          const convidados = convidadosResults.rows.item(0); // Modificado aqui
+
+                          churrascos.push({
+                            churrascoId,
+                            carnes,
+                            bebidas,
+                            acompanhamentos,
+                            convidados,
+                            totais: row,
+                          });
+                          
+                          if (i === results.rows.length - 1) {
+                            resolve(churrascos);
+                          }
+                        },
+                        (error) => reject(error)
+                      );
+                    },
+                    (error) => reject(error)
+                  );
+                },
+                (error) => reject(error)
+              );
+            },
+            (error) => reject(error)
+          );
         }
-      );
+      });
     });
   });
 };
+
 
 
 

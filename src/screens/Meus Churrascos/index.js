@@ -8,25 +8,72 @@ import PreviewResults from '../../components/PreviewResults';
 import Separator from '../../components/Separator';
 import ListResults from '../../components/ListResults';
 import { useThemeContext } from '../../contexts/theme';
-import { getAllChurrascos, readItemsFromDB } from '../../services/index';
+import { getAllChurrascosFromDB } from '../../services/index';
 import DATA from '../../services/teste';
 
 export default function Churrascos() {
   const { theme } = useThemeContext();
   const themeColor = theme === 'light' ? colors.light : colors.dark;
   const themeColorText = theme === 'light' ? colors.primary : colors.light;
-  // const [data, setData] = useState([]);
+  const [churrascos, setChurrascos] = useState([]);
 
-  // useEffect(() => {
-  //   getAllChurrascos()
-  //     .then((churrascos) => {
-  //       console.log('Churrascos obtidos:', churrascos); // Adicione este log
-  //       setData(churrascos);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Erro ao obter churrascos:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    const formatData = (data) => {
+      return data.map((churrasco) => {
+        const carnesFormatadas = churrasco.carnes.reduce((acc, carne) => {
+          const obj = { ...acc };
+          if (!obj[carne.tipo]) {
+            obj[carne.tipo] = {};
+          }
+          obj[carne.tipo][carne.item] = carne.quantidade;
+          return obj;
+        }, {});
+
+        const bebidasFormatadas = churrasco.bebidas.reduce((acc, bebida) => {
+          const obj = { ...acc };
+          obj[bebida.item] = bebida.quantidade;
+          return obj;
+        }, {});
+
+        const acompanhamentosFormatados = churrasco.acompanhamentos.reduce(
+          (acc, acompanhamento) => {
+            const obj = { ...acc };
+            obj[acompanhamento.item] = acompanhamento.quantidade;
+            return obj;
+          },
+          {}
+        );
+
+        return {
+          id: churrasco.churrascoId.toString(),
+          churrascoId: churrasco.churrascoId,
+          carnes: carnesFormatadas,
+          bebidas: bebidasFormatadas,
+          acompanhamentos: acompanhamentosFormatados,
+          convidados: churrasco.convidados
+            ? {
+                criancas: churrasco.convidados.criancas,
+                homens: churrasco.convidados.homens,
+                mulheres: churrasco.convidados.mulheres,
+                total: churrasco.convidados.total
+              }
+            : { criancas: 0, homens: 0, mulheres: 0, total: 0 }, // Adicionado uma verificação aqui
+          totais: churrasco.totais
+        };
+      });
+    };
+
+    getAllChurrascosFromDB()
+    .then((data) => {
+        const formatado = formatData(data);
+        console.log(JSON.stringify(formatado, null, 2));  // Modifique esta linha
+        setChurrascos(formatado);
+    })
+    .catch((error) => {
+        console.error('Erro ao recuperar churrascos:', error);
+    });
+
+  }, []);
 
   return (
     <View style={[styles.container, { backgroundColor: themeColor }]}>
@@ -41,7 +88,7 @@ export default function Churrascos() {
             <View style={styles.optionsSection}>
               {/* Dropdown da lista de resultados de compras */}
 
-              {DATA.map((item) => {
+              {churrascos.map((item) => {
                 return (
                   <CustomDropdown
                     key={item.id}

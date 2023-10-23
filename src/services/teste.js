@@ -35,7 +35,7 @@ const DATA = [
     },
 
     convidados: { criancas: 0, homens: 16, mulheres: 10, total: 26 },
-    
+
     totais: {
       churrascoId: 11,
       data: '18/10/2023',
@@ -177,8 +177,9 @@ const DATA = [
       rateio: 61.57692307692308,
       total: 1601
     }
-  }, // Lista 4 
-  
+  } // Lista 4
 ];
 
 export default DATA;
+
+   
