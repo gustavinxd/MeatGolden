@@ -24,9 +24,9 @@ export function ValueProvider({ children }) {
       agua: false
     },
     adicionais: {
-      paodealho: false,
-      vinagrete: false,
-      queijocoalho: false,
+      paofrances: false,
+      farofa: false,
+      arroz: false,
       gelo: false,
       carvao: false,
       guardanapo: false

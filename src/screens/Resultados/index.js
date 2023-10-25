@@ -230,25 +230,36 @@ export default function Resultados({ navigation }) {
 
     const calcularAcompanhamentos = () => {
       const totalPessoas = value.convidados.total;
-      let vinagrete;
+      let farofa;
 
       if (totalPessoas <= 5) {
-        vinagrete = value.adicionais.vinagrete ? 3 : 0; // Se menos ou igual a 5 pessoas, então 3 pacotes de vinagrete
+        farofa = value.adicionais.farofa ? 1 : 0; // Se menos ou igual a 5 pessoas, então 3 pacotes de farofa
       } else {
-        vinagrete = value.adicionais.vinagrete
-          ? Math.ceil(totalPessoas / 10) * 5
+        farofa = value.adicionais.farofa
+          ? Math.ceil(totalPessoas / 10) * 2
           : 0; // Se mais de 5 pessoas, então 5 pacotes a cada 10 pessoas
       }
+
+      let paofrances;
+
+      if (totalPessoas <= 5) {
+        paofrances = value.adicionais.paofrances ? 2 : 0; // Se menos ou igual a 5 pessoas, então 3 pacotes de farofa
+      } else {
+        paofrances = value.adicionais.paofrances
+          ? Math.ceil(totalPessoas / 10) * 3
+          : 0; // Se mais de 5 pessoas, então 5 pacotes a cada 10 pessoas
+      }
+
 
       const carvao = value.adicionais.carvao ? Math.ceil(totalPessoas / 10) : 0; // 1 pacote de carvão para cada 10 pessoas
       const acompanhamentos = Math.ceil(totalPessoas / 5) * 2; // Outros acompanhamentos (ajuste conforme necessário)
       const gelo = Math.ceil(totalPessoas / 10) * 2;
 
       return {
-        paodealho: value.adicionais.paodealho ? acompanhamentos : 0,
-        vinagrete,
+        paofrances,
+        farofa,
         gelo: value.adicionais.gelo ? gelo : 0,
-        queijocoalho: value.adicionais.queijocoalho ? acompanhamentos : 0,
+        arroz: value.adicionais.arroz ? acompanhamentos : 0,
         carvao,
         guardanapo: value.adicionais.guardanapo ? acompanhamentos : 0
       };
@@ -265,9 +276,9 @@ export default function Resultados({ navigation }) {
       refrigerante: 2,
       suco: 3,
       agua: 1,
-      paodealho: 10,
-      vinagrete: 5,
-      queijocoalho: 15,
+      paofrances: 1,
+      farofa: 5,
+      arroz: 15,
       gelo: 5,
       carvao: 10,
       guardanapo: 2

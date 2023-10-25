@@ -339,10 +339,12 @@ export const getPricesFromDB = () => {
 };
 
 export const updatePrices = (priceData) => {
+
   return new Promise((resolve, reject) => {
     db.transaction(
       (tx) => {
-        priceData.forEach((data) => {
+        // Filtra os itens cujo preço é diferente de zero
+        priceData.filter(data => data.preco > 0).forEach((data) => {
           tx.executeSql(
             'INSERT OR REPLACE INTO precos (id, item, preco) VALUES ((SELECT id FROM precos WHERE item = ?), ?, ?)',
             [data.item, data.item, data.preco]
@@ -360,7 +362,6 @@ export const updatePrices = (priceData) => {
     );
   });
 };
-
 
 
 export const getAllChurrascosFromDB = () => {

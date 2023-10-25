@@ -56,25 +56,25 @@ export default function Adicionais({ navigation }) {
             <Separator />
             <View style={{ gap: 10, padding: 10 }}>
               <CheckOption
-                checkLabel="Pão de alho"
+                checkLabel="Pão Francês"
                 onChange={() =>
-                  handleCheck('paodealho', !checkedItems.paodealho)
+                  handleCheck('paofrances', !checkedItems.paofrances)
                 }
-                checked={checkedItems.paodealho}
+                checked={checkedItems.paofrances}
               />
               <CheckOption
-                checkLabel="Vinagrete"
+                checkLabel="Farofa"
                 onChange={() =>
-                  handleCheck('vinagrete', !checkedItems.vinagrete)
+                  handleCheck('farofa', !checkedItems.farofa)
                 }
-                checked={checkedItems.vinagrete}
+                checked={checkedItems.farofa}
               />
               <CheckOption
-                checkLabel="Queijo coalho"
+                checkLabel="Arroz"
                 onChange={() =>
-                  handleCheck('queijocoalho', !checkedItems.queijocoalho)
+                  handleCheck('arroz', !checkedItems.arroz)
                 }
-                checked={checkedItems.queijocoalho}
+                checked={checkedItems.arroz}
               />
             </View>
           </CustomDropdown>
