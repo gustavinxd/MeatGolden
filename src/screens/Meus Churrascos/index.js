@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Share } from 'react-native';
 import colors from '../../colors';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import CustomDropdown from '../../components/CustomDropdown';
@@ -74,6 +74,75 @@ export default function Churrascos() {
 
   }, []);
 
+  const compartilharLista = async (index) => {
+    const bovina = Object.keys(churrascos[index].carne.bovina)
+    const bovinaValue = Object.values(churrascos[index].carne.bovina)
+    const suina = Object.keys(churrascos[index].carne.suina)
+    const suinaValue = Object.values(churrascos[index].carne.suina)
+    const frango = Object.keys(churrascos[index].carne.frango)
+    const frangoValue = Object.values(churrascos[index].carne.frango)
+
+    const bebidas = Object.keys(churrascos[index].bebidas)
+    const bebidasValue = Object.values(churrascos[index].bebidas)
+    const acompanhamentos = Object.keys(churrascos[index].acompanhamentos)
+    const acompanhamentosValue = Object.values(churrascos[index].acompanhamentos)
+
+    try {
+      // ${carnes.map((item, index) => {
+      //   return `${item}   ${carnesValue[index] > 999 ? `${(carnesValue[index] / 1000).toFixed(2)} kg` : `${carnesValue[index].toFixed(2)} g`}`
+      // } )} \n
+      const preMensagem = `
+      🔥 Lista de compras do churrasco! 🔥
+
+      Eis aqui o resultado de sua lista de compras:
+
+      *Carnes:*
+
+      ${bovina.map((item, index) => {
+        return `- ${item}   ${bovinaValue[index] > 999 ? `${(bovinaValue[index] / 1000).toFixed(2)} kg` : `${bovinaValue[index].toFixed(2)} g`}\n`
+      } )}
+      ${suina.map((item, index) => {
+        return `- ${item}   ${suinaValue[index] > 999 ? `${(suinaValue[index] / 1000).toFixed(2)} kg` : `${suinaValue[index].toFixed(2)} g`}\n`
+      } )}
+      ${frango.map((item, index) => {
+        return `- ${item}   ${frangoValue[index] > 999 ? `${(frangoValue[index] / 1000).toFixed(2)} kg` : `${frangoValue[index].toFixed(2)} g`}\n`
+      } )}
+
+      *Bebidas:*
+
+      ${bebidas.map((item, index) => {
+        return `- ${item}   ${item[index] === 'cerveja' ? `${bebidasValue[index]} Latas` : `${bebidasValue[index]} Garrafas`}\n`
+      } )} 
+
+      *Acompanhamentos:*
+
+      ${acompanhamentos.map((item, index) => {
+        return `- ${item}   ${acompanhamentosValue[index]} Pcts\n`
+      } )}
+
+      *Total:*
+      - R$: ${churrascos[index].totais.total.toFixed(2)}
+
+      *Rateio:*
+      - R$: ${churrascos[index].totais.rateio.toFixed(2)}
+
+      *Local:*
+      - R$: ${churrascos[index].totais.endereco}
+      
+      Estamos ansiosos para vê-lo lá! Baixe o **MeatGolden** agora e junte-se a nós para uma festa de sabores irresistíveis.
+      
+      Até logo!
+      `;
+
+      // Permite o compartilhamento do conteúdo
+      await Share.share({
+        message: preMensagem
+      });
+    } catch (error) {
+      console.error('Erro ao compartilhar convite: ', error);
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: themeColor }]}>
       <ScrollView style={{ width: '100%', height: '100%' }}>
@@ -87,7 +156,7 @@ export default function Churrascos() {
             <View style={styles.optionsSection}>
               {/* Dropdown da lista de resultados de compras */}
 
-              {churrascos.map((item) => {
+              {churrascos.map((item, index) => {
                 return (
                   <CustomDropdown
                     key={item.id}
@@ -208,7 +277,7 @@ export default function Churrascos() {
                           gap: 15
                         }}
                       >
-                        <ButtonIcon icon="share-variant-outline" />
+                        <ButtonIcon icon="share-variant-outline" onPress={compartilharLista(index)} />
                       </View>
                     </View>
                   </CustomDropdown>
