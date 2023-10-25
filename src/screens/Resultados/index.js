@@ -84,29 +84,56 @@ export default function Resultados({ navigation }) {
   };
 
   const compartilharLista = async () => {
+    const bovina = Object.keys(results.carne.bovina)
+    const bovinaValue = Object.values(results.carne.bovina)
+    const suina = Object.keys(results.carne.suina)
+    const suinaValue = Object.values(results.carne.suina)
+    const frango = Object.keys(results.carne.frango)
+    const frangoValue = Object.values(results.carne.frango)
+
+    const bebidas = Object.keys(results.bebidas)
+    const bebidasValue = Object.values(results.bebidas)
+    const acompanhamentos = Object.keys(results.acompanhamentos)
+    const acompanhamentosValue = Object.values(results.acompanhamentos)
+
     try {
+      // ${carnes.map((item, index) => {
+      //   return `${item}   ${carnesValue[index] > 999 ? `${(carnesValue[index] / 1000).toFixed(2)} kg` : `${carnesValue[index].toFixed(2)} g`}`
+      // } )} \n
       const preMensagem = `
       🔥 Lista de compras do churrasco! 🔥
 
       Eis aqui o resultado de sua lista de compras:
 
-      Carnes:
+      *Carnes:*
 
-      - ${results.carne}\n
+      ${bovina.map((item, index) => {
+        return `- ${item}   ${bovinaValue[index] > 999 ? `${(bovinaValue[index] / 1000).toFixed(2)} kg` : `${bovinaValue[index].toFixed(2)} g`}\n`
+      } )}
+      ${suina.map((item, index) => {
+        return `- ${item}   ${suinaValue[index] > 999 ? `${(suinaValue[index] / 1000).toFixed(2)} kg` : `${suinaValue[index].toFixed(2)} g`}\n`
+      } )}
+      ${frango.map((item, index) => {
+        return `- ${item}   ${frangoValue[index] > 999 ? `${(frangoValue[index] / 1000).toFixed(2)} kg` : `${frangoValue[index].toFixed(2)} g`}\n`
+      } )}
 
-      Bebidas:
+      *Bebidas:*
 
-      - ${results.bebidas}\n
+      ${bebidas.map((item, index) => {
+        return `- ${item}   ${item[index] === 'cerveja' ? `${bebidasValue[index]} Latas` : `${bebidasValue[index]} Garrafas`}\n`
+      } )} 
 
-      Acompanhamentos:
+      *Acompanhamentos:*
 
-      - ${results.acompanhamentos}\n
-      
-      Total:
-      - R$: ${totals.total}\n
+      ${acompanhamentos.map((item, index) => {
+        return `- ${item}   ${acompanhamentosValue[index]} Pcts\n`
+      } )}
 
-      Rateio:
-      - R$: ${totals.total}\n
+      *Total:*
+      - R$: ${totals.total.toFixed(2)}
+
+      *Rateio:*
+      - R$: ${totals.total.toFixed(2)}
       
       Estamos ansiosos para vê-lo lá! Baixe o **MeatGolden** agora e junte-se a nós para uma festa de sabores irresistíveis.
       
@@ -121,6 +148,7 @@ export default function Resultados({ navigation }) {
       console.error('Erro ao compartilhar convite: ', error);
     }
   };
+  
   const [pricesFromDB, setPricesFromDB] = useState({});
 
   useEffect(() => {

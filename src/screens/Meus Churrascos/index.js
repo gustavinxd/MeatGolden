@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import colors from '../../colors';
 import ButtonIcon from '../../components/Buttons/ButtonIcon';
 import CustomDropdown from '../../components/CustomDropdown';
@@ -9,7 +9,6 @@ import Separator from '../../components/Separator';
 import ListResults from '../../components/ListResults';
 import { useThemeContext } from '../../contexts/theme';
 import { getAllChurrascosFromDB } from '../../services/index';
-import DATA from '../../services/teste';
 
 export default function Churrascos() {
   const { theme } = useThemeContext();

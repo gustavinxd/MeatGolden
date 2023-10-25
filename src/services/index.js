@@ -440,7 +440,3 @@ export const getAllChurrascosFromDB = () => {
 };
 
 
-
-
-
-export {};
