@@ -24,15 +24,15 @@ export default function MapModal({ visible, onSaveLocation }) {
 
   const handleSearchAddress = async () => {
     try {
-      const url = `http://api.positionstack.com/v1/forward?access_key=8a23ff14ec42bdbf51a6864435b2e58e&query=${encodeURI(
+      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
         searchAddress
-      )}`;
+      )}&key=AIzaSyCUfswrJow3syJzOJXhKoIaZC2ZkkDiXls`; // Substitua pela sua chave de API
       const response = await axios.get(url);
       console.log('Resposta da API:', response.data);
-
-      if (response.data && response.data.data.length > 0) {
-        const { latitude, longitude } = response.data.data[0];
-        setFoundLocation({ latitude, longitude });
+  
+      if (response.data && response.data.results.length > 0) {
+        const { lat, lng } = response.data.results[0].geometry.location;
+        setFoundLocation({ latitude: lat, longitude: lng });
       } else {
         console.error('Endereço não encontrado');
       }
@@ -40,7 +40,7 @@ export default function MapModal({ visible, onSaveLocation }) {
       console.error('Erro ao buscar endereço:', error);
     }
   };
-
+  
   const handleSaveLocation = () => {
     onSaveLocation(addressLabel);
   };

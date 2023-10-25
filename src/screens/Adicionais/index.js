@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import colors from '../../colors';
@@ -8,27 +8,33 @@ import CustomDropdown from '../../components/CustomDropdown';
 import { useProgressContext } from '../../contexts/progress';
 import Separator from '../../components/Separator';
 import CheckOption from '../../components/CheckOption';
-import { useThemeContext } from '../../contexts/theme';
+import { useValueContext } from '../../contexts/values'; // Mantenha esta importação
+import { useThemeContext } from '../../contexts/theme'; // Mantenha esta importação
 
 export default function Adicionais({ navigation }) {
   const { updateProgress } = useProgressContext();
+  const { value, updateAdicionais } = useValueContext();
   const { theme } = useThemeContext();
   const themeColor = theme === 'light' ? colors.light : colors.dark;
   const themeColorIcon = theme === 'light' ? colors.primary : colors.light;
 
+  const [checkedItems, setCheckedItems] = useState(value.adicionais);
+
+  const handleCheck = (item, isChecked) => {
+    setCheckedItems((prev) => ({ ...prev, [item]: isChecked }));
+    updateAdicionais(item, isChecked);
+  };
 
   useEffect(() => {
-    // Aumente o progresso quando a tela for montada
     updateProgress(0.75);
 
     return () => {
-      // Diminua o progresso quando a tela for desmontada (caso deseje)
       updateProgress(0.5);
     };
   }, []);
 
   return (
-    <View style={[styles.container,{backgroundColor: themeColor}]}>
+    <View style={[styles.container, { backgroundColor: themeColor }]}>
       <View style={styles.content}>
         <DescriptionScreen
           title="Ta quase lá!"
@@ -49,9 +55,27 @@ export default function Adicionais({ navigation }) {
           >
             <Separator />
             <View style={{ gap: 10, padding: 10 }}>
-              <CheckOption checkLabel="Pão de alho" />
-              <CheckOption checkLabel="Vinagrete" />
-              <CheckOption checkLabel="Queijo coalho" />
+              <CheckOption
+                checkLabel="Pão de alho"
+                onChange={() =>
+                  handleCheck('paodealho', !checkedItems.paodealho)
+                }
+                checked={checkedItems.paodealho}
+              />
+              <CheckOption
+                checkLabel="Vinagrete"
+                onChange={() =>
+                  handleCheck('vinagrete', !checkedItems.vinagrete)
+                }
+                checked={checkedItems.vinagrete}
+              />
+              <CheckOption
+                checkLabel="Queijo coalho"
+                onChange={() =>
+                  handleCheck('queijocoalho', !checkedItems.queijocoalho)
+                }
+                checked={checkedItems.queijocoalho}
+              />
             </View>
           </CustomDropdown>
 
@@ -67,9 +91,23 @@ export default function Adicionais({ navigation }) {
           >
             <Separator />
             <View style={{ gap: 10, padding: 10 }}>
-              <CheckOption checkLabel="Gelo" />
-              <CheckOption checkLabel="Carvão" />
-              <CheckOption checkLabel="Guardanapo" />
+              <CheckOption
+                checkLabel="Gelo"
+                onChange={() => handleCheck('gelo', !checkedItems.gelo)}
+                checked={checkedItems.gelo}
+              />
+              <CheckOption
+                checkLabel="Carvão"
+                onChange={() => handleCheck('carvao', !checkedItems.carvao)}
+                checked={checkedItems.carvao}
+              />
+              <CheckOption
+                checkLabel="Guardanapo"
+                onChange={() =>
+                  handleCheck('guardanapo', !checkedItems.guardanapo)
+                }
+                checked={checkedItems.guardanapo}
+              />
             </View>
           </CustomDropdown>
         </View>

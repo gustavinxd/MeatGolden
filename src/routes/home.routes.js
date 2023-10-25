@@ -9,59 +9,58 @@ import colors from '../colors';
 import ProgressProvider from '../contexts/progress';
 import CustomHeader from '../components/CustomHeader/index';
 import ProgressBar from '../components/ProgressBar/index';
-import { useThemeContext } from '../contexts/theme';
+import { ValueProvider } from '../contexts/values'; // Mantenha esta importação
 
 const Stack = createStackNavigator();
 
 export default function Home() {
-  const { theme } = useThemeContext();
-  const themeColor = theme === 'light' ? colors.light : colors.dark;
-  
   return (
-    <ProgressProvider>
-      <Stack.Navigator
-        screenOptions={({ navigation, route }) => {
-          return {
-            headerTitle: () => {
-              return <CustomHeader navigation={navigation} route={route} />;
-            },
-            headerLeft: () => {
-              return null;
-            },
-            headerStyle: {
-              backgroundColor: colors.primary
-            },
-            headerShadowVisible: false
-          };
-        }}
-        initialRouteName="Convidados"
-      >
-        <Stack.Screen name="Convidados" component={Convidados} options={{}} />
-
-        <Stack.Screen
-          name="Assados"
-          component={Assados}
-          options={{
-            headerStyle: {
-              backgroundColor: themeColor
-            }
+    <ValueProvider>
+      <ProgressProvider>
+        <Stack.Navigator
+          screenOptions={({ navigation, route }) => {
+            return {
+              headerTitle: () => {
+                return <CustomHeader navigation={navigation} route={route} />;
+              },
+              headerLeft: () => {
+                return null;
+              },
+              headerStyle: {
+                backgroundColor: colors.primary
+              },
+              headerShadowVisible: false
+            };
           }}
-        />
+          initialRouteName="Convidados"
+        >
+          <Stack.Screen name="Convidados" component={Convidados} options={{}} />
 
-        <Stack.Screen name="Bebidas" component={Bebidas} />
+          <Stack.Screen
+            name="Assados"
+            component={Assados}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.light
+              }
+            }}
+          />
 
-        <Stack.Screen
-          name="Adicionais"
-          component={Adicionais}
-          options={{
-            headerStyle: {
-              backgroundColor: themeColor
-            }
-          }}
-        />
-        <Stack.Screen name="Resultados" component={Resultados} />
-      </Stack.Navigator>
-      <ProgressBar />
-    </ProgressProvider>
+          <Stack.Screen name="Bebidas" component={Bebidas} />
+
+          <Stack.Screen
+            name="Adicionais"
+            component={Adicionais}
+            options={{
+              headerStyle: {
+                backgroundColor: colors.light
+              }
+            }}
+          />
+          <Stack.Screen name="Resultados" component={Resultados} />
+        </Stack.Navigator>
+        <ProgressBar />
+      </ProgressProvider>
+    </ValueProvider>
   );
 }

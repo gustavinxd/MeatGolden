@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import colors from '../../colors';
@@ -6,10 +5,10 @@ import colors from '../../colors';
 export default function SelectOption({
   icon,
   selectTitle,
-  colorSelection = 'red'
+  colorSelection = 'red',
+  selected, // Adicionado como prop
+  onChange // Adicionado como prop
 }) {
-  const [selected, setSelected] = useState(false);
-
   const isSelectedRed = {
     container: selected
       ? { borderColor: colors.light, backgroundColor: colors.primary }
@@ -34,7 +33,7 @@ export default function SelectOption({
           ? isSelectedRed.container
           : isSelectedLight.container
       ]}
-      onPress={() => setSelected((prevState) => !prevState)}
+      onPress={onChange} // Modificado para usar onChange
     >
       <View
         style={{
@@ -74,7 +73,13 @@ export default function SelectOption({
           </Text>
         </View>
         <View style={styles.check}>
-            {selected && <FontAwesome5 name='check' size={20} color={colorSelection === 'light' ? colors.light : colors.primary}/>}
+          {selected && (
+            <FontAwesome5
+              name="check"
+              size={20}
+              color={colorSelection === 'light' ? colors.light : colors.primary}
+            />
+          )}
         </View>
       </View>
     </TouchableOpacity>
